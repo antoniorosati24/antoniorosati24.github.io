@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Antonio Rosati">
+  <style>
+    .bg { fill: #F4EFE6; }
+    .ring { fill: none; stroke: #1F1B16; stroke-width: 1.5; }
+    .t { fill: #1F1B16; font-family: Georgia, 'Times New Roman', Times, serif; font-style: italic; font-size: 15px; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1B1814; }
+      .ring { stroke: #F2EDE4; }
+      .t { fill: #F2EDE4; }
+    }
+  </style>
+  <rect class="bg" width="32" height="32" rx="6"/>
+  <rect class="ring" x="1.5" y="1.5" width="29" height="29" rx="5.2"/>
+  <text class="t" x="16" y="23" text-anchor="middle">AR</text>
+</svg>
