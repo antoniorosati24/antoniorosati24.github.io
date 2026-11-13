@@ -9,13 +9,21 @@
         var t = localStorage.getItem("ar-theme");
         if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
       } catch (e) {}
+      document.documentElement.classList.add("js");
+      try {
+        if (!sessionStorage.getItem("ar-loaded") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("show-loader");
+          sessionStorage.setItem("ar-loaded", "1");
+        }
+      } catch (e) {}
     })();
   </script>
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4EFE6">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1814">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F5F2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0B">
   <title>Lyceum — Antonio Rosati</title>
   <meta name="description" content="Lyceum is a native macOS app, written in Swift and SwiftUI, that turns lecture and meeting recordings into transcripts and editable study documents. A personal project by Antonio Rosati, January 2026–present.">
+  <meta name="author" content="Antonio Rosati">
   <meta property="og:title" content="Lyceum — Antonio Rosati">
   <meta property="og:description" content="A native macOS app for lecture and meeting notes. Sole author, January 2026–present.">
   <meta property="og:image" content="https://antoniorosati24.github.io/assets/og.jpg">
@@ -37,14 +45,24 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" href="fonts/CormorantGaramond-Italic-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/Figtree-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-    <canvas class="agents" data-agents aria-hidden="true"></canvas>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="loader" aria-hidden="true">
+    <svg class="loader-ring" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.18"/>
+      <circle cx="60" cy="60" r="38" fill="none" stroke="#FF3347" stroke-width="2.4" stroke-dasharray="48 200" stroke-linecap="round"/>
+      <g transform="translate(54 48)">
+        <path d="M0 0 L0 16.5 4.1 13 7.1 20.2 9.5 19.1 6.5 12 12.4 12 Z" fill="#22D3EE" stroke="rgba(0,0,0,0.55)" stroke-width="0.8" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
-    <a class="wordmark" href="index.html">Antonio Rosati</a>
+    <div class="wrap nav-in">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true">AR</span><span class="name">Antonio Rosati</span></a>
     <div class="nav-end">
     <nav aria-label="Primary">
       <ul class="nav-links">
@@ -53,6 +71,7 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
+    <span class="status"><i></i> Looking towards internships</span>
     <button type="button" class="theme-toggle" data-theme-toggle
         aria-label="Appearance: follows the system. Click to change."
         title="Appearance: follows the system. Click to change.">
@@ -68,27 +87,37 @@
       </svg>
     </button>
     </div>
+    </div>
   </header>
 
   <main id="main">
-    <header class="project-hero case-open">
-      <p class="eyebrow">Personal project · January 2026–present · Sole author</p>
-      <h1>Lyceum</h1>
-      <p class="lede">A native macOS app that turns the audio and slides of a lecture or a meeting into study material you can actually work with.</p>
-      <p class="meta">Swift, SwiftUI · Whisper on-device, with MLX on Apple silicon · Multi-provider LLM integration</p>
-      <a class="case-down" href="#tour" aria-label="Continue to a walk through the app">
+    <header class="page-hero">
+      <div class="wrap" data-reveal>
+        <p class="ov">Personal project · January 2026–present · Sole author</p>
+        <h1>Lyceum</h1>
+        <p class="lede">A native macOS app that turns the audio and slides of a lecture or a meeting into study material you can actually work with.</p>
+        <p class="meta">Swift, SwiftUI · Whisper on-device, with MLX on Apple silicon · Multi-provider LLM integration</p>
+        <ul class="pills" style="margin-top:1.2rem">
+          <li class="pill red">Sole author</li>
+          <li class="pill">January 2026–present</li>
+          <li class="pill">Native macOS</li>
+          <li class="pill">Swift &amp; SwiftUI</li>
+        </ul>
+              <a class="case-down" href="#tour" aria-label="Continue to a walk through the app">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 4v16M5 13l7 7 7-7"/>
         </svg>
       </a>
+      </div>
     </header>
 
-    <section class="tour" id="tour" data-tour aria-labelledby="tour-title">
-      <p class="tour-note" id="tour-title">A walk through the app. On a wide screen the window stays with you as you scroll; you can also click a step. On a smaller screen, each step carries its own image.</p>
+    <section class="section tour" id="tour" data-tour aria-labelledby="tour-title" style="padding-top:0">
+      <div class="wrap">
+      <p class="tour-note" id="tour-title" data-reveal>A walk through the app. On a wide screen the window stays with you as you scroll; you can also click a step. On a smaller screen, each step carries its own image.</p>
 
       <div class="tour-layout">
         <div class="tour-stage" aria-hidden="false">
-          <div class="mac spring" role="img" aria-label="Stylised Lyceum window. The screen changes as you scroll. Finished stills are coming soon.">
+          <div class="mac" role="img" aria-label="Stylised Lyceum window. The screen changes as you scroll. Finished stills are coming soon.">
             <div class="mac-bar">
               <span class="mac-dots" aria-hidden="true"><i></i><i></i><i></i></span>
               <span class="mac-title">Lyceum</span>
@@ -186,78 +215,103 @@
           </li>
         </ol>
       </div>
+      </div>
     </section>
 
-    <div class="project-intro">
-      <div class="prose">
-        <p>Lyceum started from a practical need: to take the recording and the slides of a lecture and come away with a document I could study from — while keeping control of the sources, the prompt and the finished result.</p>
-        <p>It is written in Swift and SwiftUI. I am its sole author. The app records or imports audio and transcribes it on the Mac with Whisper, with MLX support on Apple silicon. It then brings transcripts together with PDF slides and other materials to produce a Master Note or a meeting report, exported as an editable Word document.</p>
+    <div class="wrap">
+      <div class="project-intro">
+        <div class="card prose" data-reveal>
+          <p>Lyceum started from a practical need: to take the recording and the slides of a lecture and come away with a document I could study from — while keeping control of the sources, the prompt and the finished result.</p>
+          <p>It is written in Swift and SwiftUI. I am its sole author. The app records or imports audio and transcribes it on the Mac with Whisper, with MLX support on Apple silicon. It then brings transcripts together with PDF slides and other materials to produce a Master Note or a meeting report, exported as an editable Word document.</p>
+        </div>
+        <div class="card prose" data-reveal style="--d:100ms">
+          <p>Lyceum is finished enough to use: it is installed and running on my Mac. A public release is not available yet. Before one, I still intend to test the package on a clean Mac, update the documentation, sign and notarise the build, and publish a first release on GitHub.</p>
+          <p>The screens in the tour above are illustrative previews — finished screenshots of the app are coming soon.</p>
+        </div>
       </div>
-      <div class="prose">
-        <p>Lyceum is finished enough to use: it is installed and running on my Mac. A public release is not available yet. Before one, I still intend to test the package on a clean Mac, update the documentation, sign and notarise the build, and publish a first release on GitHub.</p>
-        <p>The screens in the tour above are illustrative previews — finished screenshots of the app are coming soon.</p>
-      </div>
+
+      <section class="closing" aria-labelledby="iter-title">
+        <div class="card" data-reveal>
+          <p class="ov">Iteration</p>
+          <h2 id="iter-title">A change that mattered</h2>
+          <div class="prose">
+            <p>On a real lecture, generation could stall while it waited for a clarification, and the Word file sometimes included hard-to-read JPEG clippings of diagrams. I changed the flow so that generation resumes on its own, and diagrams are rebuilt as editable elements. I checked the export on a test document.</p>
+          </div>
+        </div>
+        <div class="card" data-reveal style="--d:100ms">
+          <p class="ov">Now</p>
+          <h2>In progress</h2>
+          <div class="prose">
+            <p>The work now is about staying faithful to the prompt, about how diagrams are reconstructed, and about how the app behaves during a long generation. There is not yet a public repository, a signed build, or a demonstration video.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="stack-card card" aria-labelledby="stack-title" data-reveal>
+        <p class="ov">Stack</p>
+        <h2 id="stack-title">Made with</h2>
+        <ul class="pills">
+          <li class="pill">Swift</li>
+          <li class="pill">SwiftUI</li>
+          <li class="pill">Whisper, on-device</li>
+          <li class="pill">MLX, on Apple silicon</li>
+          <li class="pill">Multi-provider LLM integration</li>
+          <li class="pill">Ollama, for local models</li>
+          <li class="pill">macOS Keychain</li>
+          <li class="pill">DOCX export</li>
+          <li class="pill">Xcode</li>
+          <li class="pill">Git</li>
+        </ul>
+      </section>
+
+      <section class="demo card" aria-labelledby="demo-title" data-reveal>
+        <p class="ov">Recording</p>
+        <h2 id="demo-title">A screen recording</h2>
+        <figure>
+          <div class="shot">
+            <span class="scheme-img"><img class="on-light" src="assets/lyceum/demo-poster.png" width="1920" height="1080" alt="Preview poster for a screen recording of Lyceum. The recording is coming soon."><img class="on-dark" src="assets/lyceum/dark/demo-poster.png" width="1920" height="1080" alt="Preview poster for a screen recording of Lyceum. The recording is coming soon." aria-hidden="true"></span>
+          </div>
+          <figcaption>A short screen recording of Lyceum is coming soon.</figcaption>
+        </figure>
+      </section>
     </div>
 
-    <section class="closing" aria-labelledby="iter-title">
-      <div>
-        <h2 id="iter-title">A change that mattered</h2>
-        <div class="prose">
-          <p>On a real lecture, generation could stall while it waited for a clarification, and the Word file sometimes included hard-to-read JPEG clippings of diagrams. I changed the flow so that generation resumes on its own, and diagrams are rebuilt as editable elements. I checked the export on a test document.</p>
+    <section class="section" id="contact" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="card cta card-glow" data-reveal>
+          <p class="ov">Contact</p>
+          <h2 id="cta-title">Contact</h2>
+          <p>Questions about Lyceum, or about working together, are welcome.</p>
+          <div class="email-row">
+            <a class="email" href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a>
+          </div>
+          <div class="btns">
+            <a class="btn primary" href="mailto:rosati.antonio2001@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn" href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a>
+            <a class="btn" href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a>
+          </div>
         </div>
       </div>
-      <div>
-        <h2>In progress</h2>
-        <div class="prose">
-          <p>The work now is about staying faithful to the prompt, about how diagrams are reconstructed, and about how the app behaves during a long generation. There is not yet a public repository, a signed build, or a demonstration video.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="stack" aria-labelledby="stack-title">
-      <h2 id="stack-title">Made with</h2>
-      <ul>
-        <li>Swift</li>
-        <li>SwiftUI</li>
-        <li>Whisper, on-device</li>
-        <li>MLX, on Apple silicon</li>
-        <li>Multi-provider LLM integration</li>
-        <li>Ollama, for local models</li>
-        <li>macOS Keychain</li>
-        <li>DOCX export</li>
-        <li>Xcode</li>
-        <li>Git</li>
-      </ul>
-    </section>
-
-    <section class="demo" aria-labelledby="demo-title">
-      <h2 id="demo-title">A screen recording</h2>
-      <figure>
-        <span class="scheme-img"><img class="on-light" src="assets/lyceum/demo-poster.png" width="1920" height="1080" alt="Preview poster for a screen recording of Lyceum. The recording is coming soon."><img class="on-dark" src="assets/lyceum/dark/demo-poster.png" width="1920" height="1080" alt="Preview poster for a screen recording of Lyceum. The recording is coming soon." aria-hidden="true"></span>
-        <figcaption>A short screen recording of Lyceum is coming soon.</figcaption>
-      </figure>
     </section>
   </main>
 
-  <footer class="footer" id="contact">
-    <div>
-      <h2>Contact</h2>
-      <p>Questions about Lyceum, or about working together, are welcome.</p>
-    </div>
-    <ul class="footer-links">
-      <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
-      <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
-    </ul>
-    <div class="legal">
-      <span>© 2026 Antonio Rosati</span>
-      <span><a href="index.html">All work</a> · <a href="audi.html">Next: Audi Vorsprung Club</a></span>
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div>© 2026 Antonio Rosati · Italy</div>
+      <ul class="footer-links">
+        <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="index.html">All work</a></li><li><a href="audi.html">Next: Audi Vorsprung Club</a></li>
+      </ul>
     </div>
   </footer>
 
+  <canvas class="agents" data-agents aria-hidden="true"></canvas>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
+
 </body>
 </html>

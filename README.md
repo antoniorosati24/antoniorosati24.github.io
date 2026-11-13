@@ -2,9 +2,11 @@
 
 Personal site at [antoniorosati24.github.io](https://antoniorosati24.github.io). Static HTML, CSS and JavaScript, served from this repository’s root on GitHub Pages.
 
-Type is **Cormorant Garamond** (display — titles and the name, in italic) and **Figtree** (body and the navigation), both SIL Open Font License, self-hosted as variable WOFF2 in `fonts/`.
+Type is **Plus Jakarta Sans** (headings and body, a geometric sans) and **JetBrains Mono** (overlines, pills and meta), both SIL Open Font License, self-hosted as variable WOFF2 in `fonts/` (latin, plus a latin-ext cut of Plus Jakarta Sans). Licences sit beside the font files.
 
-A field of small mouse pointers wanders slowly across the paper, behind the type, as a picture of agents at work. They are unlabelled, spread across the viewport, and they never capture clicks. Preferring reduced motion hides them, and also disables Lenis, GSAP and page transitions, and shows the Lyceum tour as a simple stacked list. Motion uses **GSAP 3.12.7** with **ScrollTrigger**, and **Lenis** 1.1.18, vendored in `vendor/`.
+The site has a near-black dark theme and a matching off-white light theme, sharing the same crimson accent. The visitor’s system preference (`prefers-color-scheme`) is the default; a control in the navigation cycles system → light → dark and remembers a manual choice in `localStorage` (`ar-theme`).
+
+The three information cards on the home portrait can be dragged (mouse, touch or pen; arrow keys when focused). Their places are remembered for the tab, and a small “Reset cards” control returns them. A field of small neon mouse pointers lives in a fixed, full-viewport canvas, stacked above every card, image and section, and below only the navigation and the lightbox. They are unlabelled and spread evenly (each has a loose home on a re-dealt grid), give the pointer room, fade only slightly over images and type, and never capture clicks. Scrolling leaves a light wake; now and then one glides to a heading or image, pauses and makes a tiny click ripple; occasional faint trails fade out. On a desktop mouse, three of them trail the visitor's pointer as a loose escort (never on top of it) and drift when it rests; touch devices get no escort and a lighter field. One rAF loop, paused while the tab is hidden. Preferring reduced motion removes the canvas, and also disables Lenis, GSAP, the short first-visit loader, and page transitions, and shows the Lyceum tour as a simple stacked list. Motion uses **GSAP 3.12.7** with **ScrollTrigger**, and **Lenis** 1.1.18, vendored in `vendor/`.
 
 ## Preview locally
 
@@ -66,8 +68,8 @@ The public site lists email ([rosati.antonio2001@gmail.com](mailto:rosati.antoni
 
 ## Pages
 
-- `index.html` — hero and work grid
+- `index.html` — hero with a tinted portrait, flagship and project cards, contact
 - `lyceum.html` — case study and scroll/click app tour
 - `audi.html` — case study: level switcher, scroll tour, demo video, phone views (`js/audi.js`)
-- `about.html` — short about
+- `about.html` — about, and a list of what I work with
 - `404.html` — GitHub Pages 404

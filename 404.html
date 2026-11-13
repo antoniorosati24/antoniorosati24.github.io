@@ -9,25 +9,42 @@
         var t = localStorage.getItem("ar-theme");
         if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
       } catch (e) {}
+      document.documentElement.classList.add("js");
+      try {
+        if (!sessionStorage.getItem("ar-loaded") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("show-loader");
+          sessionStorage.setItem("ar-loaded", "1");
+        }
+      } catch (e) {}
     })();
   </script>
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4EFE6">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1814">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F5F2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0B">
   <title>Page not found — Antonio Rosati</title>
   <meta name="robots" content="noindex">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" href="fonts/CormorantGaramond-Italic-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/Figtree-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-    <canvas class="agents" data-agents aria-hidden="true"></canvas>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="loader" aria-hidden="true">
+    <svg class="loader-ring" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.18"/>
+      <circle cx="60" cy="60" r="38" fill="none" stroke="#FF3347" stroke-width="2.4" stroke-dasharray="48 200" stroke-linecap="round"/>
+      <g transform="translate(54 48)">
+        <path d="M0 0 L0 16.5 4.1 13 7.1 20.2 9.5 19.1 6.5 12 12.4 12 Z" fill="#22D3EE" stroke="rgba(0,0,0,0.55)" stroke-width="0.8" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
-    <a class="wordmark" href="index.html">Antonio Rosati</a>
+    <div class="wrap nav-in">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true">AR</span><span class="name">Antonio Rosati</span></a>
     <div class="nav-end">
     <nav aria-label="Primary">
       <ul class="nav-links">
@@ -36,6 +53,7 @@
         <li><a href="index.html#contact">Contact</a></li>
       </ul>
     </nav>
+    <span class="status"><i></i> Looking towards internships</span>
     <button type="button" class="theme-toggle" data-theme-toggle
         aria-label="Appearance: follows the system. Click to change."
         title="Appearance: follows the system. Click to change.">
@@ -51,12 +69,22 @@
       </svg>
     </button>
     </div>
+    </div>
   </header>
   <main class="notfound" id="main">
-    <p class="eyebrow">404</p>
-    <h1>This page is not here.</h1>
-    <p class="lede"><a href="index.html">Back to selected work.</a></p>
+    <div class="card" data-reveal>
+      <p class="ov">404</p>
+      <p class="big" aria-hidden="true">404</p>
+      <h1>This page is not here.</h1>
+      <p class="lede"><a class="btn primary" href="index.html">Back to selected work. <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+    </div>
   </main>
+
+  <canvas class="agents" data-agents aria-hidden="true"></canvas>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
+
 </body>
 </html>

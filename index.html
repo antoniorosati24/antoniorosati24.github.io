@@ -9,11 +9,18 @@
         var t = localStorage.getItem("ar-theme");
         if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
       } catch (e) {}
+      document.documentElement.classList.add("js");
+      try {
+        if (!sessionStorage.getItem("ar-loaded") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("show-loader");
+          sessionStorage.setItem("ar-loaded", "1");
+        }
+      } catch (e) {}
     })();
   </script>
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4EFE6">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1814">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F5F2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0B">
   <title>Antonio Rosati — Selected work</title>
   <meta name="description" content="Portfolio of Antonio Rosati, MSc student in AI for Business Transformation. Selected work: Lyceum, a native macOS app, and Audi Vorsprung Club, an AI-generated loyalty prototype from H-ACK Audi.">
   <meta name="author" content="Antonio Rosati">
@@ -38,14 +45,24 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" href="fonts/CormorantGaramond-Italic-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/Figtree-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-    <canvas class="agents" data-agents aria-hidden="true"></canvas>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="loader" aria-hidden="true">
+    <svg class="loader-ring" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.18"/>
+      <circle cx="60" cy="60" r="38" fill="none" stroke="#FF3347" stroke-width="2.4" stroke-dasharray="48 200" stroke-linecap="round"/>
+      <g transform="translate(54 48)">
+        <path d="M0 0 L0 16.5 4.1 13 7.1 20.2 9.5 19.1 6.5 12 12.4 12 Z" fill="#22D3EE" stroke="rgba(0,0,0,0.55)" stroke-width="0.8" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
-    <a class="wordmark" href="index.html" aria-current="page">Antonio Rosati</a>
+    <div class="wrap nav-in">
+    <a class="wordmark" href="index.html" aria-current="page"><span class="mark" aria-hidden="true">AR</span><span class="name">Antonio Rosati</span></a>
     <div class="nav-end">
     <nav aria-label="Primary">
       <ul class="nav-links">
@@ -54,6 +71,7 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
+    <span class="status"><i></i> Looking towards internships</span>
     <button type="button" class="theme-toggle" data-theme-toggle
         aria-label="Appearance: follows the system. Click to change."
         title="Appearance: follows the system. Click to change.">
@@ -69,68 +87,163 @@
       </svg>
     </button>
     </div>
+    </div>
   </header>
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow">Selected work</p>
-        <h1 id="hero-title">Antonio Rosati</h1>
-        <p class="lede">MSc student in AI for Business Transformation. I build working AI-enabled software — beginning with Lyceum, a native macOS app for lectures and meetings.</p>
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <p class="ov">Selected work</p>
+          <h1 id="hero-title">Antonio <span class="red">Rosati</span></h1>
+          <p class="lede">MSc student in AI for Business Transformation. I build working AI-enabled software — beginning with Lyceum, a native macOS app for lectures and meetings.</p>
+          <div class="btns">
+            <a class="btn primary" href="#work">See the work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn" href="about.html">About me</a>
+          </div>
+          <ul class="pills" aria-label="Focus">
+            <li class="pill red">AI-enabled software</li>
+            <li class="pill">Forward Deployed Engineering</li>
+            <li class="pill">H-FARM College</li>
+          </ul>
+        </div>
+        <div class="hero-visual" data-parallax="0.08">
+          <span class="display-word" aria-hidden="true" data-parallax="0.12">ROSATI</span>
+          <div class="portrait-card">
+            <span class="scheme-img"><img class="on-light" src="assets/portrait.jpg" width="1600" height="2000" alt="Portrait coming soon, shown with the initials AR."><img class="on-dark" src="assets/dark/portrait.jpg" width="1600" height="2000" alt="" aria-hidden="true"></span>
+          </div>
+          <div class="float-card fc-1" data-drag-card="studies" tabindex="0" data-reveal style="--d:280ms">
+            <p class="ov">Studies</p>
+            <strong>MSc, AI for Business Transformation</strong>
+            <span>H-FARM College · 90 ECTS<br>Sep 2026–Jul 2027</span>
+          </div>
+          <div class="float-card fc-2" data-drag-card="looking" tabindex="0" data-reveal style="--d:380ms">
+            <p class="ov">Looking towards</p>
+            <strong>Forward Deployed Engineering</strong>
+            <span>And AI and software engineering internships more broadly.</span>
+          </div>
+          <div class="float-card fc-3" data-drag-card="based" tabindex="0" data-reveal style="--d:480ms">
+            <p class="ov">Based in</p>
+            <strong>Italy</strong>
+            <span>Working in Italian and English.</span>
+          </div>
+          <button type="button" class="float-reset" data-float-reset>Reset cards</button>
+        </div>
       </div>
-      <figure class="hero-art spring">
-        <span class="scheme-img"><img class="on-light" src="assets/lyceum/hero.png" width="2400" height="1600" alt="Illustrative preview of Lyceum in a macOS window. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/hero.png" width="2400" height="1600" alt="Illustrative preview of Lyceum in a macOS window. A finished still is coming soon." aria-hidden="true"></span>
-      </figure>
     </section>
 
-    <section class="work" id="work" aria-labelledby="work-title">
-      <div class="work-head">
-        <p class="eyebrow">Selected work</p>
-        <h2 id="work-title">Work</h2>
-        <p class="work-note">Two things I have been building. The pointers that wander behind the type are only a picture — agents passing quietly through the work.</p>
-      </div>
-      <ul class="work-grid">
-        <li>
-          <a class="work-card" href="lyceum.html">
-            <span class="scheme-img"><img class="on-light" src="assets/lyceum/cover.png" width="1600" height="2000" alt="Illustrative preview of Lyceum. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/cover.png" width="1600" height="2000" alt="Illustrative preview of Lyceum. A finished still is coming soon." aria-hidden="true"></span>
-            <div class="caption">
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="work-head" data-reveal>
+          <p class="ov">Selected work</p>
+          <h2 class="sec-title" id="work-title">Work</h2>
+          <p class="work-note">Two things I have been building. The pointers that wander across the page are only a picture — agents passing quietly through the work.</p>
+        </div>
+
+        <a class="card flagship hover card-glow" href="lyceum.html" data-reveal>
+          <div>
+            <p class="ov">Flagship · Personal project</p>
+            <h3>Lyceum</h3>
+            <p>A native macOS app that turns lecture and meeting audio into editable study documents. January 2026–present, sole author.</p>
+            <ul class="metrics">
+              <li class="metric"><b class="word">Sole author</b><span>Role</span></li>
+              <li class="metric"><b class="word">Jan 2026–present</b><span>Timeline</span></li>
+              <li class="metric"><b class="word">Native macOS</b><span>Platform</span></li>
+              <li class="metric"><b class="word">Whisper on-device</b><span>Speech-to-text</span></li>
+            </ul>
+            <span class="arrow-link">Open the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+          <div class="shot">
+            <span class="scheme-img"><img class="on-light" src="assets/lyceum/hero.png" width="2400" height="1600" alt="Illustrative preview of Lyceum in a macOS window. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/hero.png" width="2400" height="1600" alt="" aria-hidden="true"></span>
+          </div>
+        </a>
+
+        <div class="grid g-3" style="margin-top: clamp(0.9rem, 1.8vw, 1.4rem)">
+          <article class="card" data-reveal style="--d:40ms">
+            <p class="ov">01</p>
+            <h3>Home</h3>
+            <p>Lessons are saved by subject. Attachments sit with the lesson they belong to, and a new lesson can be started without losing files already saved.</p>
+          </article>
+          <article class="card" data-reveal style="--d:120ms">
+            <p class="ov">02</p>
+            <h3>Transcription</h3>
+            <p>Record from the microphone, import an audio file, or follow a transcript as it is written. Whisper runs on the Mac itself, with MLX support on Apple silicon.</p>
+          </article>
+          <article class="card" data-reveal style="--d:200ms">
+            <p class="ov">03</p>
+            <h3>Master Note</h3>
+            <p>Transcripts, PDF slides and extra materials are combined into a Master Note or a meeting report, exported as an editable Word document.</p>
+          </article>
+        </div>
+
+        <div class="grid g-2" style="margin-top: clamp(2.2rem, 4vw, 3.2rem)">
+          <a class="card project-card hover card-glow" href="lyceum.html" data-reveal>
+            <div class="shot">
+              <span class="scheme-img"><img class="on-light" src="assets/lyceum/cover.png" width="1600" height="2000" alt="Illustrative preview of Lyceum. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/cover.png" width="1600" height="2000" alt="" aria-hidden="true"></span>
+            </div>
+            <div class="body">
+              <p class="ov">Personal project</p>
               <h3>Lyceum</h3>
               <p>A native macOS app that turns lecture and meeting audio into editable study documents. January 2026–present, sole author.</p>
+              <span class="arrow-link">Open the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
           </a>
-        </li>
-        <li>
-          <a class="work-card" href="audi.html">
-            <span class="scheme-img"><img class="on-light" src="assets/audi/cover.webp" width="1170" height="1462" alt="The Audi Vorsprung Club prototype on a phone, at the Audi Explorer level, with two of four rings lit."><img class="on-dark" src="assets/audi/cover.webp" width="1170" height="1462" alt="" aria-hidden="true"></span>
-            <div class="caption">
+          <a class="card project-card hover card-glow" href="audi.html" data-reveal style="--d:120ms">
+            <div class="shot">
+              <span class="scheme-img"><img class="on-light" src="assets/audi/cover.webp" width="1170" height="1462" alt="The Audi Vorsprung Club prototype on a phone, at the Audi Explorer level, with two of four rings lit."><img class="on-dark" src="assets/audi/cover.webp" width="1170" height="1462" alt="" aria-hidden="true"></span>
+            </div>
+            <div class="body">
+              <p class="ov">Hackathon · 10 October 2026</p>
               <h3>Audi Vorsprung Club</h3>
               <p>A myAudi loyalty prototype for H-ACK Audi, October 2026: five levels, four rings, a hidden Pioneer tier. The code was generated in full by AI from a prompt I wrote.</p>
+              <ul class="metrics">
+                <li class="metric"><b>8</b><span>In the team</span></li>
+                <li class="metric"><b>5</b><span>Levels</span></li>
+                <li class="metric"><b>4</b><span>Rings</span></li>
+              </ul>
+              <span class="arrow-link">Open the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
           </a>
-        </li>
-      </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="card cta card-glow" data-reveal>
+          <p class="ov">Contact</p>
+          <h2 id="cta-title">Contact</h2>
+          <p>I am looking towards Forward Deployed Engineering, and towards AI and software engineering internships more broadly.</p>
+          <div class="email-row">
+            <a class="email" href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a>
+          </div>
+          <div class="btns">
+            <a class="btn primary" href="mailto:rosati.antonio2001@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn" href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a>
+            <a class="btn" href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer class="footer" id="contact">
-    <div>
-      <h2>Contact</h2>
-      <p>I am looking towards Forward Deployed Engineering, and towards AI and software engineering internships more broadly.</p>
-    </div>
-    <ul class="footer-links">
-      <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
-      <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
-    </ul>
-    <div class="legal">
-      <span>© 2026 Antonio Rosati</span>
-      <span>Italy</span>
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div>© 2026 Antonio Rosati · Italy</div>
+      <ul class="footer-links">
+        <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
+        
+      </ul>
     </div>
   </footer>
 
+  <canvas class="agents" data-agents aria-hidden="true"></canvas>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
+
 </body>
 </html>
