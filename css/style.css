@@ -594,3 +594,117 @@ canvas.agents { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3
   .project-intro, .closing { grid-template-columns: 1fr; }
   .display-word { opacity: 0.05; }
 }
+
+/* ---------- key-phrase marks (underlines / highlights that live on the text) ---------- */
+[data-key] { position: relative; isolation: isolate; overflow: visible; }
+[data-key] .key-ink {
+  position: absolute;
+  left: 0; top: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+  max-width: none;
+  max-height: none;
+}
+[data-key][data-mark="highlight"] .key-ink { z-index: -1; }
+.key-ink path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.key-ink path.key-ul {
+  stroke-width: 2.2;
+  opacity: 0.9;
+}
+/* Highlighter: translucent yellow-gold band, 28–35% opacity, slightly rough edge. */
+.key-ink path.key-hl {
+  stroke: #E8C12A;
+  stroke-width: 0.92em;
+  stroke-linecap: butt;
+  opacity: 0.32;
+}
+.key-ink path.key-hl-edge {
+  stroke: #D4A017;
+  stroke-width: 0.22em;
+  stroke-linecap: round;
+  opacity: 0.38;
+  pointer-events: none;
+}
+[data-key].is-set .key-ink path.key-ul { opacity: 0.52; }
+[data-key].is-set .key-ink path.key-hl { opacity: 0.28; }
+[data-key].is-set .key-ink path.key-hl-edge { opacity: 0.28; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .key-ink path.key-hl { stroke: #E8B423; opacity: 0.34; }
+  :root:not([data-theme="light"]) .key-ink path.key-hl-edge { stroke: #F0C429; opacity: 0.4; }
+  :root:not([data-theme="light"]) [data-key].is-set .key-ink path.key-hl { opacity: 0.3; }
+}
+html[data-theme="dark"] .key-ink path.key-hl { stroke: #E8B423; opacity: 0.34; mix-blend-mode: screen; }
+html[data-theme="dark"] .key-ink path.key-hl-edge { stroke: #F0C429; opacity: 0.4; mix-blend-mode: screen; }
+html[data-theme="dark"] [data-key].is-set .key-ink path.key-hl { opacity: 0.3; }
+html[data-theme="light"] .key-ink path.key-hl { stroke: #E8C12A; opacity: 0.36; mix-blend-mode: multiply; }
+html[data-theme="light"] .key-ink path.key-hl-edge { stroke: #C49212; opacity: 0.32; mix-blend-mode: multiply; }
+html[data-theme="light"] [data-key].is-set .key-ink path.key-hl { opacity: 0.3; }
+
+/* temporary "working" effects (selection, caret) — document-positioned, scroll with the page */
+body { position: relative; }
+.ag-fx {
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 28;
+}
+.ag-sel {
+  position: absolute;
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 2px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s var(--ease);
+}
+.ag-sel.is-on { opacity: 1; }
+.ag-caret {
+  position: absolute;
+  width: 1.6px;
+  background: var(--accent);
+  pointer-events: none;
+  border-radius: 1px;
+  animation: caret-blink 0.95s steps(1) infinite;
+  transition: opacity 0.45s ease;
+}
+.ag-caret.is-off { opacity: 0; animation: none; }
+@keyframes caret-blink { 50% { opacity: 0; } }
+/* fading traces left by click / nudge / type / inspect */
+.ag-trace {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.55s ease;
+  box-sizing: border-box;
+}
+.ag-trace.is-on { opacity: 1; }
+.ag-trace-click,
+.ag-trace-nudge {
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+  transform: scale(0.55);
+}
+.ag-trace-click.is-on,
+.ag-trace-nudge.is-on { transform: scale(1); }
+.ag-trace-type {
+  background: var(--accent);
+  border-radius: 1px;
+  width: 2px;
+}
+.ag-trace-inspect {
+  border: 1.5px dashed var(--accent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ag-caret { animation: none; }
+  .ag-sel { transition: none; }
+  .ag-trace { transition: none; }
+}
