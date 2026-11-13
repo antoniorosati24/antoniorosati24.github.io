@@ -9,13 +9,21 @@
         var t = localStorage.getItem("ar-theme");
         if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
       } catch (e) {}
+      document.documentElement.classList.add("js");
+      try {
+        if (!sessionStorage.getItem("ar-loaded") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("show-loader");
+          sessionStorage.setItem("ar-loaded", "1");
+        }
+      } catch (e) {}
     })();
   </script>
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4EFE6">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1814">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F5F2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0B">
   <title>About — Antonio Rosati</title>
   <meta name="description" content="Antonio Rosati is an MSc student in AI for Business Transformation at H-FARM College, awarded by the University of Chichester. He builds working AI-enabled software and is looking towards Forward Deployed Engineering.">
+  <meta name="author" content="Antonio Rosati">
   <meta property="og:title" content="About — Antonio Rosati">
   <meta property="og:description" content="MSc student in AI for Business Transformation at H-FARM College. Building working AI-enabled software.">
   <meta property="og:image" content="https://antoniorosati24.github.io/assets/og.jpg">
@@ -37,14 +45,24 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" href="fonts/CormorantGaramond-Italic-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/Figtree-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-    <canvas class="agents" data-agents aria-hidden="true"></canvas>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="loader" aria-hidden="true">
+    <svg class="loader-ring" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.18"/>
+      <circle cx="60" cy="60" r="38" fill="none" stroke="#FF3347" stroke-width="2.4" stroke-dasharray="48 200" stroke-linecap="round"/>
+      <g transform="translate(54 48)">
+        <path d="M0 0 L0 16.5 4.1 13 7.1 20.2 9.5 19.1 6.5 12 12.4 12 Z" fill="#22D3EE" stroke="rgba(0,0,0,0.55)" stroke-width="0.8" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
-    <a class="wordmark" href="index.html">Antonio Rosati</a>
+    <div class="wrap nav-in">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true">AR</span><span class="name">Antonio Rosati</span></a>
     <div class="nav-end">
     <nav aria-label="Primary">
       <ul class="nav-links">
@@ -53,6 +71,7 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
+    <span class="status"><i></i> Looking towards internships</span>
     <button type="button" class="theme-toggle" data-theme-toggle
         aria-label="Appearance: follows the system. Click to change."
         title="Appearance: follows the system. Click to change.">
@@ -68,53 +87,80 @@
       </svg>
     </button>
     </div>
+    </div>
   </header>
 
   <main id="main">
-    <article class="about">
-      <figure class="about-portrait">
-        <span class="scheme-img"><img class="on-light" src="assets/portrait.jpg" width="1600" height="2000" alt="Portrait coming soon, shown with the initials AR."><img class="on-dark" src="assets/dark/portrait.jpg" width="1600" height="2000" alt="Portrait coming soon, shown with the initials AR." aria-hidden="true"></span>
+    <div class="section" style="padding-top: clamp(2.2rem, 5vw, 3.6rem)">
+    <article class="about wrap">
+      <figure class="about-portrait" data-reveal>
+        <div class="portrait-card">
+          <span class="scheme-img"><img class="on-light" src="assets/portrait.jpg" width="1600" height="2000" alt="Portrait coming soon, shown with the initials AR."><img class="on-dark" src="assets/dark/portrait.jpg" width="1600" height="2000" alt="Portrait coming soon, shown with the initials AR." aria-hidden="true"></span>
+        </div>
         <figcaption>A portrait is coming soon.</figcaption>
       </figure>
       <div class="about-body">
-        <h1>About</h1>
-        <div class="prose">
-          <p>I am an MSc student in AI for Business Transformation at H-FARM College in Roncade, Italy. The degree is awarded by the University of Chichester: 90 ECTS, taught in English, from September 2026 to July 2027.</p>
-          <p>I build working AI-enabled software, and I am working towards roles in Forward Deployed Engineering — and towards AI and software engineering internships more broadly.</p>
-          <p>This year I have been making <a href="lyceum.html">Lyceum</a>, a native macOS app, and I took part in <a href="audi.html">H-ACK Audi</a>.</p>
-          <p>I previously completed a BSc in Mechanical Engineering at the Politecnico di Bari, in 2025.</p>
-          <p>Italian is my first language. My English is certified at B2 (LanguageCert International ESOL Communicator, High Pass).</p>
+        <div class="card" data-reveal style="--d:80ms">
+          <p class="ov">About</p>
+          <h1>About</h1>
+          <div class="prose">
+            <p>I am an MSc student in AI for Business Transformation at H-FARM College in Roncade, Italy. The degree is awarded by the University of Chichester: 90 ECTS, taught in English, from September 2026 to July 2027.</p>
+            <p>I build working AI-enabled software, and I am working towards roles in Forward Deployed Engineering — and towards AI and software engineering internships more broadly.</p>
+            <p>This year I have been making <a href="lyceum.html">Lyceum</a>, a native macOS app, and I took part in <a href="audi.html">H-ACK Audi</a>.</p>
+            <p>I previously completed a BSc in Mechanical Engineering at the Politecnico di Bari, in 2025.</p>
+            <p>Italian is my first language, and I also work in English.</p>
+          </div>
         </div>
 
-        <h2>What I work with</h2>
-        <ul class="about-list">
-          <li><strong>In Lyceum.</strong> Swift and SwiftUI; on-device speech-to-text with Whisper and MLX; multi-provider LLM integration, including local models through Ollama; and DOCX generation from several sources.</li>
-          <li><strong>From the first term of the MSc,</strong> at course and academic-project level. Python for data analysis (including Pandas and NumPy); SQL, ETL, relational databases and data warehousing; large language models, RAG and agentic systems; and digital transformation strategy.</li>
-          <li><strong>Also.</strong> Prompt engineering; Git and Xcode; HTML, CSS and JavaScript at a basic level.</li>
-        </ul>
+        <div class="card" data-reveal style="--d:160ms">
+          <p class="ov">Tools and practice</p>
+          <h2>What I work with</h2>
+          <ul class="principles">
+            <li><div><strong>In Lyceum.</strong> <span>Swift and SwiftUI; on-device speech-to-text with Whisper and MLX; multi-provider LLM integration, including local models through Ollama; and DOCX generation from several sources.</span></div></li>
+            <li><div><strong>From the first term of the MSc,</strong> <span>at course and academic-project level. Python for data analysis (including Pandas and NumPy); SQL, ETL, relational databases and data warehousing; large language models, RAG and agentic systems; and digital transformation strategy.</span></div></li>
+            <li><div><strong>Also.</strong> <span>Prompt engineering; Git and Xcode; HTML, CSS and JavaScript at a basic level.</span></div></li>
+          </ul>
+        </div>
       </div>
     </article>
+    </div>
+
+    <section class="section" id="contact" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="card cta card-glow" data-reveal>
+          <p class="ov">Contact</p>
+          <h2 id="cta-title">Contact</h2>
+          <p>The best way to reach me is by email, or through LinkedIn and GitHub.</p>
+          <div class="email-row">
+            <a class="email" href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a>
+          </div>
+          <div class="btns">
+            <a class="btn primary" href="mailto:rosati.antonio2001@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn" href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a>
+            <a class="btn" href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer" id="contact">
-    <div>
-      <h2>Contact</h2>
-      <p>The best way to reach me is by email, or through LinkedIn and GitHub.</p>
-    </div>
-    <ul class="footer-links">
-      <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
-      <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
-    </ul>
-    <div class="legal">
-      <span>© 2026 Antonio Rosati</span>
-      <span><a href="index.html">Selected work</a></span>
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div>© 2026 Antonio Rosati · Italy</div>
+      <ul class="footer-links">
+        <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="index.html">Selected work</a></li>
+      </ul>
     </div>
   </footer>
 
+  <canvas class="agents" data-agents aria-hidden="true"></canvas>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
+
 </body>
 </html>

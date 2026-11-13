@@ -9,15 +9,23 @@
         var t = localStorage.getItem("ar-theme");
         if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
       } catch (e) {}
+      document.documentElement.classList.add("js");
+      try {
+        if (!sessionStorage.getItem("ar-loaded") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("show-loader");
+          sessionStorage.setItem("ar-loaded", "1");
+        }
+      } catch (e) {}
     })();
   </script>
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4EFE6">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1814">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F5F2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0B">
   <title>Audi Vorsprung Club — Antonio Rosati</title>
-  <meta name="description" content="Audi Vorsprung Club, a loyalty-programme prototype made for H-ACK Audi — Co-Design the Future, 10 October 2026. The HTML, CSS and JavaScript were generated in full from a prompt written by Antonio Rosati.">
+  <meta name="description" content="Audi Vorsprung Club: a myAudi loyalty-programme prototype made for H-ACK Audi — Co-Design the Future, 10 October 2026. Five membership levels, four rings, rewards, events, QR invites and a chat. The code was generated in full by AI from a prompt Antonio Rosati wrote.">
+  <meta name="author" content="Antonio Rosati">
   <meta property="og:title" content="Audi Vorsprung Club — Antonio Rosati">
-  <meta property="og:description" content="A loyalty-programme prototype for H-ACK Audi, October 2026. The code was generated in full from a prompt I wrote.">
+  <meta property="og:description" content="A myAudi loyalty prototype for H-ACK Audi, October 2026. Five levels, four rings, a hidden Pioneer tier. The code was generated in full by AI from my prompt.">
   <meta property="og:image" content="https://antoniorosati24.github.io/assets/og.jpg">
   <meta property="og:type" content="article">
   <meta property="og:image:type" content="image/jpeg">
@@ -28,7 +36,7 @@
   <meta property="og:site_name" content="Antonio Rosati">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Audi Vorsprung Club — Antonio Rosati">
-  <meta name="twitter:description" content="A loyalty-programme prototype for H-ACK Audi, October 2026. The code was generated in full from a prompt I wrote.">
+  <meta name="twitter:description" content="A myAudi loyalty prototype for H-ACK Audi, October 2026. Five levels, four rings, a hidden Pioneer tier. The code was generated in full by AI from my prompt.">
   <meta name="twitter:image" content="https://antoniorosati24.github.io/assets/og.jpg">
   <meta name="twitter:image:alt" content="Antonio Rosati — selected work, with a preview of Lyceum">
   <link rel="canonical" href="https://antoniorosati24.github.io/audi.html">
@@ -37,14 +45,24 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" href="fonts/CormorantGaramond-Italic-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/Figtree-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-    <canvas class="agents" data-agents aria-hidden="true"></canvas>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="loader" aria-hidden="true">
+    <svg class="loader-ring" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.18"/>
+      <circle cx="60" cy="60" r="38" fill="none" stroke="#FF3347" stroke-width="2.4" stroke-dasharray="48 200" stroke-linecap="round"/>
+      <g transform="translate(54 48)">
+        <path d="M0 0 L0 16.5 4.1 13 7.1 20.2 9.5 19.1 6.5 12 12.4 12 Z" fill="#22D3EE" stroke="rgba(0,0,0,0.55)" stroke-width="0.8" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
-    <a class="wordmark" href="index.html">Antonio Rosati</a>
+    <div class="wrap nav-in">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true">AR</span><span class="name">Antonio Rosati</span></a>
     <div class="nav-end">
     <nav aria-label="Primary">
       <ul class="nav-links">
@@ -53,6 +71,7 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
+    <span class="status"><i></i> Looking towards internships</span>
     <button type="button" class="theme-toggle" data-theme-toggle
         aria-label="Appearance: follows the system. Click to change."
         title="Appearance: follows the system. Click to change.">
@@ -68,109 +87,306 @@
       </svg>
     </button>
     </div>
+    </div>
   </header>
 
   <main id="main">
-    <header class="project-hero case-open">
-      <p class="eyebrow">Hackathon · 10 October 2026 · H-FARM College</p>
-      <h1>Audi Vorsprung Club</h1>
-      <p class="lede">A loyalty-programme prototype for H-ACK Audi — Co-Design the Future, a hackathon organised by Audi with H-FARM College, and held there.</p>
-      <p class="meta">Team of eight · Prompt engineering · HTML, CSS and JavaScript, generated in full, not written by hand</p>
-      <a class="case-down" href="#gallery" aria-label="Continue to the concept images">
+    <header class="page-hero">
+      <div class="wrap" data-reveal>
+        <p class="ov">Hackathon · 10 October 2026 · H-FARM College</p>
+        <h1>Audi Vorsprung Club</h1>
+        <p class="lede">A loyalty programme imagined inside myAudi, where every milestone lights one of the four rings. Built as a working prototype for H-ACK Audi — Co-Design the Future, a hackathon organised by Audi with H-FARM College.</p>
+        <p class="meta">Team of eight · Concept and prompt engineering · HTML, CSS and JavaScript generated in full by AI, not edited by hand · Demo data</p>
+        <ul class="pills" style="margin-top:1.2rem">
+          <li class="pill red">Team of eight</li>
+          <li class="pill">Five levels</li>
+          <li class="pill">Four rings</li>
+          <li class="pill">Generated in full by AI</li>
+          <li class="pill">Demo data</li>
+        </ul>
+        <ul class="metrics" style="max-width:36rem">
+          <li class="metric"><b>8</b><span>In the team</span></li>
+          <li class="metric"><b>5</b><span>Levels</span></li>
+          <li class="metric"><b>4</b><span>Rings</span></li>
+          <li class="metric"><b>25 s</b><span>Demo</span></li>
+        </ul>
+              <a class="case-down" href="#levels" aria-label="Continue to the membership levels">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 4v16M5 13l7 7 7-7"/>
         </svg>
       </a>
+      </div>
     </header>
 
-    <section class="gallery" aria-labelledby="gallery-title" id="gallery">
-      <div class="gallery-head">
-        <h2 id="gallery-title">The concept</h2>
+    <div class="wrap" data-reveal>
+      <figure class="avc-hero">
+        <div class="mac browser">
+          <div class="mac-bar">
+            <span class="mac-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="mac-title">Audi Vorsprung Club · prototype</span>
+            <span class="mac-count">demo data</span>
+          </div>
+          <img src="assets/audi/hero.webp" width="2000" height="1250" alt="The prototype’s dashboard at the Audi Explorer level: a sidebar with Status, Service, Reward, Events and Audi Direct, a status card with two of four rings lit and 3,450 points, and the level track below." fetchpriority="high">
+        </div>
+      </figure>
+    </div>
+
+    <section class="section levels" id="levels" aria-labelledby="levels-title">
+      <div class="wrap">
+      <div class="levels-head" data-reveal>
+        <p class="ov">Five levels, four rings</p>
+        <h2 class="sec-title" id="levels-title">Climb the club</h2>
+        <p class="levels-intro">Four visible levels and one hidden. Inside the three customer levels, points from services, events, merchandise and invited guests light the rings AUDIRE, AUDERE, VORSPRUNG and TECHNIK — and as they light, the rings slide closer, until the fourth joins them into one symbol. Choose a level to see the prototype as that member would.</p>
       </div>
-      <ul class="gallery-grid">
-        <li>
-          <figure>
-            <a class="spring" href="assets/audi/01-membership.png" data-lb-src="assets/audi/01-membership.png" data-lb-src-dark="assets/audi/dark/01-membership.png" data-lb-alt="Illustrative preview of membership levels in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon.">
-              <span class="scheme-img"><img class="on-light" src="assets/audi/01-membership.png" width="1920" height="1200" alt="Illustrative preview of membership levels in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon."><img class="on-dark" src="assets/audi/dark/01-membership.png" width="1920" height="1200" alt="Illustrative preview of membership levels in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon." aria-hidden="true"></span>
-            </a>
-            <figcaption>
-              <strong>Membership</strong>
-              Guests sit at the first level. Four rings — AUDIRE, AUDERE, VORSPRUNG and TECHNIK — sit above them, and a hidden Pioneer level sits above those.
-            </figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure>
-            <a class="spring" href="assets/audi/02-points.png" data-lb-src="assets/audi/02-points.png" data-lb-src-dark="assets/audi/dark/02-points.png" data-lb-alt="Illustrative preview of points and rewards in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon.">
-              <span class="scheme-img"><img class="on-light" src="assets/audi/02-points.png" width="1920" height="1200" alt="Illustrative preview of points and rewards in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon."><img class="on-dark" src="assets/audi/dark/02-points.png" width="1920" height="1200" alt="Illustrative preview of points and rewards in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon." aria-hidden="true"></span>
-            </a>
-            <figcaption>
-              <strong>Points and rewards</strong>
-              The concept includes rules for earning and spending points, a points register, and a set of rewards.
-            </figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure>
-            <a class="spring" href="assets/audi/03-events-referrals.png" data-lb-src="assets/audi/03-events-referrals.png" data-lb-src-dark="assets/audi/dark/03-events-referrals.png" data-lb-alt="Illustrative preview of events and referrals in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon.">
-              <span class="scheme-img"><img class="on-light" src="assets/audi/03-events-referrals.png" width="1920" height="1200" alt="Illustrative preview of events and referrals in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon."><img class="on-dark" src="assets/audi/dark/03-events-referrals.png" width="1920" height="1200" alt="Illustrative preview of events and referrals in Audi Vorsprung Club — not a capture of the prototype. A finished still is coming soon." aria-hidden="true"></span>
-            </a>
-            <figcaption>
-              <strong>Events and referrals</strong>
-              Events and a referral path are part of the same demonstration, alongside the points register.
-            </figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure>
-            <a class="spring" href="assets/audi/04-service-qr.png" data-lb-src="assets/audi/04-service-qr.png" data-lb-src-dark="assets/audi/dark/04-service-qr.png" data-lb-alt="Illustrative preview of the service section and QR modal in Audi Vorsprung Club — not a capture of the prototype. The QR-like square is decorative and is not a real code. A finished still is coming soon.">
-              <span class="scheme-img"><img class="on-light" src="assets/audi/04-service-qr.png" width="1920" height="1200" alt="Illustrative preview of the service section and QR modal in Audi Vorsprung Club — not a capture of the prototype. The QR-like square is decorative and is not a real code. A finished still is coming soon."><img class="on-dark" src="assets/audi/dark/04-service-qr.png" width="1920" height="1200" alt="Illustrative preview of the service section and QR modal in Audi Vorsprung Club — not a capture of the prototype. The QR-like square is decorative and is not a real code. A finished still is coming soon." aria-hidden="true"></span>
-            </a>
-            <figcaption>
-              <strong>Service and QR</strong>
-              A service section and a QR modal are included, together with a demonstration mode. The square in the preview is decorative; it is not a real code.
-            </figcaption>
-          </figure>
-        </li>
-      </ul>
+      <div class="card lv" data-levels data-src-0="assets/audi/level-0-guest.webp" data-alt-0="Audi Guest status card: four empty rings, 450 points, progress towards Audi Explorer." data-src-1="assets/audi/level-1-explorer.webp" data-alt-1="Audi Explorer status card: rings AUDIRE and AUDERE lit, 3,450 points, 1,550 to the next ring." data-src-2="assets/audi/level-2-insider.webp" data-alt-2="Audi Insider status card: two rings lit, 6,200 points." data-src-3="assets/audi/level-3-elite.webp" data-alt-3="Audi Elite status card: three rings lit in chrome, 15,800 points." data-src-4="assets/audi/level-4-pioneer.webp" data-alt-4="Audi Pioneer status card: the rings fade behind the word PIONEER, 41,250 points, access by invitation only." data-reveal>
+        <div class="lv-tabs" role="tablist" aria-label="Membership level">
+          <button type="button" role="tab" class="lv-tab" id="lv-tab-0" aria-controls="lv-panel" aria-selected="false" tabindex="-1" data-level="0">
+            <span class="lv-num">00</span><span class="lv-name">Guest</span>
+          </button>
+          <button type="button" role="tab" class="lv-tab is-on" id="lv-tab-1" aria-controls="lv-panel" aria-selected="true" tabindex="0" data-level="1">
+            <span class="lv-num">01</span><span class="lv-name">Explorer</span>
+          </button>
+          <button type="button" role="tab" class="lv-tab" id="lv-tab-2" aria-controls="lv-panel" aria-selected="false" tabindex="-1" data-level="2">
+            <span class="lv-num">02</span><span class="lv-name">Insider</span>
+          </button>
+          <button type="button" role="tab" class="lv-tab" id="lv-tab-3" aria-controls="lv-panel" aria-selected="false" tabindex="-1" data-level="3">
+            <span class="lv-num">03</span><span class="lv-name">Elite</span>
+          </button>
+          <button type="button" role="tab" class="lv-tab" id="lv-tab-4" aria-controls="lv-panel" aria-selected="false" tabindex="-1" data-level="4">
+            <span class="lv-num">✦</span><span class="lv-name">Pioneer</span>
+          </button>
+        </div>
+        <div class="lv-body" id="lv-panel" role="tabpanel" aria-labelledby="lv-tab-1" tabindex="0">
+          <div class="lv-stage">
+            <div class="lv-screen">
+              <img class="is-on" data-lv-img="a" src="assets/audi/level-1-explorer.webp" width="1800" height="1164" alt="Audi Explorer status card: rings AUDIRE and AUDERE lit, 3,450 points, 1,550 to the next ring.">
+              <img data-lv-img="b" src="assets/audi/level-1-explorer.webp" width="1800" height="1164" alt="" aria-hidden="true">
+            </div>
+            <div class="lv-extra" data-lv-extra hidden>
+              <button type="button" class="lv-toggle" data-lv-technik aria-pressed="false">
+                <span class="lv-toggle-track" aria-hidden="true"><span></span></span>
+                Drag to 8,000 pt — complete the symbol
+              </button>
+            </div>
+          </div>
+          <div class="lv-copy" data-lv-copy aria-live="polite"></div>
+        </div>
+        <template data-level-copy="0">
+          <p class="eyebrow">Level 00</p>
+          <h3>Audi Guest</h3>
+          <p class="lv-entry">Enters by invitation, through a member’s QR code. No rings yet.</p>
+          <ul class="lv-perks"><li>Vorsprung newsletter, with previews from the Audi world</li><li>Access to open community events</li></ul>
+          <p class="lv-note">Demo balance 450 pt. The progress bar points towards Explorer: “become an Audi customer to light the first ring — the points you have stay yours”. Two of the three events show as locked.</p>
+        </template>
+        <template data-level-copy="1">
+          <p class="eyebrow">Level 01</p>
+          <h3>Audi Explorer</h3>
+          <p class="lv-entry">For every Audi customer, by purchase or lease. The first ring, AUDIRE, lights on entry; the others at 2,500, 5,000 and 8,000 points.</p>
+          <ul class="lv-perks"><li>Exclusive collectable gadget</li><li>Day ski-pass discount at partner resorts</li><li>Exclusive Audi after-parties</li><li>Discounts on sport and entertainment events</li></ul>
+          <p class="lv-note">Demo balance 3,450 pt — two rings lit, 1,550 pt to the next. Drag the points to 8,000 and the four rings slide together into one symbol.</p>
+        </template>
+        <template data-level-copy="2">
+          <p class="eyebrow">Level 02</p>
+          <h3>Audi Insider</h3>
+          <p class="lv-entry">A second Audi, or a car worth more than €41,000. Rings at entry, 4,000, 9,000 and 15,000 points.</p>
+          <ul class="lv-perks"><li>Full vehicle check-up with official diagnostics</li><li>Larger discount on services and inspections</li><li>Meet &amp; greet with artists at partner events</li><li>Audi driving experiences, such as the Ghost Lap</li></ul>
+          <p class="lv-note">Demo balance 6,200 pt — two rings lit. The Track Day event unlocks at this level.</p>
+        </template>
+        <template data-level-copy="3">
+          <p class="eyebrow">Level 03</p>
+          <h3>Audi Elite</h3>
+          <p class="lv-entry">A third Audi or more, or a car worth more than €81,000. Rings at entry, 6,000, 14,000 and 25,000 points.</p>
+          <ul class="lv-perks"><li>Audi Sport apparel kit</li><li>Priority invitation to the Audi Design Hub at Milano Design Week</li><li>Priority access in the workshop</li><li>First refusal on exclusive releases</li></ul>
+          <p class="lv-note">Demo balance 15,800 pt — three rings lit, drawn in a chrome gradient instead of white.</p>
+        </template>
+        <template data-level-copy="4">
+          <p class="eyebrow">Level ✦</p>
+          <h3>Audi Pioneer</h3>
+          <p class="lv-entry">A secret level, beyond the rings: for owners of numbered or historic cars, by invitation only.</p>
+          <ul class="lv-perks"><li>Private gatherings, by invitation</li><li>Visits to centres of excellence</li><li>A “flying doctor” service: specialist technicians who reach the car wherever it is</li></ul>
+          <p class="lv-note">Until you reach it, it appears only as “Livello segreto”, with its rewards redacted. Once in, the rings fade behind the word PIONEER, the points slider is switched off — privileges here do not depend on points — and every earlier reward stays active.</p>
+        </template>
+      </div>
+      </div>
     </section>
 
-    <div class="project-intro">
-      <div class="prose">
-        <p>I was one of a team of eight. A group of three of us, including me, shaped the concept and the final prompts. I wrote a long, detailed prompt, and Claude Opus 5.5 generated the entire HTML, CSS and JavaScript for the prototype from it. That code was not edited by hand — we did not have the time. My teammates delivered the pitch. We did not receive an award.</p>
-        <p>This is how I would like the work to be read: as a piece of prompt engineering and of concept design, not as software I coded myself.</p>
+    <section class="section tour avc-tour" id="tour" data-tour aria-labelledby="tour-title" style="padding-top:0">
+      <div class="wrap">
+      <p class="tour-note" id="tour-title" data-reveal>Around the dashboard. On a wide screen the window stays with you as you scroll; you can also click a step.</p>
+      <div class="tour-layout">
+        <div class="tour-stage">
+          <div class="mac browser" role="img" aria-label="The prototype in a browser window. The screen changes as you scroll.">
+            <div class="mac-bar">
+              <span class="mac-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="mac-title">Audi Vorsprung Club</span>
+              <span class="mac-count" data-tour-count>1 / 5</span>
+            </div>
+            <div class="mac-screen">
+              <img data-tour-img="a" class="is-on" src="assets/audi/demo-panel.webp" width="2000" height="1250" alt="">
+              <img data-tour-img="b" src="assets/audi/rewards.webp" width="2000" height="1250" alt="">
+            </div>
+          </div>
+        </div>
+        <ol class="tour-steps">
+          <li class="tour-step is-active"
+              data-src="assets/audi/demo-panel.webp"
+              data-src-dark="assets/audi/demo-panel.webp"
+              data-alt="Audi Vorsprung Club with the demo panel open: level buttons 0 to 3 and a star for Pioneer, a points slider, and four simulated activities.">
+            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/audi/demo-panel.webp" width="2000" height="1250" loading="lazy" alt="Audi Vorsprung Club with the demo panel open: level buttons 0 to 3 and a star for Pioneer, a points slider, and four simulated activities."><img class="on-dark" src="assets/audi/demo-panel.webp" width="2000" height="1250" loading="lazy" alt="" aria-hidden="true"></span>
+            <button type="button" class="tour-step-btn">
+              <span class="num">01</span>
+              <h3>Demo mode</h3>
+              <p>A small panel, opened from the top bar, drives the whole prototype for a presentation: jump to any level, drag the points from zero upwards, or simulate an activity — a certified service (+800), an event with one QR guest (+450), €60 of merchandise (+120), a lease renewal (+5,000). Every section re-renders on the spot, and a toast announces each ring that lights.</p>
+            </button>
+          </li>
+          <li class="tour-step"
+              data-src="assets/audi/rewards.webp"
+              data-src-dark="assets/audi/rewards.webp"
+              data-alt="The reward showcase: Level 0 Guest and Level 1 Explorer cards with Redeem buttons, a next-reward card with a progress bar, and locked Insider cards.">
+            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/audi/rewards.webp" width="2000" height="1250" loading="lazy" alt="The reward showcase: Level 0 Guest and Level 1 Explorer cards with Redeem buttons, a next-reward card with a progress bar, and locked Insider cards."><img class="on-dark" src="assets/audi/rewards.webp" width="2000" height="1250" loading="lazy" alt="" aria-hidden="true"></span>
+            <button type="button" class="tour-step-btn">
+              <span class="num">02</span>
+              <h3>Rewards, and redeeming them</h3>
+              <p>The reward showcase lists every privilege, grouped by level, and can be filtered into all, unlocked and still to unlock. Unlocked rewards carry a Redeem button; once pressed, the card reads “Riscattato · nel tuo wallet”. The next reward shows a progress bar and the points still missing. Above your own level, each card shows what it takes to get there.</p>
+            </button>
+          </li>
+          <li class="tour-step"
+              data-src="assets/audi/service.webp"
+              data-src-dark="assets/audi/service.webp"
+              data-alt="The Service section: vehicle card, the three-step certification flow, and the service history. On the right, the referral card and the rules for earning points.">
+            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/audi/service.webp" width="2000" height="1250" loading="lazy" alt="The Service section: vehicle card, the three-step certification flow, and the service history. On the right, the referral card and the rules for earning points."><img class="on-dark" src="assets/audi/service.webp" width="2000" height="1250" loading="lazy" alt="" aria-hidden="true"></span>
+            <button type="button" class="tour-step-btn">
+              <span class="num">03</span>
+              <h3>Service</h3>
+              <p>The car — a demo Audi Q5 Sportback — with its mileage and the next service due. Service points are only unlocked after the work is certified: the Service Advisor registers the visit, certified technicians carry it out, and the official diagnostics confirm it. Below, a service history with advisor, technician and the checks done, and a button that books a service by opening the chat on the right topic.</p>
+            </button>
+          </li>
+          <li class="tour-step"
+              data-src="assets/audi/qr-event.webp"
+              data-src-dark="assets/audi/qr-event.webp"
+              data-alt="The QR invite modal for the Vorsprung Night event on 13 December: a QR code, invite code, and Copy link, New code and Share buttons.">
+            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/audi/qr-event.webp" width="2000" height="1250" loading="lazy" alt="The QR invite modal for the Vorsprung Night event on 13 December: a QR code, invite code, and Copy link, New code and Share buttons."><img class="on-dark" src="assets/audi/qr-event.webp" width="2000" height="1250" loading="lazy" alt="" aria-hidden="true"></span>
+            <button type="button" class="tour-step-btn">
+              <span class="num">04</span>
+              <h3>Invites by QR code</h3>
+              <p>Members bring people in with a QR code. A friend who scans it enters as a Guest; a guest who checks in at an event earns the member +150 points. The modal generates a real, scannable code pointing to a placeholder address, with a single-use invite code, valid for 30 days, and buttons to copy the link, make a new code, or share it.</p>
+            </button>
+          </li>
+          <li class="tour-step"
+              data-src="assets/audi/direct.webp"
+              data-src-dark="assets/audi/direct.webp"
+              data-alt="Audi Direct: a message on the Events topic and the simulated reply with a ticket number. Beside it, upcoming events with invite buttons and the points ledger.">
+            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/audi/direct.webp" width="2000" height="1250" loading="lazy" alt="Audi Direct: a message on the Events topic and the simulated reply with a ticket number. Beside it, upcoming events with invite buttons and the points ledger."><img class="on-dark" src="assets/audi/direct.webp" width="2000" height="1250" loading="lazy" alt="" aria-hidden="true"></span>
+            <button type="button" class="tour-step-btn">
+              <span class="num">05</span>
+              <h3>Audi Direct</h3>
+              <p>A conversation with your Audi team. You choose a topic — Feedback, Service request, Events, Reward, Other — write up to 500 characters, and can ask for a phone call. The reply is simulated: after a typing indicator, a ticket number comes back, with a different routing message for service requests and for feedback. Beside it, upcoming events (locked until your level allows them) and the latest points credited.</p>
+            </button>
+          </li>
+        </ol>
       </div>
-      <div class="prose">
-        <p>The prototype is a static, single-file web page — vanilla HTML, CSS and JavaScript, with a QR library (qrcode-generator, MIT). It is a concept with demonstration data, not a live service. It has not been published.</p>
-        <p>The images above are illustrative previews, not captures of the prototype. Finished stills are coming soon. The membership names and features in the captions are from the concept we delivered.</p>
       </div>
+    </section>
+
+    <div class="wrap">
+      <section class="demo avc-demo card" aria-labelledby="demo-title" data-reveal>
+        <p class="ov">Screen recording</p>
+        <h2 id="demo-title">Twenty-five seconds of it</h2>
+        <figure>
+          <div class="mac browser">
+            <div class="mac-bar">
+              <span class="mac-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="mac-title">Screen recording</span>
+              <span class="mac-count">0:25</span>
+            </div>
+            <video data-avc-video muted loop playsinline preload="metadata" poster="assets/audi/demo-poster.webp" width="1920" height="1080" aria-label="Screen recording of the prototype: from Audi Guest to Explorer, the service history, rewards, the Audi Direct chat, a QR invite for Vorsprung Night, and a closing title, Vorsprung Club — Ogni traguardo, un anello.">
+              <source src="assets/audi/demo.mp4" type="video/mp4">
+            </video>
+          </div>
+          <figcaption>A short screen recording of the prototype, shown here without sound: a Guest becomes an Explorer, then the service history, rewards, a chat on the Events topic and a QR invite. The captions and the closing title — “Ogni traguardo, un anello”, every milestone a ring — appear only in the video; they are not part of the prototype itself.</figcaption>
+        </figure>
+      </section>
+
+      <section class="phones" aria-labelledby="phones-title">
+        <div class="phones-head" data-reveal>
+          <p class="ov">Responsive</p>
+          <h2 id="phones-title">On a phone</h2>
+          <p>The layout is responsive: under tablet width the sidebar becomes a bottom tab bar, and the level track scrolls sideways.</p>
+        </div>
+        <ul class="phones-row">
+          <li data-reveal><figure class="phone"><img src="assets/audi/m-status.webp" width="900" height="1948" loading="lazy" alt="Phone view at Audi Explorer: status card with two rings lit, points, and the bottom tab bar."><figcaption>Status</figcaption></figure></li>
+          <li data-reveal style="--d:80ms"><figure class="phone"><img src="assets/audi/m-pioneer.webp" width="900" height="1948" loading="lazy" alt="Phone view at the secret Audi Pioneer level, with the word PIONEER over faded rings."><figcaption>Pioneer</figcaption></figure></li>
+          <li data-reveal style="--d:160ms"><figure class="phone"><img src="assets/audi/m-qr.webp" width="900" height="1948" loading="lazy" alt="Phone view of the personal invite: a QR code, invite code, and Copy link, New code and Share buttons."><figcaption>Invite</figcaption></figure></li>
+        </ul>
+      </section>
+
+      <section class="closing avc-made" aria-labelledby="made-title">
+        <div class="card" data-reveal>
+          <p class="ov">Process</p>
+          <h2 id="made-title">How it was made</h2>
+          <div class="prose">
+            <p>We were a team of eight. Three of us, me included, defined the concept and the final prompt, and I wrote that prompt — a long, detailed one. An AI model generated the entire prototype from it — HTML, CSS and JavaScript. Nobody edited that code by hand; there was no time. My part of the team deliverable was this prototype; my teammates gave the pitch. We did not win an award.</p>
+            <p>So I would like it read as concept design and prompt engineering, not as software I coded.</p>
+          </div>
+        </div>
+        <div class="card" data-reveal style="--d:100ms">
+          <p class="ov">The artefact</p>
+          <h2>What it is</h2>
+          <div class="prose">
+            <p>A single static page in vanilla HTML, CSS and JavaScript, with no build step. One state object drives a render function per section, so the structure could be ported to components later — that port was described, not done. QR codes come from the open-source qrcode-generator library (MIT).</p>
+            <p>Everything on screen is demo data: the member “Giulia”, her car, the points, the events, the service history and the replies in the chat.</p>
+          </div>
+          <ul class="pills" aria-label="Made with" style="margin-top:1.1rem">
+            <li class="pill">Prompt engineering</li>
+            <li class="pill">Concept design</li>
+            <li class="pill">HTML</li>
+            <li class="pill">CSS</li>
+            <li class="pill">Vanilla JavaScript</li>
+            <li class="pill">qrcode-generator (MIT)</li>
+          </ul>
+        </div>
+      </section>
+
+      <p class="avc-legal" data-reveal>An unofficial concept made for the H-ACK Audi hackathon; it is not an Audi product. Audi, myAudi, the four rings and related marks are trademarks of AUDI AG. The screenshots show the prototype, which uses Audi’s typeface and icons; the prototype file itself is not published here.</p>
     </div>
+
+    <section class="section" id="contact" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="card cta card-glow" data-reveal>
+          <p class="ov">Contact</p>
+          <h2 id="cta-title">Contact</h2>
+          <p>I would be glad to talk about this work, and about how I work with language models as a design tool.</p>
+          <div class="email-row">
+            <a class="email" href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a>
+          </div>
+          <div class="btns">
+            <a class="btn primary" href="mailto:rosati.antonio2001@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn" href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a>
+            <a class="btn" href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <div class="lb" data-lightbox aria-hidden="true" role="dialog" aria-label="Enlarged image">
-    <button type="button" class="lb-close" data-lb-close>Close</button>
-    <img alt="">
-  </div>
-
-  <footer class="footer" id="contact">
-    <div>
-      <h2>Contact</h2>
-      <p>I would be glad to talk about this work, and about how I work with language models as a design tool.</p>
-    </div>
-    <ul class="footer-links">
-      <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
-      <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
-    </ul>
-    <div class="legal">
-      <span>© 2026 Antonio Rosati</span>
-      <span><a href="lyceum.html">Previous: Lyceum</a> · <a href="index.html">All work</a></span>
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div>© 2026 Antonio Rosati · Italy</div>
+      <ul class="footer-links">
+        <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="lyceum.html">Previous: Lyceum</a></li><li><a href="index.html">All work</a></li>
+      </ul>
     </div>
   </footer>
 
+  <canvas class="agents" data-agents aria-hidden="true"></canvas>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
+  <script src="js/audi.js" defer></script>
+
 </body>
 </html>
