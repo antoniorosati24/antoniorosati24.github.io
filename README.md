@@ -66,14 +66,14 @@ Real captures of the prototype (headless Chromium, 1440×900 at 2×; phones 390�
 
 | File | Role | Suggested size |
 | --- | --- | --- |
-| `assets/portrait.jpg` | About page portrait (`assets/portrait.png` is a copy) | 1600×2000 |
+| `assets/portrait.webp`, `assets/portrait.png` | Illustrated portrait (transparent, theme background from CSS) | 1280×1600 |
 | `assets/og.jpg` | Open Graph share image | 1200×630 |
 | `assets/favicon.svg` | Favicon (cropped avatar; follows light/dark) | — |
 | `assets/favicon.png`, `assets/favicon-dark.png` | Fallback favicon (dark site bg) | 128×128 |
 | `assets/favicon-light.png` | Fallback favicon (light site bg) | 128×128 |
 | `assets/avatar.webp`, `assets/avatar.png` | Nav brand mark (transparent) | 128×128 |
 
-Each of the Lyceum and Audi stills, and the portrait, also has a dark-theme companion: the same filename under `assets/lyceum/dark/`, `assets/audi/dark/`, and `assets/dark/portrait.jpg`. When you replace a light file, replace its dark counterpart as well, at the same size. The site follows the visitor’s system theme (`prefers-color-scheme`) by default. A small control in the navigation cycles system → light → dark and remembers a manual choice in `localStorage` (`ar-theme`); clearing the choice returns to the system.
+Each of the Lyceum and Audi stills also has a dark-theme companion: the same filename under `assets/lyceum/dark/` and `assets/audi/dark/`. When you replace a light file, replace its dark counterpart as well, at the same size. The illustrated portrait is a single transparent asset; the card uses `var(--bg)` so it follows the theme. The site follows the visitor’s system theme (`prefers-color-scheme`) by default. A small control in the navigation cycles system → light → dark and remembers a manual choice in `localStorage` (`ar-theme`); clearing the choice returns to the system.
 
 ## Contact
 
@@ -82,7 +82,7 @@ The public site lists email ([rosati.antonio2001@gmail.com](mailto:rosati.antoni
 
 ## Pages
 
-- `index.html` — hero with a tinted portrait, flagship and project cards, contact
+- `index.html` — hero with the illustrated portrait, flagship and project cards, contact
 - `lyceum.html` — case study and scroll/click app tour
 - `audi.html` — case study: level switcher, scroll tour, demo video, phone views (`js/audi.js`)
 - `about.html` — about, and a list of what I work with
