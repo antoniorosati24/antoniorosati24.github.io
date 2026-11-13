@@ -1138,3 +1138,238 @@ main, .footer, .lb {
 @media (prefers-reduced-motion: reduce) {
   canvas.agents { display: none !important; }
 }
+
+
+/* ==========================================================================
+   Audi Vorsprung Club page
+   The prototype is dark-native, so its screens sit in a dark window in
+   both site themes; everything around them follows the paper.
+   ========================================================================== */
+.mac.browser { background: #0b0b0c; border-color: var(--line); }
+.mac.browser .mac-bar { background: var(--cream); }
+.mac.browser img, .mac.browser video { display: block; width: 100%; height: auto; background: #000; }
+.avc-tour .mac-screen, .avc-tour .mac-screen img { background: #000; }
+
+.avc-hero {
+  margin: 0 auto 5.5rem;
+  padding: 0 var(--pad);
+  max-width: calc(var(--max) + var(--pad) * 2);
+}
+
+/* level switcher */
+.levels {
+  padding: 4.5rem var(--pad) 6rem;
+  max-width: calc(var(--max) + var(--pad) * 2);
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+.levels-head { max-width: 46em; margin-bottom: 2.4rem; }
+.levels-head h2 {
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+  font-style: italic;
+  margin: 0.3rem 0 1rem;
+}
+.levels-intro { color: var(--ink-soft); font-size: 1.05rem; line-height: 1.65; margin: 0; }
+
+.lv-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  margin-bottom: 2rem;
+  position: relative;
+}
+.lv-tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-top: 2px solid transparent;
+  margin-top: -1px;
+  padding: 1rem 0.4rem 0.4rem 0;
+  text-align: left;
+  color: var(--ink-faint);
+  cursor: pointer;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: color 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.lv-tab:hover { color: var(--ink); }
+.lv-tab:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 2px; }
+.lv-tab.is-on { color: var(--ink); border-top-color: var(--accent); }
+.lv-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+.lv-tab.is-on .lv-num { color: var(--accent); }
+.lv-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+  line-height: 1.1;
+}
+.lv-tab[data-level="4"] .lv-name { letter-spacing: 0.02em; }
+
+.lv-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr);
+  gap: clamp(1.5rem, 3.5vw, 4rem);
+  align-items: start;
+}
+.lv-body:focus-visible { outline: none; }
+.lv-screen {
+  position: relative;
+  aspect-ratio: 1800 / 1164;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.lv-screen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity 0.6s var(--ease), transform 0.9s var(--ease);
+}
+.lv-screen img.is-on { opacity: 1; transform: none; }
+.lv-extra { margin-top: 1rem; }
+.lv-extra[hidden] { display: none; }
+.lv-toggle {
+  appearance: none;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.45rem 1rem 0.45rem 0.55rem;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  background: var(--cream);
+}
+.lv-toggle:hover { color: var(--ink); }
+.lv-toggle:focus-visible { outline: none; box-shadow: var(--focus); }
+.lv-toggle-track {
+  width: 2.2rem; height: 1.2rem; border-radius: 999px;
+  background: var(--paper-deep); border: 1px solid var(--line);
+  position: relative; flex: none;
+}
+.lv-toggle-track span {
+  position: absolute; top: 2px; left: 2px;
+  width: calc(1.2rem - 6px); height: calc(1.2rem - 6px); border-radius: 50%;
+  background: var(--ink-faint);
+  transition: transform 0.45s var(--spring), background 0.3s;
+}
+.lv-toggle[aria-pressed="true"] { color: var(--ink); border-color: var(--accent); }
+.lv-toggle[aria-pressed="true"] .lv-toggle-track span { transform: translateX(1rem); background: var(--accent); }
+
+.lv-copy { opacity: 0; transform: translateY(8px); transition: opacity 0.5s var(--ease), transform 0.6s var(--ease); }
+.lv-copy.is-in { opacity: 1; transform: none; }
+.lv-copy h3 {
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-style: italic;
+  margin: 0.2rem 0 0.9rem;
+}
+.lv-entry { color: var(--ink); font-size: 1.05rem; line-height: 1.55; margin: 0 0 1.2rem; }
+.lv-perks { list-style: none; margin: 0 0 1.3rem; padding: 0; border-top: 1px solid var(--line); }
+.lv-perks li {
+  padding: 0.65rem 0 0.65rem 1.6rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+  position: relative;
+  line-height: 1.45;
+}
+.lv-perks li::before {
+  content: "";
+  position: absolute; left: 0.1rem; top: 0.95rem;
+  width: 0.75rem; height: 0.75rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+}
+.lv-note { font-size: 0.92rem; color: var(--ink-faint); line-height: 1.6; margin: 0; }
+
+/* video */
+.avc-demo { padding-top: 1rem; padding-bottom: 6rem; }
+.avc-demo .mac.browser video { border: 0; border-radius: 0; box-shadow: none; aspect-ratio: 16 / 9; }
+.avc-demo figcaption { max-width: 52em; }
+
+/* phones */
+.phones {
+  padding: 0 var(--pad) 6rem;
+  max-width: calc(var(--max) + var(--pad) * 2);
+  margin: 0 auto;
+}
+.phones-head { max-width: 40em; margin-bottom: 2rem; }
+.phones-head h2 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-style: italic; margin-bottom: 0.8rem; }
+.phones-head p { color: var(--ink-soft); margin: 0; }
+.phones-row {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 3rem);
+  max-width: 62rem;
+}
+.phone { margin: 0; }
+.phone img {
+  display: block; width: 100%; height: auto;
+  border-radius: 28px;
+  border: 6px solid var(--ink);
+  background: #000;
+  box-shadow: var(--shadow);
+}
+.phone figcaption {
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .phones-row li:nth-child(2) { transform: translateY(2.2rem); }
+}
+
+.avc-made { padding-top: 4.5rem; border-top: 1px solid var(--line); padding-bottom: 3rem; }
+.avc-tags { list-style: none; margin: 1.4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.45rem 0.5rem; }
+.avc-tags li {
+  font-size: 0.86rem; color: var(--ink-soft);
+  border: 1px solid var(--line); padding: 0.35rem 0.75rem;
+  border-radius: 999px; background: var(--cream);
+}
+.avc-legal {
+  max-width: calc(var(--max) + var(--pad) * 2);
+  margin: 0 auto;
+  padding: 0 var(--pad) 4rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 860px) {
+  .avc-hero { margin-bottom: 3.5rem; }
+  .levels { padding-top: 3rem; padding-bottom: 4rem; }
+  .lv-tabs { grid-template-columns: repeat(5, minmax(4.6rem, 1fr)); overflow-x: auto; scrollbar-width: none; }
+  .lv-tabs::-webkit-scrollbar { display: none; }
+  .lv-name { font-size: 1.15rem; }
+  .lv-body { grid-template-columns: 1fr; }
+  .phones-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.7rem; }
+  .phone img { border-width: 3px; border-radius: 16px; }
+  .phones-row li:nth-child(2) { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lv-screen img, .lv-copy { transition: none; transform: none; }
+}
+@media (max-width: 860px) {
+  .avc-tour .tour-step .mobile-shot { display: grid; background: #000; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .avc-tour .tour-step .mobile-shot { display: grid; background: #000; }
+}

@@ -37,16 +37,17 @@ Tour images sit inside a stylised Mac window on the page. They work best as capt
 
 ### Audi Vorsprung Club
 
-These are illustrative diagrams of the concept, not captures of the prototype (which has not been published, and uses Audi type and marks that would need a check first).
+Real captures of the prototype (headless Chromium, 1440×900 at 2×; phones 390×844 at 3×), saved as WebP, plus the demo video re-encoded to H.264 without audio (`demo.mp4`, ~2.6 MB, poster `demo-poster.webp`). The prototype is dark-native, so these files have no `dark/` companions; the page shows them in a dark window in both themes. The prototype HTML itself and its embedded Audi fonts/icons are **not** published — only screenshots and the video.
 
-| File | Role | Suggested size |
-| --- | --- | --- |
-| `assets/audi/cover.png` | Work-grid cover (portrait) | 1600×2000 |
-| `assets/audi/hero.png` | Optional wide still | 2000×1400 |
-| `assets/audi/01-membership.png` | Membership levels | 1920×1200 |
-| `assets/audi/02-points.png` | Points and rewards | 1920×1200 |
-| `assets/audi/03-events-referrals.png` | Events and referrals | 1920×1200 |
-| `assets/audi/04-service-qr.png` | Service and QR | 1920×1200 |
+| File | Role |
+| --- | --- |
+| `assets/audi/cover.webp` | Work-grid cover (phone, Explorer) |
+| `assets/audi/hero.webp` | Page hero (desktop dashboard, Explorer) |
+| `assets/audi/level-0-guest.webp` … `level-4-pioneer.webp` | Level switcher, one status card per level |
+| `assets/audi/level-1-technik.webp` | Explorer at 8,000 pt, symbol complete |
+| `assets/audi/demo-panel.webp`, `rewards.webp`, `service.webp`, `qr-event.webp`, `direct.webp` | Scroll tour |
+| `assets/audi/m-status.webp`, `m-pioneer.webp`, `m-qr.webp` | Phone views |
+| `assets/audi/demo.mp4`, `demo-poster.webp` | Screen recording |
 
 ### Portrait and site images
 
@@ -67,6 +68,6 @@ The public site lists email ([rosati.antonio2001@gmail.com](mailto:rosati.antoni
 
 - `index.html` — hero and work grid
 - `lyceum.html` — case study and scroll/click app tour
-- `audi.html` — case study and gallery
+- `audi.html` — case study: level switcher, scroll tour, demo video, phone views (`js/audi.js`)
 - `about.html` — short about
 - `404.html` — GitHub Pages 404
