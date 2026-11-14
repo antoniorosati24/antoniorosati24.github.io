@@ -1103,3 +1103,23 @@ html[data-theme="dark"] .feat-window {
 }
 @media (prefers-color-scheme: dark) { html:not([data-theme="light"]) .feat-window { border: 1px solid var(--line); box-shadow: var(--shadow); } }
 @media (max-width: 860px) { .feat-window { border-radius: 14px; } }
+
+/* round 13: one walkthrough sequence (01–06); wide rows for the header-strip screens */
+.feat-head h2 { margin-bottom: 0.8rem; }
+.feat-body > p { color: var(--ink-soft); margin: 0; font-size: clamp(0.98rem, 1.15vw, 1.06rem); line-height: 1.6; text-wrap: pretty; }
+.feat-wide { grid-template-columns: minmax(0, 1fr); gap: clamp(1.4rem, 2.6vw, 2rem); }
+.feat-wide .feat-copy { max-width: none; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(1.2rem, 4vw, 4rem); align-items: start; }
+.feat-wide .feat-head h2 { margin-bottom: 0; }
+.feat-wide .feat-body { padding-top: 1.55rem; }
+@media (max-width: 860px) {
+  .feat-wide .feat-copy { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .feat-wide .feat-head h2 { margin-bottom: 0.8rem; }
+  .feat-wide .feat-body { padding-top: 0; }
+}
+/* round 13: flagship card shows the real Home, whole, in the same frame as the Lyceum page */
+.flagship .flagship-shot { border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); background: var(--card-2); line-height: 0; overflow: hidden; }
+.flagship .flagship-shot img { display: block; width: 100%; height: auto; }
+@media (max-width: 860px) { .flagship .flagship-shot { border-radius: 14px; } }
+a.card.flagship { display: grid; }
+.feat-wide .feat-copy { align-items: end; }
+.feat-wide .feat-body { padding-top: 0; padding-bottom: 0.2rem; }
