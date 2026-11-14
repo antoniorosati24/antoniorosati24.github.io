@@ -422,6 +422,11 @@
     var TEXT_SEL = "h1, h2, h3, p, li, figcaption, .lede, .work-note, .nav, .ov, .eyebrow, .meta, .tour-step-btn, .lv-tab, .lv-toggle, .footer-links a, .btn, .email, .pill, .metric, .sec-lede, .levels-intro";
     var MEDIA_SEL = "img, video, .mac, .lv-screen, .phone, .portrait-card, .shot";
     var TARGET_SEL = "h1, h2, h3, .card, .mac, .lv-screen, .phone img, .avc-hero, .portrait-card, .cta, .shot, .float-card, .pill, .btn";
+    /* Lyceum page: boxes are highlighted on hover only — the pointers never
+       click, select or type inside them. */
+    var CALM_BOXES = document.body.classList.contains("theme-lyceum");
+    var CALM_SEL = ".card, .tour-step, .mac, .stack-card, .cta, .pill, .btn, .closing, .project-intro";
+    function inCalmBox(el) { return CALM_BOXES && el && el.closest && !!el.closest(CALM_SEL); }
 
     function rectsOf(sel, pad, minW) {
       var list = [], sy = getScroll();
@@ -442,7 +447,7 @@
     function collectBoxes() {
       boxes = rectsOf(TEXT_SEL, 10, 8).filter(function (b) { return b.w < W * 0.98 || b.h < 220; });
       media = rectsOf(MEDIA_SEL, 2, 40);
-      targets = rectsOf(TARGET_SEL, 0, 40);
+      targets = rectsOf(TARGET_SEL, 0, 40).filter(function (x) { return !inCalmBox(x.el); });
       boxesAt = performance.now();
     }
     function hit(list, x, y, pad) {
@@ -618,6 +623,7 @@
       var cands = [];
       nodes.forEach(function (el) {
         if (el.closest && el.closest("[hidden], template")) return;
+        if (inCalmBox(el)) return;
         var r = el.getBoundingClientRect();
         if (r.bottom < 40 || r.top > H - 40 || r.width < 60) return;
         cands.push(el);
@@ -2180,6 +2186,15 @@
   function initMarks() {
     var els = Array.prototype.slice.call(document.querySelectorAll("[data-key]"));
     if (!els.length) return;
+    /* Lyceum page: marks inside boxes are painted still, never drawn live */
+    if (document.body.classList.contains("theme-lyceum")) {
+      var calm = els.filter(function (el) { return el.closest(".card, .tour-step, .stack-card, .cta, .closing, .project-intro"); });
+      els = els.filter(function (el) { return calm.indexOf(el) === -1; });
+      var paintCalm = function () { calm.forEach(function (el) { paintMark(el, 1); }); };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(paintCalm); else paintCalm();
+      window.addEventListener("load", paintCalm);
+      if (!els.length) return;
+    }
     if (reduce) {
       els.forEach(function (el) { paintMark(el, 1); });
       var rt;

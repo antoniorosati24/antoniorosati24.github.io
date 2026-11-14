@@ -975,3 +975,67 @@ html[data-theme="dark"] .card-green { --lyc-green: #3DF5A0; --lyc-green-soft: rg
 .card-green .arrow-link svg { filter: drop-shadow(0 0 6px var(--lyc-green-glow)); }
 .card-green.card-glow::after { background: radial-gradient(70% 60% at 100% 0%, var(--lyc-green-soft), transparent 70%); }
 .card-green:hover { border-color: var(--lyc-green-line); }
+
+/* ---------- Lyceum green: every Lyceum-related surface ----------
+   .lyc re-points the accent tokens to the app's green (neon mint + halo in
+   dark, emerald without halo in light). Used on lyceum.html <main>, the home
+   flagship + feature cards, and Lyceum mentions on About. Nav/footer stay red. */
+.lyc, body.theme-lyceum .ag-fx {
+  --accent: #067A50;
+  --accent-ink: #FFFFFF;
+  --accent-soft: rgba(6, 122, 80, 0.09);
+  --accent-line: rgba(6, 122, 80, 0.32);
+  --focus: 0 0 0 2px var(--bg), 0 0 0 4px #067A50;
+  --lyc-halo: transparent;
+}
+body.theme-lyceum { --glow: rgba(6, 122, 80, 0.08); }
+html[data-theme="dark"] .lyc, html[data-theme="dark"] body.theme-lyceum .ag-fx {
+  --accent: #3DF5A0;
+  --accent-ink: #04140D;
+  --accent-soft: rgba(61, 245, 160, 0.10);
+  --accent-line: rgba(61, 245, 160, 0.36);
+  --focus: 0 0 0 2px var(--bg), 0 0 0 4px #3DF5A0;
+  --shadow-lift: 0 34px 80px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(61, 245, 160, 0.18);
+  --lyc-halo: rgba(61, 245, 160, 0.38);
+}
+html[data-theme="dark"] body.theme-lyceum { --glow: rgba(40, 230, 150, 0.10); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .lyc, html:not([data-theme="light"]) body.theme-lyceum .ag-fx {
+    --accent: #3DF5A0;
+    --accent-ink: #04140D;
+    --accent-soft: rgba(61, 245, 160, 0.10);
+    --accent-line: rgba(61, 245, 160, 0.36);
+    --focus: 0 0 0 2px var(--bg), 0 0 0 4px #3DF5A0;
+    --shadow-lift: 0 34px 80px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(61, 245, 160, 0.18);
+    --lyc-halo: rgba(61, 245, 160, 0.38);
+  }
+  html:not([data-theme="light"]) body.theme-lyceum { --glow: rgba(40, 230, 150, 0.10); }
+}
+/* neon halo on accent marks (transparent in light theme) */
+.lyc .ov, .lyc .eyebrow, .lyc .arrow-link, .lyc .pill.red, .lyc .tour-step .num, .lyc .lv-num { text-shadow: 0 0 12px var(--lyc-halo); }
+.lyc .ov::before, .lyc .eyebrow::before { box-shadow: 0 0 10px var(--lyc-halo); }
+.lyc .arrow-link svg { filter: drop-shadow(0 0 6px var(--lyc-halo)); }
+.lyc .key-ink path.key-ul { filter: drop-shadow(0 0 3px var(--lyc-halo)); }
+.lyc .btn.primary { box-shadow: 0 10px 30px -12px var(--accent), 0 0 18px var(--lyc-halo); }
+.lyc.card-glow::after, .lyc .card-glow::after { background: radial-gradient(70% 60% at 100% 0%, var(--accent-soft), transparent 70%); }
+
+/* Lyceum page: boxes light up only on hover / keyboard focus / tap —
+   no scroll-driven or automatic highlight. */
+.theme-lyceum .tour-step.is-active .tour-step-btn { border-color: var(--line); box-shadow: none; }
+.theme-lyceum .tour-step.is-active .num { color: var(--ink-faint); text-shadow: none; }
+.theme-lyceum .tour-step .tour-step-btn:hover,
+.theme-lyceum .tour-step .tour-step-btn:focus-visible,
+.theme-lyceum .tour-step .tour-step-btn:active {
+  border-color: var(--accent-line);
+  box-shadow: var(--shadow-lift), 0 0 0 1px var(--accent-line), 0 0 24px -6px var(--lyc-halo);
+}
+.theme-lyceum .tour-step .tour-step-btn:hover .num,
+.theme-lyceum .tour-step .tour-step-btn:focus-visible .num,
+.theme-lyceum .tour-step .tour-step-btn:active .num { color: var(--accent); text-shadow: 0 0 12px var(--lyc-halo); }
+.theme-lyceum main .card { transition: border-color 0.35s var(--ease), box-shadow 0.45s var(--ease); }
+.theme-lyceum main .card:hover,
+.theme-lyceum main .card:focus-within,
+.theme-lyceum main .card:active {
+  border-color: var(--accent-line);
+  box-shadow: 0 0 0 1px var(--accent-line), 0 0 28px -8px var(--lyc-halo);
+}
