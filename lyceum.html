@@ -99,8 +99,7 @@
         <p class="ov">Personal project · January 2026–present · <span data-key="sole" data-mark="underline">Sole author</span></p>
         <img class="app-icon" src="assets/lyceum/app-icon.png" width="1024" height="1024" alt="The Lyceum app icon: an open book with sound bars on a dark green rounded square.">
         <h1>Lyceum</h1>
-        <p class="lede">A <span data-key="macos" data-mark="highlight">native macOS app</span> that turns the audio and slides of a lecture or a meeting into study material you can actually work with.</p>
-        <p class="meta">Swift, SwiftUI · <span data-key="whisper" data-mark="highlight">Speech-to-text, on this Mac</span> · Multi-provider LLM integration</p>
+        <p class="lede">A <span data-key="macos" data-mark="highlight">native macOS app</span> that turns lectures and meetings into study documents.</p>
         <ul class="pills" style="margin-top:1.2rem">
           <li class="pill red">Sole author</li>
           <li class="pill">January 2026–present</li>
@@ -117,7 +116,7 @@
 
     <section class="section tour" id="tour" data-tour aria-labelledby="tour-title" style="padding-top:0">
       <div class="wrap">
-      <p class="tour-note" id="tour-title" data-reveal>A walk through the app. On a wide screen the window stays with you as you scroll; you can also click a step. On a smaller screen, each captured step carries its own image.</p>
+      <p class="tour-note" id="tour-title" data-reveal>A walk through the app.</p>
 
       <div class="tour-layout">
         <div class="tour-stage" aria-hidden="false">
@@ -159,7 +158,7 @@
             <button type="button" class="tour-step-btn">
               <span class="num">01</span>
               <h3>Home</h3>
-              <p>Lessons are saved by subject. Attachments sit with the lesson they belong to, and a new lesson can be started without losing files already saved.</p>
+              <p>Lessons saved by subject, with their files.</p>
             </button>
           </li>
           <li class="tour-step"
@@ -169,8 +168,8 @@
             <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/02-transcription-1920.webp 1920w, assets/lyceum/02-transcription.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/02-transcription.png" width="2560" height="468" alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/02-transcription-1920.webp 1920w, assets/lyceum/dark/02-transcription.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/02-transcription.png" width="2560" height="468" alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF." aria-hidden="true"></picture></span>
             <button type="button" class="tour-step-btn">
               <span class="num">02</span>
-              <h3>Transcription</h3>
-              <p>Record from the microphone, import an audio file, or follow a transcript as it is written. Transcription runs on this Mac.</p>
+              <h3>Transcribe</h3>
+              <p>Import a recording; it is transcribed on this Mac.</p>
             </button>
           </li>
           <li class="tour-step"
@@ -181,14 +180,14 @@
             <button type="button" class="tour-step-btn">
               <span class="num">03</span>
               <h3>Master Note</h3>
-              <p>Transcripts, PDF slides and extra materials are combined into a Master Note or a meeting report. Studio and Meeting prompts can be chosen and customised. Long generations run in steps: they bring the sources together, check attributions and cut repetition, with a time estimate and a running count of the tokens reported by the provider.</p>
+              <p>Transcript, PDF slides and extra files become one Master Note or meeting report. Prompts are customisable.</p>
             </button>
           </li>
           <li class="tour-step">
             <button type="button" class="tour-step-btn">
               <span class="num">04</span>
               <h3>Export</h3>
-              <p>The result is saved as a Word document (DOCX), with headings, lists, tables, and diagrams rebuilt as editable elements. From there it can be revised, and a PDF can be made in any usual editor.</p>
+              <p>An editable Word file (DOCX): headings, tables and diagrams included.</p>
             </button>
           </li>
           <li class="tour-step"
@@ -199,7 +198,7 @@
             <button type="button" class="tour-step-btn">
               <span class="num">05</span>
               <h3>Assistant</h3>
-              <p>A text and voice assistant, grounded in the materials of a lesson or a meeting, is also available from a floating panel. The same assistant can be reached through the pet, a companion that can stay above other windows.</p>
+              <p>Ask about a lesson or meeting, by text or voice.</p>
             </button>
           </li>
         </ol>
@@ -207,31 +206,60 @@
       </div>
     </section>
 
-    <div class="wrap">
-      <div class="project-intro">
-        <div class="card prose" data-reveal>
-          <p>Lyceum started from a practical need: to take the recording and the slides of a lecture and come away with a document I could study from — while keeping control of the sources, the prompt and the finished result.</p>
-          <p>It is written in <span data-key="swift" data-mark="underline">Swift and SwiftUI</span>. <span data-key="sole2" data-mark="underline">I am its sole author</span>. The app records or imports audio and <span data-key="transcribe" data-mark="highlight">transcribes it on the Mac</span>. It then brings transcripts together with PDF slides and other materials to produce a <span data-key="masternote" data-mark="highlight">Master Note</span> or a meeting report, exported as an editable Word document.</p>
-        </div>
-        <div class="card prose" data-reveal style="--d:100ms">
-          <p>Lyceum is finished enough to use: it is installed and running on my Mac. A public release is not available yet. Before one, I still intend to test the package on a clean Mac, update the documentation, sign and notarise the build, and publish a first release on GitHub.</p>
-          <p>The screens in the tour are from the app on this Mac. A still of a finished export, and of the assistant answering a question, will be added when they are captured. A provider and a model can be chosen; API keys are kept in the macOS Keychain; a local model can be used on this Mac. The app shows the tokens the provider reports.</p>
-        </div>
-      </div>
+    <section class="section feats" aria-label="Live Listening and Lyceum AI">
+      <div class="wrap">
+        <article class="feat card" id="live" data-reveal>
+          <figure class="feat-media">
+            <div class="feat-window" data-no-agents>
+              <picture><source type="image/webp" srcset="assets/lyceum/08-live-720.webp 720w, assets/lyceum/08-live.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/08-live.png" width="1308" height="872" alt="Lyceum’s Live Listening screen: lesson set-up, a large microphone button, Start listening, and “Your voice stays on this Mac”." loading="lazy" decoding="async"></picture>
+            </div>
+          </figure>
+          <div class="feat-copy">
+            <p class="ov">Live Listening</p>
+            <h2>Transcribes while you listen.</h2>
+            <p>Hit the mic: the transcript builds up in short chunks during the lecture.</p>
+            <ul class="feat-chips">
+              <li>Live mic</li>
+              <li>On this Mac</li>
+              <li>Saved automatically</li>
+            </ul>
+          </div>
+        </article>
 
+        <article class="feat feat-rev card" id="pet" data-reveal style="--d:100ms">
+          <figure class="feat-media">
+            <div class="feat-window" data-no-agents>
+              <picture><source type="image/webp" srcset="assets/lyceum/09-pet-720.webp 720w, assets/lyceum/09-pet.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/09-pet.png" width="1308" height="872" alt="Lyceum AI: the orange dragon pet above its small toolbar, beside the Assistant’s “What shall we explore?”." loading="lazy" decoding="async"></picture>
+            </div>
+          </figure>
+          <div class="feat-copy">
+            <p class="ov">The pet</p>
+            <h2>Lyceum AI, always at hand.</h2>
+            <p>An orange companion that floats above other apps. Hover it for Chat or Voice.</p>
+            <ul class="feat-chips">
+              <li>Floating</li>
+              <li>Chat</li>
+              <li>Voice</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div class="wrap">
       <section class="closing" aria-labelledby="iter-title">
         <div class="card" data-reveal>
           <p class="ov">Iteration</p>
-          <h2 id="iter-title">A change that mattered</h2>
+          <h2 id="iter-title">A fix that mattered</h2>
           <div class="prose">
-            <p>On a real lecture, generation could stall while it waited for a clarification, and the Word file sometimes included hard-to-read JPEG clippings of diagrams. I changed the flow so that generation resumes on its own, and diagrams are rebuilt as editable elements. I checked the export on a test document.</p>
+            <p>On a real lecture, generation stalled and diagrams came out as blurry clippings. Now it resumes on its own and rebuilds diagrams as editable elements.</p>
           </div>
         </div>
         <div class="card" data-reveal style="--d:100ms">
-          <p class="ov">Now</p>
-          <h2>In progress</h2>
+          <p class="ov">Status</p>
+          <h2>In use, not yet released</h2>
           <div class="prose">
-            <p>The work now is about staying faithful to the prompt, about how diagrams are reconstructed, and about how the app behaves during a long generation. There is not yet a public repository or a signed build.</p>
+            <p>Installed and running on my Mac. Next: a clean-Mac test, a signed build and a first GitHub release.</p>
           </div>
         </div>
       </section>
@@ -251,7 +279,7 @@
           <li class="pill">Xcode</li>
           <li class="pill">Git</li>
         </ul>
-        <p class="stack-note" id="ai-note">As the app grew, the code became too complex for me to handle alone, so development moved forward with the help of AI. I designed the app, directed the work, and tested everything myself.</p>
+        <p class="stack-note" id="ai-note">As the code grew too complex to handle alone, development continued with AI help. I designed the app, directed the work and tested everything.</p>
       </section>
 
     </div>
@@ -261,7 +289,7 @@
         <div class="card cta card-glow" data-reveal>
           <p class="ov">Contact</p>
           <h2 id="cta-title">Contact</h2>
-          <p>Questions about Lyceum, or about working together, are welcome.</p>
+          <p>Questions about Lyceum are welcome.</p>
           <div class="email-row">
             <a class="email" href="mailto:rosati.antonio2001@gmail.com" data-key="email" data-mark="underline">rosati.antonio2001@gmail.com</a>
           </div>

@@ -428,6 +428,17 @@
     var CALM_SEL = ".card, .tour-step, .mac, .stack-card, .cta, .pill, .btn, .closing, .project-intro";
     function inCalmBox(el) { return CALM_BOXES && el && el.closest && !!el.closest(CALM_SEL); }
 
+    /* frames the pointers never walk over (Lyceum showcase windows) */
+    var noAgentEls = Array.prototype.slice.call(document.querySelectorAll("[data-no-agents]"));
+    function noAgentRects(pad) {
+      var out = [];
+      for (var k = 0; k < noAgentEls.length; k++) {
+        var rr = noAgentEls[k].getBoundingClientRect();
+        if (rr.width < 4 || rr.bottom < -100 || rr.top > H + 100) continue;
+        out.push({ l: rr.left - pad, t: rr.top - pad, r: rr.right + pad, b: rr.bottom + pad });
+      }
+      return out;
+    }
     function rectsOf(sel, pad, minW) {
       var list = [], sy = getScroll();
       document.querySelectorAll(sel).forEach(function (el) {
@@ -1212,6 +1223,22 @@
           }
         }
 
+        if (noAgentEls.length) {
+          var nrs = noAgentRects(34), nq, nvy = ag.docY - sy;
+          for (var nk = 0; nk < nrs.length; nk++) {
+            nq = nrs[nk];
+            var hvy = ag.hy - sy;
+            if (ag.hx > nq.l && ag.hx < nq.r && hvy > nq.t && hvy < nq.b) {
+              /* re-home just outside the nearest side of the frame */
+              var dl = ag.hx - nq.l, dr = nq.r - ag.hx, dt2 = hvy - nq.t, db = nq.b - hvy, mn = Math.min(dl, dr, dt2, db);
+              if (mn === dl) ag.hx = nq.l - 20; else if (mn === dr) ag.hx = nq.r + 20; else if (mn === dt2) ag.hy = nq.t - 20 + sy; else ag.hy = nq.b + 20 + sy;
+            }
+            if (ag.docX > nq.l && ag.docX < nq.r && nvy > nq.t && nvy < nq.b) {
+              var el2 = ag.docX - nq.l, er = nq.r - ag.docX, et = nvy - nq.t, eb = nq.b - nvy, em = Math.min(el2, er, et, eb);
+              if (em === el2) dvx -= 260; else if (em === er) dvx += 260; else if (em === et) dvy -= 260; else dvy += 260;
+            }
+          }
+        }
         var stw = 1 - Math.exp(-steerRate * step);
         ag.vx += (dvx - ag.vx) * stw;
         ag.vy += (dvy - ag.vy) * stw;
@@ -1635,6 +1662,17 @@
       if (sy == null) sy = getScroll();
       ctx.clearRect(0, 0, W, H);
       var i, ag, rp, tr, p, vx, vy, margin = 90;
+      var noRects = noAgentEls.length ? noAgentRects(0) : [];
+      if (noRects.length) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 0, W, H);
+        for (var nr = 0; nr < noRects.length; nr++) {
+          var q = noRects[nr];
+          ctx.moveTo(q.l, q.t); ctx.lineTo(q.l, q.b); ctx.lineTo(q.r, q.b); ctx.lineTo(q.r, q.t); ctx.closePath();
+        }
+        ctx.clip("evenodd");
+      }
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       for (i = 0; i < agents.length; i++) {
@@ -1674,6 +1712,7 @@
         if (vy < -margin || vy > H + margin) continue;
         drawPointer(ag, vx, vy);
       }
+      if (noRects.length) ctx.restore();
     }
 
     function advance(dt) {
