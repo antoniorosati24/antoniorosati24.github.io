@@ -106,7 +106,7 @@
           <li class="pill">Native macOS</li>
           <li class="pill">Swift &amp; SwiftUI</li>
         </ul>
-              <a class="case-down" href="#tour" aria-label="Continue to a walk through the app">
+              <a class="case-down" href="#app" aria-label="Continue to a walk through the app">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 4v16M5 13l7 7 7-7"/>
         </svg>
@@ -114,133 +114,135 @@
       </div>
     </header>
 
-    <section class="section tour" id="tour" data-tour aria-labelledby="tour-title" style="padding-top:0">
+    <section class="section feats" id="app" aria-label="A walk through Lyceum" style="padding-top:0">
       <div class="wrap">
-      <p class="tour-note" id="tour-title" data-reveal>A walk through the app.</p>
-
-      <div class="tour-layout">
-        <div class="tour-stage" aria-hidden="false">
-          <div class="mac" role="img" aria-label="Lyceum’s window. The screen changes as you scroll.">
-            <div class="mac-bar">
-              <span class="mac-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span class="mac-title">Lyceum</span>
-              <span class="mac-count" data-tour-count>1 / 5</span>
+        <article class="feat  card" id="home" data-reveal>
+          <figure class="feat-media">
+            <div class="feat-window" data-no-agents>
+              <picture><source type="image/webp" srcset="assets/lyceum/10-home-720.webp 720w, assets/lyceum/10-home.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/10-home.png" width="1308" height="872" alt="Lyceum’s Home: three glass bubbles — Live Listening, Transcribe and Study material — on the app’s soft grey background." loading="lazy" decoding="async"></picture>
             </div>
-            <div class="mac-screen">
-              <img data-tour-img="a" class="is-on" src="assets/lyceum/01-home.png" width="2560" height="1370" alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material.">
-              <img data-tour-img="b" src="assets/lyceum/02-transcription.png" width="2560" height="468" alt="">
+          </figure>
+          <div class="feat-copy">
+            <div class="feat-head">
+              <p class="ov">01 · Home</p>
+              <h2>Three workspaces, one home.</h2>
             </div>
-            <script>
-              (function () {
-                var dark = false;
-                try {
-                  var t = localStorage.getItem("ar-theme");
-                  dark = t === "dark" || (t !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-                } catch (e) {
-                  dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-                }
-                if (!dark) return;
-                document.querySelectorAll("[data-tour-img]").forEach(function (img) {
-                  var s = img.getAttribute("src") || "";
-                  if (s && s.indexOf("/dark/") === -1) img.src = s.replace("assets/lyceum/", "assets/lyceum/dark/");
-                });
-              })();
-            </script>
+            <div class="feat-body">
+              <p>Lessons are saved by subject, with their files.</p>
+              <ul class="feat-chips">
+              <li>Live Listening</li>
+              <li>Transcribe</li>
+              <li>Study material</li>
+              </ul>
+            </div>
           </div>
-        </div>
+        </article>
 
-        <ol class="tour-steps">
-          <li class="tour-step is-active"
-              data-src="assets/lyceum/01-home.png"
-              data-src-dark="assets/lyceum/dark/01-home.png"
-              data-alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material.">
-            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/01-home-1920.webp 1920w, assets/lyceum/01-home.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/01-home.png" width="2560" height="1370" alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/01-home-1920.webp 1920w, assets/lyceum/dark/01-home.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/01-home.png" width="2560" height="1370" alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material." aria-hidden="true"></picture></span>
-            <button type="button" class="tour-step-btn">
-              <span class="num">01</span>
-              <h3>Home</h3>
-              <p>Lessons saved by subject, with their files.</p>
-            </button>
-          </li>
-          <li class="tour-step"
-              data-src="assets/lyceum/02-transcription.png"
-              data-src-dark="assets/lyceum/dark/02-transcription.png"
-              data-alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF.">
-            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/02-transcription-1920.webp 1920w, assets/lyceum/02-transcription.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/02-transcription.png" width="2560" height="468" alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/02-transcription-1920.webp 1920w, assets/lyceum/dark/02-transcription.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/02-transcription.png" width="2560" height="468" alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF." aria-hidden="true"></picture></span>
-            <button type="button" class="tour-step-btn">
-              <span class="num">02</span>
-              <h3>Transcribe</h3>
-              <p>Import a recording; it is transcribed on this Mac.</p>
-            </button>
-          </li>
-          <li class="tour-step"
-              data-src="assets/lyceum/03-master-note.png"
-              data-src-dark="assets/lyceum/dark/03-master-note.png"
-              data-alt="Lyceum’s Study material screen, where a Master Note is prepared from the PDF and the transcript.">
-            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/03-master-note-1920.webp 1920w, assets/lyceum/03-master-note.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/03-master-note.png" width="2560" height="493" alt="Lyceum’s Study material screen, where a Master Note is prepared from the PDF and the transcript."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/03-master-note-1920.webp 1920w, assets/lyceum/dark/03-master-note.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/03-master-note.png" width="2560" height="493" alt="Lyceum’s Study material screen, where a Master Note is prepared from the PDF and the transcript." aria-hidden="true"></picture></span>
-            <button type="button" class="tour-step-btn">
-              <span class="num">03</span>
-              <h3>Master Note</h3>
-              <p>Transcript, PDF slides and extra files become one Master Note or meeting report. Prompts are customisable.</p>
-            </button>
-          </li>
-          <li class="tour-step">
-            <button type="button" class="tour-step-btn">
-              <span class="num">04</span>
-              <h3>Export</h3>
-              <p>An editable Word file (DOCX): headings, tables and diagrams included.</p>
-            </button>
-          </li>
-          <li class="tour-step"
-              data-src="assets/lyceum/06-assistant.png"
-              data-src-dark="assets/lyceum/dark/06-assistant.png"
-              data-alt="Lyceum’s Assistant: ask a question about the materials of a lesson or a meeting.">
-            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/06-assistant.webp 1920w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/06-assistant.png" width="1920" height="1200" alt="Lyceum’s Assistant: ask a question about the materials of a lesson or a meeting."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/06-assistant.webp 1920w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/06-assistant.png" width="1920" height="1200" alt="Lyceum’s Assistant: ask a question about the materials of a lesson or a meeting." aria-hidden="true"></picture></span>
-            <button type="button" class="tour-step-btn">
-              <span class="num">05</span>
-              <h3>Assistant</h3>
-              <p>Ask about a lesson or meeting, by text or voice.</p>
-            </button>
-          </li>
-        </ol>
-      </div>
-      </div>
-    </section>
-
-    <section class="section feats" aria-label="Live Listening and Lyceum AI">
-      <div class="wrap">
-        <article class="feat card" id="live" data-reveal>
+        <article class="feat feat-rev card" id="live" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
               <picture><source type="image/webp" srcset="assets/lyceum/08-live-720.webp 720w, assets/lyceum/08-live.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/08-live.png" width="1308" height="872" alt="Lyceum’s Live Listening screen: lesson set-up, a large microphone button, Start listening, and “Your voice stays on this Mac”." loading="lazy" decoding="async"></picture>
             </div>
           </figure>
           <div class="feat-copy">
-            <p class="ov">Live Listening</p>
-            <h2>Transcribes while you listen.</h2>
-            <p>Hit the mic: the transcript builds up in short chunks during the lecture.</p>
-            <ul class="feat-chips">
+            <div class="feat-head">
+              <p class="ov">02 · Live Listening</p>
+              <h2>Transcribes while you listen.</h2>
+            </div>
+            <div class="feat-body">
+              <p>Hit the mic: the transcript builds up in short chunks during the lecture.</p>
+              <ul class="feat-chips">
               <li>Live mic</li>
               <li>On this Mac</li>
               <li>Saved automatically</li>
-            </ul>
+              </ul>
+            </div>
           </div>
         </article>
 
-        <article class="feat feat-rev card" id="pet" data-reveal style="--d:100ms">
+        <article class="feat feat-wide card" id="transcribe" data-reveal>
+          <figure class="feat-media">
+            <div class="feat-window" data-no-agents>
+              <picture><source type="image/webp" srcset="assets/lyceum/12-transcribe-1110.webp 1110w, assets/lyceum/12-transcribe.webp 2220w" sizes="(max-width: 860px) 92vw, 1120px"><img src="assets/lyceum/12-transcribe.png" width="2220" height="468" alt="The top of Lyceum’s Transcribe screen: “Transcribe lessons”, the three steps, and the School / Study and Corporate / Meeting modes." loading="lazy" decoding="async"></picture>
+            </div>
+          </figure>
+          <div class="feat-copy">
+            <div class="feat-head">
+              <p class="ov">03 · Transcribe</p>
+              <h2>Drop in a recording.</h2>
+            </div>
+            <div class="feat-body">
+              <p>Import a recording; it is transcribed on this Mac.</p>
+              <ul class="feat-chips">
+              <li>Audio files</li>
+              <li>On this Mac</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="feat feat-wide card" id="study" data-reveal>
+          <figure class="feat-media">
+            <div class="feat-window" data-no-agents>
+              <picture><source type="image/webp" srcset="assets/lyceum/03-master-note-1920.webp 1920w, assets/lyceum/03-master-note.webp 2560w" sizes="(max-width: 860px) 92vw, 1120px"><img src="assets/lyceum/03-master-note.png" width="2560" height="493" alt="The top of Lyceum’s Study material screen: “Generate study material”, the three steps, and the two modes." loading="lazy" decoding="async"></picture>
+            </div>
+          </figure>
+          <div class="feat-copy">
+            <div class="feat-head">
+              <p class="ov">04 · Study material</p>
+              <h2>One Master Note from every source.</h2>
+            </div>
+            <div class="feat-body">
+              <p>Transcript, PDF slides and extra files become a Master Note or meeting report, exported to Word.</p>
+              <ul class="feat-chips">
+              <li>Master Note</li>
+              <li>Meeting report</li>
+              <li>DOCX</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="feat  card" id="assistant" data-reveal>
+          <figure class="feat-media">
+            <div class="feat-window" data-no-agents>
+              <picture><source type="image/webp" srcset="assets/lyceum/11-assistant-720.webp 720w, assets/lyceum/11-assistant.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/11-assistant.png" width="1308" height="872" alt="Lyceum’s Assistant: “What shall we explore?” above the question bar, “Ask a question about these materials…”." loading="lazy" decoding="async"></picture>
+            </div>
+          </figure>
+          <div class="feat-copy">
+            <div class="feat-head">
+              <p class="ov">05 · Assistant</p>
+              <h2>Ask your lesson.</h2>
+            </div>
+            <div class="feat-body">
+              <p>Ask about a lesson or meeting, by text or voice.</p>
+              <ul class="feat-chips">
+              <li>Text</li>
+              <li>Voice</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="feat feat-rev card" id="pet" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
               <picture><source type="image/webp" srcset="assets/lyceum/09-pet-720.webp 720w, assets/lyceum/09-pet.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/09-pet.png" width="1308" height="872" alt="Lyceum AI: the orange dragon pet above its small toolbar, beside the Assistant’s “What shall we explore?”." loading="lazy" decoding="async"></picture>
             </div>
           </figure>
           <div class="feat-copy">
-            <p class="ov">The pet</p>
-            <h2>Lyceum AI, always at hand.</h2>
-            <p>An orange companion that floats above other apps. Hover it for Chat or Voice.</p>
-            <ul class="feat-chips">
+            <div class="feat-head">
+              <p class="ov">06 · The pet</p>
+              <h2>Lyceum AI, always at hand.</h2>
+            </div>
+            <div class="feat-body">
+              <p>An orange companion that floats above other apps. Hover it for Chat or Voice.</p>
+              <ul class="feat-chips">
               <li>Floating</li>
               <li>Chat</li>
               <li>Voice</li>
-            </ul>
+              </ul>
+            </div>
           </div>
         </article>
       </div>
