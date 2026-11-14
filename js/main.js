@@ -170,9 +170,14 @@
         s.classList.toggle("is-active", n === i);
       });
       if (count) count.textContent = i + 1 + " / " + steps.length;
+      var src = srcOf(steps[i]);
+      if (!src) {
+        /* Step has no capture yet (e.g. Export). Leave the stage on the last real still. */
+        return;
+      }
       var next = showingA ? imgB : imgA;
       var prev = showingA ? imgA : imgB;
-      next.src = srcOf(steps[i]);
+      next.src = src;
       next.alt = altOf(steps[i]);
       if (instant) {
         next.classList.add("is-on");
@@ -287,37 +292,6 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && lb.classList.contains("is-open")) closeLb();
     });
-  }
-
-  /* ---------- optional demo video swap ---------- */
-  var demoHost = document.querySelector("[data-demo]");
-  if (demoHost) {
-    var videoSrc = demoHost.getAttribute("data-demo");
-    fetch(videoSrc, { method: "HEAD" })
-      .then(function (r) {
-        if (!r.ok) return;
-        var type = r.headers.get("content-type") || "";
-        if (type.indexOf("video") === -1 && !/\.(mp4|webm|mov)$/i.test(videoSrc)) return;
-        var posterWrap = demoHost.querySelector(".scheme-img") || demoHost.querySelector("img");
-        var lightPoster = (demoHost.querySelector(".scheme-img .on-light") || demoHost.querySelector("img"));
-        var darkPoster = demoHost.querySelector(".scheme-img .on-dark");
-        var lightSrc = lightPoster ? lightPoster.getAttribute("src") : "";
-        var darkSrc = darkPoster ? darkPoster.getAttribute("src") : "";
-        var vid = document.createElement("video");
-        vid.controls = true;
-        vid.playsInline = true;
-        vid.preload = "metadata";
-        vid.poster = themedSrc(lightSrc, darkSrc);
-        vid.src = videoSrc;
-        vid.setAttribute("aria-label", "Screen recording of Lyceum");
-        if (posterWrap) posterWrap.replaceWith(vid);
-        document.addEventListener("themechange", function () {
-          vid.poster = themedSrc(lightSrc, darkSrc);
-        });
-        var cap = demoHost.querySelector("figcaption");
-        if (cap) cap.textContent = "A short walk through Lyceum, recorded on my Mac.";
-      })
-      .catch(function () { /* file not there yet — poster stays */ });
   }
 
 

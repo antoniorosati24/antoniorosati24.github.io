@@ -96,9 +96,10 @@
     <header class="page-hero">
       <div class="wrap" data-reveal>
         <p class="ov">Personal project · January 2026–present · <span data-key="sole" data-mark="underline">Sole author</span></p>
+        <img class="app-icon" src="assets/lyceum/app-icon.png" width="1024" height="1024" alt="The Lyceum app icon: an open book with sound bars on a dark green rounded square.">
         <h1>Lyceum</h1>
         <p class="lede">A <span data-key="macos" data-mark="highlight">native macOS app</span> that turns the audio and slides of a lecture or a meeting into study material you can actually work with.</p>
-        <p class="meta">Swift, SwiftUI · <span data-key="whisper" data-mark="highlight">Whisper on-device, with MLX on Apple silicon</span> · Multi-provider LLM integration</p>
+        <p class="meta">Swift, SwiftUI · <span data-key="whisper" data-mark="highlight">Speech-to-text, on this Mac</span> · Multi-provider LLM integration</p>
         <ul class="pills" style="margin-top:1.2rem">
           <li class="pill red">Sole author</li>
           <li class="pill">January 2026–present</li>
@@ -115,19 +116,19 @@
 
     <section class="section tour" id="tour" data-tour aria-labelledby="tour-title" style="padding-top:0">
       <div class="wrap">
-      <p class="tour-note" id="tour-title" data-reveal>A walk through the app. On a wide screen the window stays with you as you scroll; you can also click a step. On a smaller screen, each step carries its own image.</p>
+      <p class="tour-note" id="tour-title" data-reveal>A walk through the app. On a wide screen the window stays with you as you scroll; you can also click a step. On a smaller screen, each captured step carries its own image.</p>
 
       <div class="tour-layout">
         <div class="tour-stage" aria-hidden="false">
-          <div class="mac" role="img" aria-label="Stylised Lyceum window. The screen changes as you scroll. Finished stills are coming soon.">
+          <div class="mac" role="img" aria-label="Lyceum’s window. The screen changes as you scroll.">
             <div class="mac-bar">
               <span class="mac-dots" aria-hidden="true"><i></i><i></i><i></i></span>
               <span class="mac-title">Lyceum</span>
-              <span class="mac-count" data-tour-count>1 / 6</span>
+              <span class="mac-count" data-tour-count>1 / 5</span>
             </div>
             <div class="mac-screen">
-              <img data-tour-img="a" class="is-on" src="assets/lyceum/01-home.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s Home screen. A finished still is coming soon.">
-              <img data-tour-img="b" src="assets/lyceum/02-transcription.png" width="1920" height="1200" alt="">
+              <img data-tour-img="a" class="is-on" src="assets/lyceum/01-home.png" width="2560" height="1370" alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material.">
+              <img data-tour-img="b" src="assets/lyceum/02-transcription.png" width="2560" height="468" alt="">
             </div>
             <script>
               (function () {
@@ -152,8 +153,8 @@
           <li class="tour-step is-active"
               data-src="assets/lyceum/01-home.png"
               data-src-dark="assets/lyceum/dark/01-home.png"
-              data-alt="Illustrative preview of Lyceum’s Home screen. A finished still is coming soon.">
-            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/lyceum/01-home.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s Home screen. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/01-home.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s Home screen. A finished still is coming soon." aria-hidden="true"></span>
+              data-alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material.">
+            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/01-home-1920.webp 1920w, assets/lyceum/01-home.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/01-home.png" width="2560" height="1370" alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/01-home-1920.webp 1920w, assets/lyceum/dark/01-home.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/01-home.png" width="2560" height="1370" alt="Lyceum’s Home: three workspaces — Live Listening, Transcribe, and Study material." aria-hidden="true"></picture></span>
             <button type="button" class="tour-step-btn">
               <span class="num">01</span>
               <h3>Home</h3>
@@ -163,30 +164,26 @@
           <li class="tour-step"
               data-src="assets/lyceum/02-transcription.png"
               data-src-dark="assets/lyceum/dark/02-transcription.png"
-              data-alt="Illustrative preview of Lyceum’s transcription screen. A finished still is coming soon.">
-            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/lyceum/02-transcription.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s transcription screen. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/02-transcription.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s transcription screen. A finished still is coming soon." aria-hidden="true"></span>
+              data-alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF.">
+            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/02-transcription-1920.webp 1920w, assets/lyceum/02-transcription.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/02-transcription.png" width="2560" height="468" alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/02-transcription-1920.webp 1920w, assets/lyceum/dark/02-transcription.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/02-transcription.png" width="2560" height="468" alt="Lyceum’s Transcribe screen: import a recording, then add the lesson PDF." aria-hidden="true"></picture></span>
             <button type="button" class="tour-step-btn">
               <span class="num">02</span>
               <h3>Transcription</h3>
-              <p>Record from the microphone, import an audio file, or follow a transcript as it is written. Whisper runs on the Mac itself, with MLX support on Apple silicon.</p>
+              <p>Record from the microphone, import an audio file, or follow a transcript as it is written. Transcription runs on this Mac.</p>
             </button>
           </li>
           <li class="tour-step"
               data-src="assets/lyceum/03-master-note.png"
               data-src-dark="assets/lyceum/dark/03-master-note.png"
-              data-alt="Illustrative preview of Lyceum’s Master Note screen. A finished still is coming soon.">
-            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/lyceum/03-master-note.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s Master Note screen. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/03-master-note.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s Master Note screen. A finished still is coming soon." aria-hidden="true"></span>
+              data-alt="Lyceum’s Study material screen, where a Master Note is prepared from the PDF and the transcript.">
+            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/03-master-note-1920.webp 1920w, assets/lyceum/03-master-note.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/03-master-note.png" width="2560" height="493" alt="Lyceum’s Study material screen, where a Master Note is prepared from the PDF and the transcript."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/03-master-note-1920.webp 1920w, assets/lyceum/dark/03-master-note.webp 2560w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/03-master-note.png" width="2560" height="493" alt="Lyceum’s Study material screen, where a Master Note is prepared from the PDF and the transcript." aria-hidden="true"></picture></span>
             <button type="button" class="tour-step-btn">
               <span class="num">03</span>
               <h3>Master Note</h3>
               <p>Transcripts, PDF slides and extra materials are combined into a Master Note or a meeting report. Studio and Meeting prompts can be chosen and customised. Long generations run in steps: they bring the sources together, check attributions and cut repetition, with a time estimate and a running count of the tokens reported by the provider.</p>
             </button>
           </li>
-          <li class="tour-step"
-              data-src="assets/lyceum/04-export.png"
-              data-src-dark="assets/lyceum/dark/04-export.png"
-              data-alt="Illustrative preview of Lyceum’s export screen. A finished still is coming soon.">
-            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/lyceum/04-export.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s export screen. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/04-export.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s export screen. A finished still is coming soon." aria-hidden="true"></span>
+          <li class="tour-step">
             <button type="button" class="tour-step-btn">
               <span class="num">04</span>
               <h3>Export</h3>
@@ -194,25 +191,14 @@
             </button>
           </li>
           <li class="tour-step"
-              data-src="assets/lyceum/05-providers.png"
-              data-src-dark="assets/lyceum/dark/05-providers.png"
-              data-alt="Illustrative preview of Lyceum’s providers screen. A finished still is coming soon.">
-            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/lyceum/05-providers.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s providers screen. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/05-providers.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s providers screen. A finished still is coming soon." aria-hidden="true"></span>
-            <button type="button" class="tour-step-btn">
-              <span class="num">05</span>
-              <h3>Providers</h3>
-              <p>A provider, a model, and — where it is supported — a reasoning intensity can be chosen. Eligible accounts can sign in to ChatGPT; API keys are kept in the macOS Keychain; a local model can be used through Ollama. The app shows the tokens the provider reports for each screen.</p>
-            </button>
-          </li>
-          <li class="tour-step"
               data-src="assets/lyceum/06-assistant.png"
               data-src-dark="assets/lyceum/dark/06-assistant.png"
-              data-alt="Illustrative preview of Lyceum’s assistant screen. A finished still is coming soon.">
-            <span class="scheme-img mobile-shot"><img class="on-light" src="assets/lyceum/06-assistant.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s assistant screen. A finished still is coming soon."><img class="on-dark" src="assets/lyceum/dark/06-assistant.png" width="1920" height="1200" alt="Illustrative preview of Lyceum’s assistant screen. A finished still is coming soon." aria-hidden="true"></span>
+              data-alt="Lyceum’s Assistant: ask a question about the materials of a lesson or a meeting.">
+            <span class="scheme-img mobile-shot"><picture class="on-light"><source type="image/webp" srcset="assets/lyceum/06-assistant.webp 1920w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/06-assistant.png" width="1920" height="1200" alt="Lyceum’s Assistant: ask a question about the materials of a lesson or a meeting."></picture><picture class="on-dark"><source type="image/webp" srcset="assets/lyceum/dark/06-assistant.webp 1920w" sizes="(max-width: 720px) 100vw, 72vw"><img src="assets/lyceum/dark/06-assistant.png" width="1920" height="1200" alt="Lyceum’s Assistant: ask a question about the materials of a lesson or a meeting." aria-hidden="true"></picture></span>
             <button type="button" class="tour-step-btn">
-              <span class="num">06</span>
+              <span class="num">05</span>
               <h3>Assistant</h3>
-              <p>A text and voice assistant, grounded in the materials of a lesson or a meeting, is also available from a floating panel.</p>
+              <p>A text and voice assistant, grounded in the materials of a lesson or a meeting, is also available from a floating panel. The same assistant can be reached through the pet, a companion that can stay above other windows.</p>
             </button>
           </li>
         </ol>
@@ -224,11 +210,11 @@
       <div class="project-intro">
         <div class="card prose" data-reveal>
           <p>Lyceum started from a practical need: to take the recording and the slides of a lecture and come away with a document I could study from — while keeping control of the sources, the prompt and the finished result.</p>
-          <p>It is written in <span data-key="swift" data-mark="underline">Swift and SwiftUI</span>. <span data-key="sole2" data-mark="underline">I am its sole author</span>. The app records or imports audio and <span data-key="transcribe" data-mark="highlight">transcribes it on the Mac with Whisper</span>, with MLX support on Apple silicon. It then brings transcripts together with PDF slides and other materials to produce a <span data-key="masternote" data-mark="highlight">Master Note</span> or a meeting report, exported as an editable Word document.</p>
+          <p>It is written in <span data-key="swift" data-mark="underline">Swift and SwiftUI</span>. <span data-key="sole2" data-mark="underline">I am its sole author</span>. The app records or imports audio and <span data-key="transcribe" data-mark="highlight">transcribes it on the Mac</span>. It then brings transcripts together with PDF slides and other materials to produce a <span data-key="masternote" data-mark="highlight">Master Note</span> or a meeting report, exported as an editable Word document.</p>
         </div>
         <div class="card prose" data-reveal style="--d:100ms">
           <p>Lyceum is finished enough to use: it is installed and running on my Mac. A public release is not available yet. Before one, I still intend to test the package on a clean Mac, update the documentation, sign and notarise the build, and publish a first release on GitHub.</p>
-          <p>The screens in the tour above are illustrative previews — finished screenshots of the app are coming soon.</p>
+          <p>The screens in the tour are from the app on this Mac. A still of a finished export, and of the assistant answering a question, will be added when they are captured. A provider and a model can be chosen; API keys are kept in the macOS Keychain; a local model can be used on this Mac. The app shows the tokens the provider reports.</p>
         </div>
       </div>
 
@@ -244,7 +230,7 @@
           <p class="ov">Now</p>
           <h2>In progress</h2>
           <div class="prose">
-            <p>The work now is about staying faithful to the prompt, about how diagrams are reconstructed, and about how the app behaves during a long generation. There is not yet a public repository, a signed build, or a demonstration video.</p>
+            <p>The work now is about staying faithful to the prompt, about how diagrams are reconstructed, and about how the app behaves during a long generation. There is not yet a public repository or a signed build.</p>
           </div>
         </div>
       </section>
@@ -258,7 +244,7 @@
           <li class="pill">Whisper, on-device</li>
           <li class="pill">MLX, on Apple silicon</li>
           <li class="pill">Multi-provider LLM integration</li>
-          <li class="pill">Ollama, for local models</li>
+          <li class="pill">Local models, on this Mac</li>
           <li class="pill">macOS Keychain</li>
           <li class="pill">DOCX export</li>
           <li class="pill">Xcode</li>
@@ -266,16 +252,6 @@
         </ul>
       </section>
 
-      <section class="demo card" aria-labelledby="demo-title" data-reveal>
-        <p class="ov">Recording</p>
-        <h2 id="demo-title">A screen recording</h2>
-        <figure>
-          <div class="shot">
-            <span class="scheme-img"><img class="on-light" src="assets/lyceum/demo-poster.png" width="1920" height="1080" alt="Preview poster for a screen recording of Lyceum. The recording is coming soon."><img class="on-dark" src="assets/lyceum/dark/demo-poster.png" width="1920" height="1080" alt="Preview poster for a screen recording of Lyceum. The recording is coming soon." aria-hidden="true"></span>
-          </div>
-          <figcaption>A short screen recording of Lyceum is coming soon.</figcaption>
-        </figure>
-      </section>
     </div>
 
     <section class="section" id="contact" aria-labelledby="cta-title">
