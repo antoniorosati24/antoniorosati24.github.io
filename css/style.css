@@ -346,11 +346,143 @@ html[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; }
 .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--card-2); }
 .shot img { width: 100%; }
 .project-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
-.project-card .shot { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; aspect-ratio: 16 / 10; }
-.project-card .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.9s var(--ease); }
+.project-card .shot {
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  /* 4:3 lets a top-aligned Audi crop finish “Anello attivo AUDERE”
+     in the dark band above the rings, without a mid-line cut. */
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--card);
+}
+.project-card .shot .scheme-img {
+  width: 100%;
+  height: 100%;
+  display: grid; /* keep light/dark stills stacked, not in a column */
+}
+.project-card .shot .scheme-img > img,
+.project-card .shot .scheme-img > picture {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+}
+.project-card .shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transition: transform 0.9s var(--ease);
+}
+/* Portrait app captures (Audi dashboard): pin to the top, then fade. */
+.project-card .shot-top img { object-position: top center; }
+.project-card .shot::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 12%;
+  background: linear-gradient(to bottom, transparent 0%, var(--card) 85%);
+  pointer-events: none;
+  z-index: 1;
+}
 .project-card:hover .shot img { transform: scale(1.03); }
-.project-card .body { padding: clamp(1.1rem, 2.2vw, 1.6rem); display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
+/* App-symbol tiles instead of screenshots */
+.project-card .icon-shot {
+  display: grid;
+  place-items: center;
+  padding: clamp(1.6rem, 4vw, 3rem);
+  background:
+    radial-gradient(60% 70% at 50% 45%, var(--icon-glow, var(--accent-soft)) 0%, transparent 70%),
+    var(--card-2);
+  border-bottom: 1px solid var(--line);
+}
+.project-card .icon-shot::after { display: none; }
+.project-card .icon-shot picture { display: contents; }
+.project-card .icon-shot img.app-tile {
+  width: auto;
+  height: 62%;
+  max-width: 62%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.22)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+}
+.project-card:first-child .icon-shot { --icon-glow: rgba(46, 170, 120, 0.14); }
+/* Lyceum card: blurred, dimmed Home behind the crisp icon */
+.project-card .icon-shot-bg { position: relative; isolation: isolate; }
+.project-card .icon-shot-bg img.app-tile { position: relative; z-index: 2; }
+.project-card .icon-shot-bg .icon-bg {
+  position: absolute; inset: -24px; z-index: 0;
+  width: auto; height: auto;
+}
+.project-card .icon-shot-bg .icon-bg > img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  filter: blur(22px) saturate(1.1);
+  transform: scale(1.08);
+  transition: none;
+}
+.project-card .icon-shot-bg::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(55% 60% at 50% 50%, rgba(10, 10, 11, 0.1) 0%, rgba(10, 10, 11, 0.42) 100%);
+}
+html[data-theme="light"] .project-card .icon-shot-bg::before {
+  background: radial-gradient(55% 60% at 50% 50%, rgba(246, 245, 242, 0.12) 0%, rgba(246, 245, 242, 0.38) 100%);
+}
+.project-card:hover .icon-shot-bg .icon-bg > img { transform: scale(1.08); }
+/* Audi card: the prototype's name, styled after its own wordmark slot
+   (uppercase, wide tracking, titanium on near-black, red accent).
+   Site font only — no Audi typefaces, rings or other official assets. */
+.project-card .name-shot {
+  display: grid;
+  place-items: center;
+  padding: clamp(1.6rem, 4vw, 3rem);
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(245, 5, 55, 0.14) 0%, transparent 70%),
+    linear-gradient(160deg, #111112 0%, #050505 70%);
+  border-bottom: 1px solid var(--line);
+}
+.project-card .name-shot::after { display: none; }
+.name-mark {
+  display: flex; flex-direction: column; align-items: center;
+  font-family: var(--sans);
+  text-transform: uppercase;
+  text-align: center;
+  transition: transform 0.9s var(--ease);
+}
+.name-kicker {
+  font-family: var(--mono);
+  font-size: clamp(0.6rem, 0.9vw, 0.7rem);
+  letter-spacing: 0.32em;
+  color: #8b8e92;
+  margin-bottom: clamp(0.8rem, 1.6vw, 1.1rem);
+  padding-left: 0.32em;
+}
+.name-main {
+  font-size: clamp(1.7rem, 3.6vw, 2.9rem);
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  padding-left: 0.22em; /* balance trailing tracking so it centres */
+  line-height: 1;
+  color: #FFFFFF;
+}
+.name-rule {
+  width: clamp(2.2rem, 4vw, 3rem);
+  height: 2px;
+  background: #f50537;
+  margin: clamp(0.9rem, 1.8vw, 1.25rem) 0;
+}
+.name-sub {
+  font-size: clamp(0.8rem, 1.3vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  padding-left: 0.5em;
+  color: #b6b9bc;
+}
+.project-card:hover .name-mark { transform: scale(1.03); }
+.project-card:hover .icon-shot img.app-tile { transform: translateY(-4px) scale(1.03); }
+.project-card .body { padding: clamp(1.1rem, 2.2vw, 1.6rem); display: flex; flex-direction: column; gap: 0.2rem; flex: 1; position: relative; z-index: 1; background: var(--card); }
 .project-card .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.1rem; }
+.metrics-names .metric { display: flex; align-items: center; }
 .project-card .arrow-link { margin-top: auto; }
 
 /* matrix (toolbox) */
@@ -381,6 +513,23 @@ html[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; }
 .page-hero h1 { font-size: clamp(2.6rem, 7vw, 5.4rem); letter-spacing: -0.045em; line-height: 1; margin: 0.2rem 0 1.2rem; }
 .page-hero .lede { margin-bottom: 1.1rem; }
 .page-hero .pills { margin-top: 1.4rem; }
+
+/* Lyceum real app icon (book + sound bars) — not the companion pet */
+.page-hero .app-icon {
+  display: block;
+  width: clamp(72px, 9vw, 104px);
+  height: auto;
+  margin: 0 0 0.85rem;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.35));
+}
+h3 .app-icon-sm, .flagship .app-icon-sm, .project-card .app-icon-sm {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.18em;
+  margin-right: 0.4rem;
+}
+
 .case-down { display: inline-grid; place-items: center; width: 2.6rem; height: 2.6rem; margin-top: 1.8rem; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
 .case-down:hover { border-color: var(--accent-line); color: var(--accent); }
 .case-down svg { width: 1.2rem; height: 1.2rem; }
@@ -396,9 +545,19 @@ html[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; }
 .mac-dots i:nth-child(3) { background: #28C840; }
 .mac-title { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mac-count { justify-self: end; font-family: var(--mono); font-size: 0.66rem; color: var(--ink-faint); }
-.mac-screen { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--card-2); }
+.mac-screen { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--card-2); transition: aspect-ratio 0.45s var(--ease); }
 .mac-screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0; transition: opacity 0.45s var(--ease); }
 .mac-screen img.is-on { opacity: 1; }
+/* Transcribe / Study stills are wide, tight crops (no letterbox in the file).
+   Shrink the stage to the image aspect so they fill the frame — contain
+   inside 16/10 would just recreate a thin letterboxed strip. */
+.mac-screen:has(img.is-on[src*="02-transcription"]) { aspect-ratio: 2560 / 468; background: #161618; }
+.mac-screen:has(img.is-on[src*="03-master-note"]) { aspect-ratio: 2560 / 493; background: #161618; }
+.mac-screen img[src*="02-transcription"],
+.mac-screen img[src*="03-master-note"] {
+  object-fit: contain;
+  object-position: center center;
+}
 .mac.browser, .mac.browser .mac-screen { background: #000; }
 .mac.browser img, .mac.browser video { width: 100%; height: auto; background: #000; }
 .mac.browser .mac-screen img { height: 100%; }
@@ -423,7 +582,10 @@ html[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; }
 .tour-step:not(.is-active) p { opacity: 0.75; }
 .tour-step .mobile-shot { display: none; }
 .scheme-img { display: grid; width: 100%; }
-.scheme-img > img { grid-area: 1 / 1; width: 100%; }
+.scheme-img > img, .scheme-img > picture { grid-area: 1 / 1; width: 100%; }
+.scheme-img picture { display: block; width: 100%; }
+.scheme-img picture img { width: 100%; height: auto; display: block; }
+.scheme-img > img { width: 100%; }
 .scheme-img .on-dark { opacity: 0; pointer-events: none; }
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) .scheme-img .on-light { opacity: 0; }
@@ -435,7 +597,6 @@ html[data-theme="dark"] .scheme-img .on-dark { opacity: 1; pointer-events: auto;
 .stack-card h2, .demo h2, .closing h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); margin-bottom: 0.9rem; }
 .demo figure { margin: 0; }
 .demo figcaption { margin-top: 0.9rem; font-size: 0.88rem; color: var(--ink-faint); }
-.demo .shot img { width: 100%; }
 
 /* ---------- about page ---------- */
 .about { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(1rem, 2vw, 1.6rem); align-items: start; }
@@ -485,18 +646,55 @@ canvas.agents { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3
 .avc-hero { margin: 0 0 0; }
 .levels-head { max-width: 46em; margin-bottom: 1.6rem; }
 .lv { padding: clamp(1rem, 2vw, 1.6rem); }
-.lv-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.5rem; margin-bottom: 1.4rem; }
+.lv-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.3rem, 0.9vw, 0.55rem);
+  margin-bottom: 1.4rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
 .lv-tab {
-  all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 0.25rem;
-  padding: 0.8rem 0.9rem; border-radius: 12px; border: 1px solid var(--line); background: var(--card-2);
-  color: var(--ink-faint); transition: border-color 0.3s, color 0.3s, background 0.3s;
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.25rem;
+  min-width: 0;
+  width: 100%;
+  padding: 0.75rem 0.4rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  color: var(--ink-faint);
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
 }
 .lv-tab:hover { color: var(--ink); border-color: var(--line-strong); }
 .lv-tab:focus-visible { box-shadow: var(--focus); }
 .lv-tab.is-on { color: var(--ink); border-color: var(--accent); background: var(--accent-soft); }
-.lv-num { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; }
+.lv-num {
+  font-family: var(--mono);
+  font-size: clamp(0.6rem, 1.15vw, 0.72rem);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+}
 .lv-tab.is-on .lv-num { color: var(--accent); }
-.lv-name { font-weight: 700; font-size: clamp(0.95rem, 1.6vw, 1.15rem); letter-spacing: -0.01em; }
+.lv-name {
+  font-weight: 700;
+  font-size: clamp(0.72rem, 1.35vw, 1.12rem);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+}
 .lv-body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr); gap: clamp(1.2rem, 3vw, 2.6rem); align-items: start; }
 .lv-body:focus-visible { box-shadow: var(--focus); border-radius: 12px; }
 .lv-screen { position: relative; aspect-ratio: 1800 / 1164; background: #000; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
@@ -558,13 +756,32 @@ canvas.agents { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3
   .fc-1 { left: -0.4rem; }
   .fc-2 { right: -0.4rem; }
   .float-card { max-width: 12.5rem; padding: 0.65rem 0.8rem; }
-  .lv-tabs { grid-template-columns: repeat(5, minmax(4.4rem, 1fr)); overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
-  .lv-tabs::-webkit-scrollbar { display: none; }
-  .lv-tab { padding: 0.6rem 0.65rem; }
+  .lv-tab { padding: 0.55rem 0.3rem; }
   .phone img { border-width: 3px; border-radius: 16px; }
   .phones-row { gap: 0.6rem; }
   .phones-row li:nth-child(2) { transform: none; }
   .display-word { font-size: 42vw; top: 0.4em; }
+}
+
+/* Climb-the-club tabs: 3+2 wrap, centred, on narrow phones */
+@media (max-width: 560px) {
+  .lv-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.4rem;
+    overflow: visible;
+  }
+  .lv-tab {
+    flex: 0 1 calc((100% - 0.8rem) / 3);
+    max-width: calc((100% - 0.8rem) / 3);
+    width: auto;
+    padding: 0.55rem 0.3rem;
+  }
+  .lv-name { font-size: 0.8rem; white-space: nowrap; }
+  .lv-num { font-size: 0.62rem; }
+  .lv-screen { max-width: 100%; }
 }
 
 /* ---------- reduced motion: everything still ---------- */
