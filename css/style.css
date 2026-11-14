@@ -951,3 +951,27 @@ body { position: relative; }
 /* Variant toggle: add class "chips-red" to the Lyceum .metrics-names list
    to colour the section names like the Audi numbers. */
 .metrics-names.chips-red .metric b.word { color: var(--accent); }
+
+/* Variant toggle: "chips-green" on the Lyceum .metrics-names list — neon
+   green from the app icon's sound bars; deeper shade in light theme. */
+.project-card:has(.chips-green) { --lyc-green: #067A50; --lyc-green-soft: rgba(6, 122, 80, 0.10); --lyc-green-line: rgba(6, 122, 80, 0.34); --lyc-green-glow: transparent; }
+html[data-theme="dark"] .project-card:has(.chips-green) { --lyc-green: #3DF5A0; --lyc-green-soft: rgba(61, 245, 160, 0.10); --lyc-green-line: rgba(61, 245, 160, 0.36); --lyc-green-glow: rgba(61, 245, 160, 0.38); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .project-card:has(.chips-green) { --lyc-green: #3DF5A0; --lyc-green-soft: rgba(61, 245, 160, 0.10); --lyc-green-line: rgba(61, 245, 160, 0.36); --lyc-green-glow: rgba(61, 245, 160, 0.38); }
+}
+.metrics-names.chips-green .metric b.word { color: var(--lyc-green); text-shadow: 0 0 14px var(--lyc-green-glow); }
+.project-card:has(.chips-green).card-glow::after { background: radial-gradient(70% 60% at 100% 0%, var(--lyc-green-soft), transparent 70%); }
+.project-card:has(.chips-green):hover { border-color: var(--lyc-green-line); }
+
+/* Lyceum home card in the app's green: diamond marker and "Open the case".
+   Same tokens as .chips-green (neon mint + halo in dark, emerald in light). */
+.card-green { --lyc-green: #067A50; --lyc-green-soft: rgba(6, 122, 80, 0.10); --lyc-green-line: rgba(6, 122, 80, 0.34); --lyc-green-glow: transparent; }
+html[data-theme="dark"] .card-green { --lyc-green: #3DF5A0; --lyc-green-soft: rgba(61, 245, 160, 0.10); --lyc-green-line: rgba(61, 245, 160, 0.36); --lyc-green-glow: rgba(61, 245, 160, 0.38); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .card-green { --lyc-green: #3DF5A0; --lyc-green-soft: rgba(61, 245, 160, 0.10); --lyc-green-line: rgba(61, 245, 160, 0.36); --lyc-green-glow: rgba(61, 245, 160, 0.38); }
+}
+.card-green .ov::before { background: var(--lyc-green); box-shadow: 0 0 10px var(--lyc-green-glow); }
+.card-green .arrow-link { color: var(--lyc-green); text-shadow: 0 0 14px var(--lyc-green-glow); }
+.card-green .arrow-link svg { filter: drop-shadow(0 0 6px var(--lyc-green-glow)); }
+.card-green.card-glow::after { background: radial-gradient(70% 60% at 100% 0%, var(--lyc-green-soft), transparent 70%); }
+.card-green:hover { border-color: var(--lyc-green-line); }
