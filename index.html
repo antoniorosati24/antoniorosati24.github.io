@@ -140,10 +140,60 @@
 
     <section class="section" id="work" aria-labelledby="work-title">
       <div class="wrap">
-        <div class="work-head" data-reveal>
-          <p class="ov">Selected work</p>
-          <h2 class="sec-title" id="work-title">Work</h2>
-          <p class="work-note">Two things I have built.</p>
+        <div class="work-intro">
+          <div class="work-head" data-reveal>
+            <p class="ov">Selected work</p>
+            <h2 class="sec-title" id="work-title">Work</h2>
+            <p class="work-note">Two things I have built.</p>
+            <p class="retro-hint">Switch the computer on, then swipe through the projects and open one.</p>
+          </div>
+
+          <!-- retro desktop computer: an original drawing of a late-90s translucent all-in-one; one project per screen page -->
+          <figure class="retro" data-retro data-reveal style="--d:120ms">
+            <div class="retro-machine">
+              <div class="retro-body">
+                <span class="retro-shell-gloss" aria-hidden="true"></span>
+                <div class="retro-bezel">
+                  <div class="retro-screen" data-no-agents data-retro-screen>
+                    <div class="retro-glass" aria-hidden="true"></div>
+                    <div class="retro-display">
+                      <div class="retro-wall" aria-hidden="true"><i></i><i></i></div>
+                      <div class="retro-menubar" aria-hidden="true"><span class="retro-bar-mark"></span><b>AR</b><span>Work</span><span class="retro-count" data-retro-count></span></div>
+                      <div class="retro-boot" aria-hidden="true">
+                        <span class="retro-boot-mark"></span>
+                        <span class="retro-boot-bar"><i></i></span>
+                        <span class="retro-boot-text">Starting up…</span>
+                      </div>
+                      <div class="retro-desk" data-retro-desk role="region" aria-roledescription="carousel" aria-label="Projects" tabindex="-1"></div>
+                      <div class="retro-dots" data-retro-dots aria-hidden="true"></div>
+                    </div>
+                    <div class="retro-scan" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <span class="retro-chin" aria-hidden="true"></span>
+                <div class="retro-front">
+                  <span class="retro-speaker l" aria-hidden="true"></span>
+                  <span class="retro-badge" aria-hidden="true"><i></i></span>
+                  <span class="retro-cd" aria-hidden="true"></span>
+                  <span class="retro-callout" aria-hidden="true">
+                    <span class="retro-bubble">Click here</span>
+                    <svg class="retro-callout-arrow" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10 C40 6 64 18 70 50"/><path d="M57 40 L70 54 L78 37"/></svg>
+                  </span>
+                  <button type="button" class="retro-power" data-retro-power aria-pressed="false" aria-label="Turn the computer on"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3.5v8"/><path d="M6.6 7.2a7 7 0 1 0 10.8 0"/></svg></button>
+                  <span class="retro-speaker r" aria-hidden="true"></span>
+                </div>
+              </div>
+              <span class="retro-foot" aria-hidden="true"></span>
+            </div>
+            <figcaption class="sr-only">A retro desktop computer. Its power button turns the screen on to show one project per page; each opens its project page.</figcaption>
+            <!-- the projects on the screen: one entry per project, in order (taglines reuse the site's own copy) -->
+            <script type="application/json" data-retro-apps>
+              [
+                { "name": "Lyceum", "href": "lyceum.html", "icon": "assets/lyceum/app-icon-256.png", "iconWebp": "assets/lyceum/app-icon-256.webp", "tagline": "Lectures and meetings into study documents.", "label": "Lyceum, open the case" },
+                { "name": "H-ACK Audi", "href": "audi.html", "icon": "assets/projects/hack-audi-icon.svg", "tagline": "A myAudi loyalty prototype: five levels, four rings.", "label": "H-ACK Audi: Audi Vorsprung Club, open the case" }
+              ]
+            </script>
+          </figure>
         </div>
 
         <a class="card flagship hover card-glow lyc" href="lyceum.html" data-reveal>

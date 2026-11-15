@@ -2812,6 +2812,186 @@
   }
   initDragCards();
 
+  /* ---------- retro computer: power switch, CRT on/off, a desktop of project icons ----------
+     The icons come from the JSON list in the page (one entry per project).
+     One project per page; pages scroll sideways: finger swipe and trackpad
+     scroll are native (scroll-snap); mouse drag and the arrow keys are added
+     here. Neighbouring pages drift with a light parallax. */
+  function initRetro() {
+    var root = document.querySelector("[data-retro]");
+    if (!root) return;
+    var power = root.querySelector("[data-retro-power]");
+    var screen = root.querySelector("[data-retro-screen]");
+    var desk = root.querySelector("[data-retro-desk]");
+    var dotsBox = root.querySelector("[data-retro-dots]");
+    var count = root.querySelector("[data-retro-count]");
+    var dataEl = root.querySelector("[data-retro-apps]");
+    if (!power || !screen || !desk) return;
+    var apps = [];
+    try { apps = JSON.parse(dataEl ? dataEl.textContent : "[]") || []; } catch (e) { apps = []; }
+    var PER_PAGE = 1, on = false, timers = [], pages = [], dots = [];
+
+    function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+    function render() {
+      desk.innerHTML = "";
+      pages = []; dots = [];
+      var nPages = Math.max(1, Math.ceil(apps.length / PER_PAGE));
+      for (var p = 0; p < nPages; p++) {
+        var page = el("div", "retro-page");
+        var list = apps.slice(p * PER_PAGE, (p + 1) * PER_PAGE);
+                list.forEach(function (app) {
+          var a = el("a", "retro-app");
+          a.href = app.href;
+          a.draggable = false;
+          a.setAttribute("aria-label", app.label || app.name);
+          var ic = el("span", "retro-app-icon");
+          var pic = el("picture");
+          if (app.iconWebp) {
+            var so = el("source"); so.type = "image/webp"; so.srcset = app.iconWebp; pic.appendChild(so);
+          }
+          var img = el("img"); img.src = app.icon; img.alt = ""; img.width = 256; img.height = 256;
+          img.decoding = "async"; img.draggable = false;
+          pic.appendChild(img); ic.appendChild(pic);
+          var nm = el("span", "retro-app-name"); nm.textContent = app.name;
+          a.appendChild(ic); a.appendChild(nm);
+          if (app.tagline) { var tg = el("span", "retro-app-tag"); tg.textContent = app.tagline; a.appendChild(tg); }
+          var op = el("span", "retro-app-open"); op.textContent = "Open"; op.setAttribute("aria-hidden", "true"); a.appendChild(op);
+          page.appendChild(a);
+        });
+        desk.appendChild(page);
+        pages.push(page);
+      }
+      if (dotsBox) {
+        dotsBox.innerHTML = "";
+        if (nPages > 1) for (var d = 0; d < nPages; d++) { var dot = el("i"); dotsBox.appendChild(dot); dots.push(dot); }
+      }
+      sync();
+      controls();
+    }
+    function pageIndex() {
+      var w = desk.clientWidth || 1;
+      return Math.max(0, Math.min(pages.length - 1, Math.round(desk.scrollLeft / w)));
+    }
+    var display = root.querySelector(".retro-display");
+    function sync() {
+      var i = pageIndex(), w = desk.clientWidth || 1, sl = desk.scrollLeft;
+      pages.forEach(function (pg, k) {
+        var o = (k * w - sl) / w, oa = Math.min(1, Math.abs(o));
+        pg.style.setProperty("--o", o.toFixed(3));
+        pg.style.setProperty("--oa", oa.toFixed(3));
+        pg.classList.toggle("is-current", k === i);
+        pg.setAttribute("aria-hidden", k === i ? "false" : "true");
+        var a = pg.querySelector(".retro-app");
+        if (a) a.tabIndex = on && k === i ? 0 : -1;
+      });
+      if (display) display.style.setProperty("--rt-par", (sl / w).toFixed(3));
+      dots.forEach(function (d, k) { d.classList.toggle("on", k === i); });
+      if (count) count.textContent = (i + 1) + " / " + pages.length;
+    }
+    function goPage(i, instant) {
+      i = Math.max(0, Math.min(pages.length - 1, i));
+      desk.scrollTo({ left: i * desk.clientWidth, behavior: instant || reduce ? "auto" : "smooth" });
+    }
+    function controls() {
+      desk.tabIndex = on ? 0 : -1;
+      sync();
+      power.setAttribute("aria-pressed", on ? "true" : "false");
+      power.setAttribute("aria-label", on ? "Turn the computer off" : "Turn the computer on");
+    }
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+    function turnOn() {
+      if (on) return;
+      on = true;
+      clearTimers();
+      root.classList.remove("is-closing");
+      controls();
+      if (reduce) { root.classList.add("is-on"); return; }
+      root.classList.add("is-powering", "is-booting");
+      later(function () { root.classList.add("is-on"); root.classList.remove("is-powering"); }, 620);
+      later(function () { root.classList.remove("is-booting"); }, 1900);
+    }
+    function turnOff() {
+      if (!on) return;
+      on = false;
+      clearTimers();
+      if (root.contains(document.activeElement) && document.activeElement !== power) power.focus();
+      root.classList.remove("is-booting", "is-powering", "is-on");
+      controls();
+      if (reduce) return;
+      root.classList.add("is-closing");
+      later(function () { root.classList.remove("is-closing"); }, 440);
+    }
+    power.addEventListener("click", function () { if (on) turnOff(); else turnOn(); });
+    screen.addEventListener("click", function (e) { if (!on) { e.preventDefault(); turnOn(); } });
+    root.addEventListener("keydown", function (e) {
+      if (!on || pages.length < 2) return;
+      if (e.key === "ArrowLeft") { e.preventDefault(); goPage(pageIndex() - 1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); goPage(pageIndex() + 1); }
+    });
+    var syncRaf = 0;
+    desk.addEventListener("scroll", function () {
+      if (syncRaf) return;
+      syncRaf = requestAnimationFrame(function () { syncRaf = 0; sync(); });
+    }, { passive: true });
+    window.addEventListener("resize", function () { goPage(pageIndex(), true); }, { passive: true });
+
+    /* mouse drag (touch and trackpads scroll natively) */
+    var drag = null, suppressClick = false;
+    desk.addEventListener("pointerdown", function (e) {
+      if (!on || e.pointerType !== "mouse" || e.button !== 0) return;
+      drag = { id: e.pointerId, x: e.clientX, left: desk.scrollLeft, page: pageIndex(), moved: false, t: performance.now() };
+    });
+    desk.addEventListener("pointermove", function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      if (!drag.moved) {
+        if (Math.abs(dx) < 5) return;
+        drag.moved = true;
+        desk.classList.add("is-dragging");
+        try { desk.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      desk.scrollLeft = drag.left - dx;
+    });
+    function endDrag(e) {
+      if (!drag || (e && e.pointerId !== drag.id)) return;
+      var d = drag; drag = null;
+      if (!d.moved) return;
+      desk.classList.remove("is-dragging");
+      suppressClick = true;
+      setTimeout(function () { suppressClick = false; }, 80);
+      var w = desk.clientWidth || 1, moved = desk.scrollLeft - d.left;
+      var v = moved / Math.max(1, performance.now() - d.t);
+      var target = d.page;
+      if (moved > w * 0.15 || v > 0.5) target = d.page + 1;
+      else if (moved < -w * 0.15 || v < -0.5) target = d.page - 1;
+      goPage(target);
+    }
+    desk.addEventListener("pointerup", endDrag);
+    desk.addEventListener("pointercancel", endDrag);
+    desk.addEventListener("click", function (e) { if (suppressClick) { e.preventDefault(); e.stopPropagation(); } }, true);
+    desk.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    /* a short pressed state on the icon before the page opens, like a desktop */
+    desk.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest(".retro-app");
+      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      a.classList.add("is-pressed");
+      setTimeout(function () { location.href = a.href; }, reduce ? 0 : 160);
+    });
+
+    render();
+    if (/\barcap=1\b/.test(location.search)) {
+      window.__retro = {
+        on: turnOn, off: turnOff, page: pageIndex, goPage: goPage,
+        state: function () { return { on: on, page: pageIndex(), pages: pages.length, apps: apps.length }; },
+        /* test only: fill the desktop with copies to exercise paging */
+        addDemo: function (n) { for (var k = 0; k < n; k++) apps.push({ name: "Demo " + (k + 1), href: "#", icon: apps[k % 2].icon }); render(); }
+      };
+    }
+  }
+  initRetro();
+
   initMarks();
   initAgents();
 
