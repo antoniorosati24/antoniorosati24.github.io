@@ -1123,3 +1123,12 @@ html[data-theme="dark"] .feat-window {
 a.card.flagship { display: grid; }
 .feat-wide .feat-copy { align-items: end; }
 .feat-wide .feat-body { padding-top: 0; padding-bottom: 0.2rem; }
+
+/* round 14: no sideways scroll on phones. clip (not hidden) keeps position: sticky working. */
+html, body { overflow-x: clip; max-width: 100%; }
+@supports not (overflow-x: clip) {
+  html, body { overflow-x: hidden; }
+}
+.ag-fx { right: 0; width: auto; overflow-x: clip; }
+canvas.agents { width: 100% !important; max-width: 100%; }
+.hero, .page-hero { overflow-x: clip; }
