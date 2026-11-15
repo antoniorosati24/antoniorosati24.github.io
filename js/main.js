@@ -367,7 +367,8 @@
 
     var placedW = 0, placedDocH = 0;
     function sizeCanvas() {
-      W = window.innerWidth;
+      /* layout width, never wider than the page (some mobile browsers report a larger innerWidth) */
+      W = Math.min(window.innerWidth, document.documentElement.clientWidth || window.innerWidth);
       H = window.innerHeight;
       dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
       canvas.width = Math.round(W * dpr);
