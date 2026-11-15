@@ -43,6 +43,18 @@
       else el.media = "(prefers-color-scheme: dark)";
     });
   }
+  /* the browser bar colour follows a manual light/dark choice too */
+  function applyThemeColor() {
+    var s = storedTheme();
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+      if (!m.hasAttribute("data-media")) m.setAttribute("data-media", m.getAttribute("media") || "");
+      var orig = m.getAttribute("data-media");
+      var forDark = orig.indexOf("dark") !== -1;
+      if (s === "dark") m.setAttribute("media", forDark ? "all" : "not all");
+      else if (s === "light") m.setAttribute("media", forDark ? "not all" : "all");
+      else m.setAttribute("media", orig);
+    });
+  }
   function updateToggle() {
     var s = storedTheme();
     var label;
@@ -64,6 +76,7 @@
     }
     updateToggle();
     applyPictures();
+    applyThemeColor();
     document.dispatchEvent(new CustomEvent("themechange", { detail: { dark: isDark() } }));
   }
   document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
@@ -83,6 +96,7 @@
   }
   updateToggle();
   applyPictures();
+  applyThemeColor();
 
 
   /* ---------- page enter / leave ---------- */
@@ -307,6 +321,28 @@
     var de = document.documentElement;
     return (de && de.clientWidth) || (document.body && document.body.clientWidth) || 0;
   }
+  /* screen insets (notch, island, home bar, rounded corners), read from the
+     --safe-* CSS values; all 0 on desktop. Cached, refreshed on resize. */
+  var safeProbe = null, safeCache = null;
+  function safeInsets() {
+    if (safeCache) return safeCache;
+    var z = { t: 0, r: 0, b: 0, l: 0 };
+    if (!document.body) return z;
+    if (!safeProbe) {
+      safeProbe = document.createElement("div");
+      safeProbe.setAttribute("aria-hidden", "true");
+      safeProbe.style.cssText = "position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;" +
+        "padding:var(--safe-t,0px) var(--safe-r,0px) var(--safe-b,0px) var(--safe-l,0px)";
+      document.body.appendChild(safeProbe);
+    }
+    var cs = getComputedStyle(safeProbe);
+    z.t = parseFloat(cs.paddingTop) || 0; z.r = parseFloat(cs.paddingRight) || 0;
+    z.b = parseFloat(cs.paddingBottom) || 0; z.l = parseFloat(cs.paddingLeft) || 0;
+    safeCache = z;
+    return z;
+  }
+  window.addEventListener("resize", function () { safeCache = null; });
+  window.addEventListener("orientationchange", function () { safeCache = null; });
 
   function getScroll() {
     if (lenis && typeof lenis.scroll === "number") return lenis.scroll;
@@ -353,7 +389,11 @@
     var CM = 160, canvasY = null;
     /* agent sprite width: x is clamped to [0, W - AGW] */
     var AGW = 22;
-    function clampX(x) { return Math.min(Math.max(0, W - AGW), Math.max(0, x)); }
+    function clampX(x) {
+      /* inside the page and clear of a landscape notch / rounded corner */
+      var si = safeInsets(), lo = si.l, hi = Math.max(lo, W - AGW - si.r);
+      return Math.min(hi, Math.max(lo, x));
+    }
 
     function palette() {
       return dark
@@ -2484,7 +2524,8 @@
       card.style.bottom = "auto";
       var r = card.getBoundingClientRect();
       var m = 8;
-      var topMin = 8;
+      var si = safeInsets();
+      var topMin = 8 + si.t;
       if (nav) {
         var nb = nav.getBoundingClientRect().bottom;
         if (nb > 0) topMin = Math.max(topMin, nb + 4);
@@ -2492,7 +2533,7 @@
       var dx = 0, dy = 0;
       var pw = pageWidth() || window.innerWidth;
       if (r.top < topMin) dy = topMin - r.top;
-      if (r.bottom > window.innerHeight - m) dy = (window.innerHeight - m) - r.bottom;
+      if (r.bottom > window.innerHeight - m - si.b) dy = (window.innerHeight - m - si.b) - r.bottom;
       var hero = root.closest(".hero") || root;
       var hr = hero.getBoundingClientRect();
       /* stay in the hero, with a little slack so the designed hang-off is still legal */
@@ -2502,8 +2543,8 @@
       if (r.top + dy < hr.top - 8) dy = (hr.top - 8) - r.top;
       if (r.bottom + dy > hr.bottom + 8) dy = (hr.bottom + 8) - r.bottom;
       /* the page width always wins: never past either edge */
-      if (r.left + dx < m) dx = m - r.left;
-      if (r.right + dx > pw - m) dx = (pw - m) - r.right;
+      if (r.left + dx < m + si.l) dx = (m + si.l) - r.left;
+      if (r.right + dx > pw - m - si.r) dx = (pw - m - si.r) - r.right;
       if (dx || dy) {
         left += dx;
         top += dy;
