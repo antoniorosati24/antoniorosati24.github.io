@@ -220,7 +220,7 @@
             return window.scrollY || 0;
           },
           getBoundingClientRect: function () {
-            return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+            return { top: 0, left: 0, width: pageWidth(), height: window.innerHeight };
           },
         });
       }
@@ -301,6 +301,13 @@
      current (Lenis) scroll, so they move with the content. The escort
      of three stays screen-relative to the visitor's pointer.
      Reduced motion removes the canvas entirely. */
+  /* the page's layout width: clientWidth only (innerWidth and screen width can
+     be wider than the page on phones and would let content push it sideways) */
+  function pageWidth() {
+    var de = document.documentElement;
+    return (de && de.clientWidth) || (document.body && document.body.clientWidth) || 0;
+  }
+
   function getScroll() {
     if (lenis && typeof lenis.scroll === "number") return lenis.scroll;
     return window.scrollY || document.documentElement.scrollTop || 0;
@@ -333,6 +340,20 @@
     var dark = isDark();
     var mouse = { x: 0, y: 0, on: false, movedAt: 0, dirX: 0, dirY: 1 };
     var lastSy = 0, fxRoot = null;
+    /* ONE layer holds everything cursor-related (canvas, selections, carets,
+       traces): absolute, as tall as the page, clipped (overflow hidden +
+       contain paint), so nothing the cursors draw can ever widen the page. */
+    var layer = document.createElement("div");
+    layer.className = "ag-layer";
+    layer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(layer);
+    layer.appendChild(canvas);
+    /* the canvas rides inside the layer at the scroll offset, with a margin
+       above and below so fast scrolling never exposes an undrawn edge */
+    var CM = 160, canvasY = null;
+    /* agent sprite width: x is clamped to [0, W - AGW] */
+    var AGW = 22;
+    function clampX(x) { return Math.min(Math.max(0, W - AGW), Math.max(0, x)); }
 
     function palette() {
       return dark
@@ -361,21 +382,23 @@
       fxRoot = document.createElement("div");
       fxRoot.className = "ag-fx";
       fxRoot.setAttribute("aria-hidden", "true");
-      document.body.appendChild(fxRoot);
+      layer.insertBefore(fxRoot, canvas);
       return fxRoot;
     }
 
     var placedW = 0, placedDocH = 0;
     function sizeCanvas() {
-      /* layout width, never wider than the page (some mobile browsers report a larger innerWidth) */
-      W = Math.min(window.innerWidth, document.documentElement.clientWidth || window.innerWidth);
+      /* layout width of the page, never the window or screen width */
+      W = pageWidth() || window.innerWidth;
       H = window.innerHeight;
       dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
       canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
+      canvas.height = Math.round((H + CM * 2) * dpr);
       canvas.style.width = W + "px";
-      canvas.style.height = H + "px";
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      canvas.style.height = (H + CM * 2) + "px";
+      /* y = 0 is the top of the viewport; the margin band sits above and below */
+      ctx.setTransform(dpr, 0, 0, dpr, 0, CM * dpr);
+      canvasY = null;
       measureDoc();
     }
     function redistribute() {
@@ -668,9 +691,10 @@
     }
 
     function placeFx(el, r, sy) {
-      el.style.left = r.left + "px";
+      var l = Math.max(0, r.left), rr = Math.min(W, r.right);
+      el.style.left = l + "px";
       el.style.top = (r.top + sy) + "px";
-      el.style.width = r.width + "px";
+      el.style.width = Math.max(0, rr - l) + "px";
       el.style.height = Math.max(2, r.height) + "px";
     }
 
@@ -719,7 +743,7 @@
       var span = pickTextSpan(true);
       if (!span) return false;
       var r = span.rects[span.rects.length - 1];
-      var tx = r.right + 2, ty = r.top + r.height * 0.5 + sy;
+      var tx = Math.min(W - 4, r.right + 2), ty = r.top + r.height * 0.5 + sy;
       var ag = nearest(pool, tx, ty, sy);
       if (!ag) return false;
       var caret = document.createElement("div");
@@ -802,6 +826,8 @@
       var d = document.createElement("div");
       d.className = "ag-trace ag-trace-" + kind;
       if (w == null) { w = 24; h = 24; }
+      w = Math.min(w, W);
+      docX = Math.min(W - w / 2, Math.max(w / 2, docX));
       d.style.left = (docX - w / 2) + "px";
       d.style.top = (docY - h / 2) + "px";
       d.style.width = w + "px";
@@ -1252,6 +1278,18 @@
         }
       }
 
+      /* hard horizontal bounds: every agent, home and target stays inside the page */
+      for (i = 0; i < n; i++) {
+        ag = agents[i];
+        if (ag.role === "escort") { ag.x = clampX(ag.x); ag.docX = ag.x; }
+        else ag.docX = clampX(ag.docX);
+        if (ag.hx != null) ag.hx = clampX(ag.hx);
+        if (ag.job) {
+          if (ag.job.tx != null) ag.job.tx = clampX(ag.job.tx);
+          if (ag.job.x2 != null) ag.job.x2 = clampX(ag.job.x2);
+        }
+      }
+
       /* ripples live in document space */
       for (i = ripples.length - 1; i >= 0; i--) {
         var rp = ripples[i];
@@ -1661,13 +1699,18 @@
 
     function draw(sy) {
       if (sy == null) sy = getScroll();
-      ctx.clearRect(0, 0, W, H);
+      var cy = Math.round((sy - CM) * 100) / 100;
+      if (cy !== canvasY) {
+        canvasY = cy;
+        canvas.style.transform = "translate3d(0," + cy + "px,0)";
+      }
+      ctx.clearRect(0, -CM, W, H + CM * 2);
       var i, ag, rp, tr, p, vx, vy, margin = 90;
       var noRects = noAgentEls.length ? noAgentRects(0) : [];
       if (noRects.length) {
         ctx.save();
         ctx.beginPath();
-        ctx.rect(0, 0, W, H);
+        ctx.rect(0, -CM, W, H + CM * 2);
         for (var nr = 0; nr < noRects.length; nr++) {
           var q = noRects[nr];
           ctx.moveTo(q.l, q.t); ctx.lineTo(q.l, q.b); ctx.lineTo(q.r, q.b); ctx.lineTo(q.r, q.t); ctx.closePath();
@@ -1797,6 +1840,10 @@
 
     window.addEventListener("resize", function () {
       resize();
+    }, { passive: true });
+    window.addEventListener("orientationchange", function () {
+      resize();
+      setTimeout(resize, 350);
     }, { passive: true });
 
     window.addEventListener("pointermove", function (e) {
@@ -2092,6 +2139,13 @@
       svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("class", "key-ink");
       svg.setAttribute("aria-hidden", "true");
+      /* size it BEFORE it enters the page: an unsized svg is 300 x 150 by
+         default, and next to a phrase near the right edge that default box
+         alone made the page 200+ px wider on phones */
+      svg.setAttribute("width", "0");
+      svg.setAttribute("height", "0");
+      svg.style.width = "0px";
+      svg.style.height = "0px";
       el.appendChild(svg);
     }
     /* pad so a wavy stroke is not clipped.
@@ -2103,6 +2157,9 @@
     var left = parent.left - first.left - pad;
     var top = parent.top - first.top - pad;
     var w = parent.width + pad * 2, h = parent.height + pad * 2;
+    /* never reach past the right edge of the page */
+    var pw = pageWidth();
+    if (pw && parent.left - pad + w > pw) w = Math.max(4, pw - (parent.left - pad));
     svg.style.left = left + "px";
     svg.style.top = top + "px";
     svg.style.width = w + "px";
@@ -2433,8 +2490,7 @@
         if (nb > 0) topMin = Math.max(topMin, nb + 4);
       }
       var dx = 0, dy = 0;
-      if (r.left < m) dx = m - r.left;
-      if (r.right > window.innerWidth - m) dx = (window.innerWidth - m) - r.right;
+      var pw = pageWidth() || window.innerWidth;
       if (r.top < topMin) dy = topMin - r.top;
       if (r.bottom > window.innerHeight - m) dy = (window.innerHeight - m) - r.bottom;
       var hero = root.closest(".hero") || root;
@@ -2445,6 +2501,9 @@
       if (r.right + dx > hr.right + slack) dx = (hr.right + slack) - r.right;
       if (r.top + dy < hr.top - 8) dy = (hr.top - 8) - r.top;
       if (r.bottom + dy > hr.bottom + 8) dy = (hr.bottom + 8) - r.bottom;
+      /* the page width always wins: never past either edge */
+      if (r.left + dx < m) dx = m - r.left;
+      if (r.right + dx > pw - m) dx = (pw - m) - r.right;
       if (dx || dy) {
         left += dx;
         top += dy;
