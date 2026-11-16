@@ -1702,8 +1702,8 @@
       return (ag.role === "work" || ag.role === "meet") && ag.job && ag.job.kind;
     }
 
-    function drawPointer(ag, vx, vy) {
-      var a = ag.alpha * ag.vis;
+    function drawPointer(ag, vx, vy, dim) {
+      var a = ag.alpha * ag.vis * (dim || 1);
       if (a < 0.01) return;
       var working = isWorking(ag);
       var kind = working && ag.job.kind;
@@ -1755,17 +1755,9 @@
       }
       ctx.clearRect(0, -CM, W, H + CM * 2);
       var i, ag, rp, tr, p, vx, vy, margin = 90;
+      /* round 22b: pointers are always drawn ON TOP of every frame (no clipping
+         around [data-no-agents] media); over a frame they are only a touch subtler. */
       var noRects = noAgentEls.length ? noAgentRects(0) : [];
-      if (noRects.length) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(0, -CM, W, H + CM * 2);
-        for (var nr = 0; nr < noRects.length; nr++) {
-          var q = noRects[nr];
-          ctx.moveTo(q.l, q.t); ctx.lineTo(q.l, q.b); ctx.lineTo(q.r, q.b); ctx.lineTo(q.r, q.t); ctx.closePath();
-        }
-        ctx.clip("evenodd");
-      }
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       for (i = 0; i < agents.length; i++) {
@@ -1803,9 +1795,12 @@
         if (ag.role === "escort") { vx = ag.x; vy = ag.y; }
         else { vx = ag.docX; vy = ag.docY - sy; }
         if (vy < -margin || vy > H + margin) continue;
-        drawPointer(ag, vx, vy);
+        drawPointer(ag, vx, vy, overRects(noRects, vx, vy) ? 0.82 : 1);
       }
-      if (noRects.length) ctx.restore();
+    }
+    function overRects(list, x, y) {
+      for (var k = 0; k < list.length; k++) { var q = list[k]; if (x > q.l && x < q.r && y > q.t && y < q.b) return true; }
+      return false;
     }
 
     function advance(dt) {
@@ -1985,6 +1980,18 @@
             all: share(all), vis: share(vis),
             jobs: visibleJobCount(sy), kinds: kinds
           };
+        },
+        /* test only: freeze and pin pointers at viewport points to check stacking */
+        place: function (pts) {
+          stop();
+          var sy = getScroll(), n = 0;
+          agents.forEach(function (a) {
+            if (a.role === "escort" || n >= pts.length) { a.vis = 0; return; }
+            var q = pts[n++];
+            a.docX = q.x; a.docY = q.y + sy; a.vis = 1; a.alpha = 1; a.job = null; a.trail = [];
+          });
+          draw(sy);
+          return n;
         },
         scrollTo: function (y) {
           if (lenis && typeof lenis.scrollTo === "function") lenis.scrollTo(y, { immediate: true });
@@ -3120,6 +3127,51 @@
     }
   }
   initRetro();
+
+
+  /* round 22: always-live loops. Muted inline videos play only while on screen and pause offscreen;
+     reduced motion keeps the poster (the first frame). A paused visible loop is resumed at once. */
+  function initLiveVideos() {
+    var vids = Array.prototype.slice.call(document.querySelectorAll("video[data-live-video]"));
+    if (!vids.length) return;
+    var mq = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+    function still() { return !!(mq && mq.matches); }
+    vids.forEach(function (v) {
+      v.muted = true; v.defaultMuted = true; v.loop = true;
+      v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+      v.__inView = false;
+    });
+    function want(v) { return v.__inView && !still() && document.visibilityState !== "hidden"; }
+    function kick(v) {
+      if (!want(v)) { if (!v.paused) v.pause(); return; }
+      if (v.paused) {
+        if (v.preload === "none") v.preload = "auto";
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+    }
+    vids.forEach(function (v) {
+      v.addEventListener("pause", function () { if (want(v)) setTimeout(function () { kick(v); }, 0); });
+      v.addEventListener("ended", function () { try { v.currentTime = 0; } catch (e) {} kick(v); });
+      v.addEventListener("loadeddata", function () { kick(v); });
+    });
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { en.target.__inView = en.isIntersecting; kick(en.target); });
+      }, { rootMargin: "120px 0px" });
+      vids.forEach(function (v) { io.observe(v); });
+    } else {
+      vids.forEach(function (v) { v.__inView = true; kick(v); });
+    }
+    document.addEventListener("visibilitychange", function () { vids.forEach(kick); });
+    window.addEventListener("pageshow", function () { vids.forEach(kick); });
+    if (mq) {
+      var onMq = function () { vids.forEach(function (v) { if (still()) { v.pause(); try { v.currentTime = 0; } catch (e) {} } kick(v); }); };
+      if (mq.addEventListener) mq.addEventListener("change", onMq); else if (mq.addListener) mq.addListener(onMq);
+    }
+    if (/\barcap=1\b/.test(location.search)) window.__vids = vids;
+  }
+  initLiveVideos();
 
   initMarks();
   initAgents();

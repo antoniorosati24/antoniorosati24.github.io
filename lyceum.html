@@ -149,10 +149,10 @@
 
     <section class="section feats" id="app" aria-label="A walk through Lyceum" style="padding-top:0">
       <div class="wrap">
-        <article class="feat  card" id="home" data-reveal>
+        <article class="feat feat-wide card" id="home" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
-              <picture><source type="image/webp" srcset="assets/lyceum/10-home-720.webp 720w, assets/lyceum/10-home.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/10-home.png" width="1308" height="872" alt="Lyceum’s Home: three glass bubbles — Live Listening, Transcribe and Study material — on the app’s soft grey background." loading="lazy" decoding="async"></picture>
+              <video class="feat-video" data-live-video muted playsinline loop preload="auto" disablepictureinpicture poster="assets/lyceum/v22/lyc-bubbles-poster.jpg" width="1920" height="1080" aria-label="Lyceum’s Home: three glass bubbles, Live Listening, Transcribe and Study material, gently moving on the app’s soft grey background."><source src="assets/lyceum/v22/lyc-bubbles.mp4" type="video/mp4"></video>
             </div>
           </figure>
           <div class="feat-copy">
@@ -161,7 +161,7 @@
               <h2>Three workspaces, one home.</h2>
             </div>
             <div class="feat-body">
-              <p>Lessons are saved by subject, with their files.</p>
+              <p>Three glass bubbles open the three workspaces.</p>
               <ul class="feat-chips">
               <li>Live Listening</li>
               <li>Transcribe</li>
@@ -174,7 +174,7 @@
         <article class="feat feat-rev card" id="live" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
-              <picture><source type="image/webp" srcset="assets/lyceum/08-live-720.webp 720w, assets/lyceum/08-live.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/08-live.png" width="1308" height="872" alt="Lyceum’s Live Listening screen: lesson set-up, a large microphone button, Start listening, and “Your voice stays on this Mac”." loading="lazy" decoding="async"></picture>
+              <picture><source type="image/webp" srcset="assets/lyceum/v22/lyc-live-1200.webp 1200w, assets/lyceum/v22/lyc-live-2400.webp 2400w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/v22/lyc-live-2400.jpg" width="2400" height="1350" alt="Lyceum’s Live Listening screen: “Let’s make ideas audible”, the lesson set-up, a large microphone button, Start listening and “Your voice stays on this Mac”." loading="lazy" decoding="async"></picture>
             </div>
           </figure>
           <div class="feat-copy">
@@ -196,7 +196,7 @@
         <article class="feat feat-wide card" id="transcribe" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
-              <picture><source type="image/webp" srcset="assets/lyceum/12-transcribe-1110.webp 1110w, assets/lyceum/12-transcribe.webp 2220w" sizes="(max-width: 860px) 92vw, 1120px"><img src="assets/lyceum/12-transcribe.png" width="2220" height="468" alt="The top of Lyceum’s Transcribe screen: “Transcribe lessons”, the three steps, and the School / Study and Corporate / Meeting modes." loading="lazy" decoding="async"></picture>
+              <picture><source type="image/webp" srcset="assets/lyceum/v22/lyc-transcribe-1200.webp 1200w, assets/lyceum/v22/lyc-transcribe-2400.webp 2400w" sizes="(max-width: 860px) 92vw, 1120px"><img src="assets/lyceum/v22/lyc-transcribe-2400.jpg" width="2400" height="1350" alt="Lyceum’s Transcribe screen: “Transcribe lessons”, the three steps, the School / Study and Corporate / Meeting modes, Create my notes and the lesson set-up." loading="lazy" decoding="async"></picture>
             </div>
           </figure>
           <div class="feat-copy">
@@ -205,9 +205,10 @@
               <h2>Drop in a recording.</h2>
             </div>
             <div class="feat-body">
-              <p>Import a recording; it is transcribed on this Mac.</p>
+              <p>Import a recording and add the lesson PDF; it is transcribed on this Mac.</p>
               <ul class="feat-chips">
               <li>Audio files</li>
+              <li>Lesson PDF</li>
               <li>On this Mac</li>
               </ul>
             </div>
@@ -217,7 +218,7 @@
         <article class="feat feat-wide card" id="study" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
-              <picture><source type="image/webp" srcset="assets/lyceum/03-master-note-1920.webp 1920w, assets/lyceum/03-master-note.webp 2560w" sizes="(max-width: 860px) 92vw, 1120px"><img src="assets/lyceum/03-master-note.png" width="2560" height="493" alt="The top of Lyceum’s Study material screen: “Generate study material”, the three steps, and the two modes." loading="lazy" decoding="async"></picture>
+              <picture><source type="image/webp" srcset="assets/lyceum/v22/lyc-study-1200.webp 1200w, assets/lyceum/v22/lyc-study-2400.webp 2400w" sizes="(max-width: 860px) 92vw, 1120px"><img src="assets/lyceum/v22/lyc-study-2400.jpg" width="2400" height="1350" alt="Lyceum’s Study material screen: “Generate study material”, the three steps, the lesson set-up, the lesson PDF and the supporting transcript." loading="lazy" decoding="async"></picture>
             </div>
           </figure>
           <div class="feat-copy">
@@ -236,40 +237,63 @@
           </div>
         </article>
 
-        <article class="feat  card" id="assistant" data-reveal>
+        <article class="feat  card" id="library" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
-              <picture><source type="image/webp" srcset="assets/lyceum/11-assistant-720.webp 720w, assets/lyceum/11-assistant.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/11-assistant.png" width="1308" height="872" alt="Lyceum’s Assistant: “What shall we explore?” above the question bar, “Ask a question about these materials…”." loading="lazy" decoding="async"></picture>
+              <picture><source type="image/webp" srcset="assets/lyceum/v22/lyc-library-1200.webp 1200w, assets/lyceum/v22/lyc-library-2400.webp 2400w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/v22/lyc-library-2400.jpg" width="2400" height="1350" alt="Lyceum’s My library: subjects on the left, lessons on the right, and each lesson’s transcript and PDF below." loading="lazy" decoding="async"></picture>
             </div>
           </figure>
           <div class="feat-copy">
             <div class="feat-head">
-              <p class="ov">05 · Assistant</p>
+              <p class="ov">05 · Library</p>
+              <h2>Every lesson in its place.</h2>
+            </div>
+            <div class="feat-body">
+              <p>Transcripts, PDFs and study notes, organised by subject and lesson.</p>
+              <ul class="feat-chips">
+              <li>Subjects</li>
+              <li>Lessons</li>
+              <li>Search</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="feat feat-rev card" id="assistant" data-reveal>
+          <figure class="feat-media">
+            <div class="feat-window" data-no-agents>
+              <picture><source type="image/webp" srcset="assets/lyceum/v22/lyc-assistant-1200.webp 1200w, assets/lyceum/v22/lyc-assistant-2400.webp 2400w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/v22/lyc-assistant-2400.jpg" width="2400" height="1350" alt="Lyceum’s Assistant: “Ask a follow-up.”, with text, dictation or voice conversation, above the question bar." loading="lazy" decoding="async"></picture>
+            </div>
+          </figure>
+          <div class="feat-copy">
+            <div class="feat-head">
+              <p class="ov">06 · Assistant</p>
               <h2>Ask your lesson.</h2>
             </div>
             <div class="feat-body">
-              <p>Ask about a lesson or meeting, by text or voice.</p>
+              <p>Ask a follow-up by text, dictation or voice conversation.</p>
               <ul class="feat-chips">
               <li>Text</li>
+              <li>Dictation</li>
               <li>Voice</li>
               </ul>
             </div>
           </div>
         </article>
 
-        <article class="feat feat-rev card" id="pet" data-reveal>
+        <article class="feat  card" id="pet" data-reveal>
           <figure class="feat-media">
-            <div class="feat-window" data-no-agents>
-              <picture><source type="image/webp" srcset="assets/lyceum/09-pet-720.webp 720w, assets/lyceum/09-pet.webp 1308w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/09-pet.png" width="1308" height="872" alt="Lyceum AI: the orange dragon pet above its small toolbar, beside the Assistant’s “What shall we explore?”." loading="lazy" decoding="async"></picture>
+            <div class="feat-pet pet-free" data-no-agents>
+              <div class="pet-stage"><span class="pet-fx" aria-hidden="true"><span class="pet-ring r1"></span><span class="pet-ring r2"></span><span class="pet-ring r3"></span><span class="pet-ring r4"></span><span class="pet-ripple"></span><span class="pet-ripple d2"></span><span class="pet-glow"></span></span><picture class="pet-float"><source type="image/webp" srcset="assets/lyceum/v22/lyc-pet-cutout-520.webp 259w, assets/lyceum/v22/lyc-pet-cutout-900.webp 449w" sizes="(max-width: 860px) 26vw, 180px"><img src="assets/lyceum/v22/lyc-pet-cutout-520.png" width="259" height="520" alt="Lyceum AI, the app’s orange dragon pet with teal fins." loading="lazy" decoding="async"></picture></div>
             </div>
           </figure>
           <div class="feat-copy">
             <div class="feat-head">
-              <p class="ov">06 · The pet</p>
+              <p class="ov">07 · The pet</p>
               <h2>Lyceum AI, always at hand.</h2>
             </div>
             <div class="feat-body">
-              <p>An orange companion that floats above other apps. Hover it for Chat or Voice.</p>
+              <p>An orange companion: drag the handle to move it, hover it for Chat or Voice. Chat opens a floating mini chat; Voice opens the Assistant.</p>
               <ul class="feat-chips">
               <li>Floating</li>
               <li>Chat</li>
