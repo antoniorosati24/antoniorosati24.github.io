@@ -1492,3 +1492,91 @@ input, select, textarea { font-size: max(16px, 1em); }
   .project-card:active { opacity: 1; transform: scale(0.992); }
   .float-card:active { opacity: 1; }
 }
+
+/* ---------- round 21: opening a project from the retro computer ----------
+   Exit (home): pressed icon, outlines zooming to the screen edges, then the
+   screen grows to the whole window with a loading line in the project colour.
+   Entry (project page, only after that exit): the same screen folds into a
+   bright line and the page unfolds out of it. */
+:root { --crt-line: rgba(0, 0, 0, 0.035); }
+html[data-theme="dark"] { --crt-line: rgba(0, 0, 0, 0.07); }
+@media (prefers-color-scheme: dark) { html:not([data-theme="light"]) { --crt-line: rgba(0, 0, 0, 0.07); } }
+.crt-go { position: fixed; inset: 0; z-index: 96; pointer-events: auto; contain: strict; }
+.crt-go-rect {
+  position: fixed; left: 0; top: 0; width: 0; height: 0; opacity: 0; box-sizing: border-box;
+  border: 2px solid var(--crt-accent); border-radius: 10px;
+  box-shadow: 0 0 14px var(--crt-glow), inset 0 0 10px var(--crt-glow);
+}
+.crt-go-screen, html.crt-in body::after {
+  background:
+    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0 2px, var(--crt-line) 2px 3px),
+    radial-gradient(120% 85% at 50% 45%, var(--crt-glow), transparent 70%),
+    var(--bg);
+}
+.crt-go-screen { position: fixed; inset: 0; opacity: 0; display: grid; place-items: center; overflow: hidden; will-change: clip-path; }
+.crt-go-scan {
+  position: absolute; left: 0; right: 0; top: -20%; height: 20%; pointer-events: none;
+  background: linear-gradient(180deg, transparent, var(--crt-glow), transparent);
+  animation: crt-sweep 1.1s linear infinite;
+}
+@keyframes crt-sweep { to { transform: translateY(600%); } }
+.crt-go-inner {
+  display: grid; justify-items: center; gap: 0.9rem; opacity: 0;
+  padding: var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l);
+  font-family: var(--mono); color: var(--crt-accent); text-align: center;
+}
+.crt-go-mark { width: 12px; height: 12px; background: var(--crt-accent); transform: rotate(45deg); box-shadow: 0 0 14px var(--crt-glow); }
+.crt-go-name { font-family: var(--sans); font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 750; letter-spacing: -0.02em; color: var(--ink); text-shadow: 0 0 24px var(--crt-glow); }
+.crt-go-bar { width: min(15rem, 60vw); height: 6px; border-radius: 99px; border: 1px solid var(--crt-accent); overflow: hidden; padding: 1px; }
+.crt-go-bar i { display: block; height: 100%; border-radius: inherit; background: var(--crt-accent); box-shadow: 0 0 10px var(--crt-glow); transform-origin: left center; transform: scaleX(0); }
+.crt-go-line { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; }
+
+/* entry on the project page */
+html.crt-in body::after {
+  content: var(--crt-name, "");
+  position: fixed; inset: 0; z-index: 96; pointer-events: none;
+  display: grid; place-items: center;
+  font: 750 clamp(1.8rem, 5vw, 3rem) / 1 var(--sans); letter-spacing: -0.02em; color: var(--ink);
+  text-shadow: 0 0 24px var(--crt-glow);
+  animation: crt-fold 0.62s 0.06s cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+@keyframes crt-fold {
+  0% { clip-path: inset(0 0 0 0); opacity: 1; filter: brightness(1); }
+  55% { clip-path: inset(49.6% 0 49.6% 0); opacity: 1; filter: brightness(1.8); }
+  75% { clip-path: inset(49.8% 22% 49.8% 22%); opacity: 1; }
+  100% { clip-path: inset(49.9% 50% 49.9% 50%); opacity: 0; visibility: hidden; }
+}
+html.crt-in main { animation: crt-unfold 0.7s 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@keyframes crt-unfold {
+  from { opacity: 0; transform: scaleY(0.94); filter: brightness(1.6) saturate(0.7); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.crt-in body::after { display: none; }
+  html.crt-in main { animation: none; }
+  .crt-go-scan { animation: none; }
+}
+
+/* ---------- round 21: Lyceum install buttons (not available yet) ---------- */
+.get { display: flex; flex-wrap: wrap; gap: 0.8rem 1rem; margin-top: 1.6rem; }
+.get-item { display: grid; justify-items: center; gap: 0.4rem; }
+.get-btn {
+  display: inline-flex; align-items: center; gap: 0.75rem; min-height: 3.25rem; min-width: 11rem;
+  padding: 0.55rem 1.15rem 0.55rem 0.9rem; border-radius: 14px; font: inherit; text-align: left;
+  color: var(--ink); background: var(--accent-soft); border: 1px solid var(--accent-line);
+  cursor: not-allowed; -webkit-tap-highlight-color: transparent;
+}
+.get-btn:focus-visible { outline: none; box-shadow: var(--focus); }
+.get-os { width: 1.7rem; height: 1.7rem; flex: none; color: var(--accent); }
+html[data-theme="dark"] .get-os { filter: drop-shadow(0 0 6px var(--lyc-halo, transparent)); }
+.get-txt { display: grid; line-height: 1.15; }
+.get-txt small { font-size: 0.72rem; color: var(--ink-soft); }
+.get-txt b { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em; }
+.get-soon { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+@media (hover: none) and (pointer: coarse) { .get-btn:active { opacity: 1; } }
+@media (max-width: 420px) {
+  .get { gap: 0.8rem 0.6rem; }
+  .get-item { flex: 1 1 0; min-width: 0; }
+  .get-btn { min-width: 0; width: 100%; padding: 0.55rem 0.7rem; gap: 0.55rem; }
+  .get-os { width: 1.45rem; height: 1.45rem; }
+}

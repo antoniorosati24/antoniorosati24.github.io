@@ -16,6 +16,21 @@
           sessionStorage.setItem("ar-loaded", "1");
         }
       } catch (e) {}
+      /* opened from the retro computer on the home page: play the matching entry */
+      try {
+        var c = JSON.parse(sessionStorage.getItem("ar-crt") || "null");
+        sessionStorage.removeItem("ar-crt");
+        var norm = function (p) { return String(p || "").replace(/(\/index)?\.html$/, "").replace(/\/$/, ""); };
+        if (c && norm(c.to) === norm(location.pathname) && Date.now() - c.t < 6000 &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var h = document.documentElement;
+          h.classList.remove("show-loader");
+          h.classList.add("crt-in");
+          h.style.setProperty("--crt-name", JSON.stringify(String(c.name || "")));
+          if (/^#[0-9a-f]{6}$/i.test(c.accent)) h.style.setProperty("--crt-accent", c.accent);
+          if (/^rgba\([0-9., ]+\)$/.test(c.glow)) h.style.setProperty("--crt-glow", c.glow);
+        }
+      } catch (e) {}
     })();
   </script>
   <meta name="color-scheme" content="light dark">
