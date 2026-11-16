@@ -16,6 +16,21 @@
           sessionStorage.setItem("ar-loaded", "1");
         }
       } catch (e) {}
+      /* opened from the retro computer on the home page: play the matching entry */
+      try {
+        var c = JSON.parse(sessionStorage.getItem("ar-crt") || "null");
+        sessionStorage.removeItem("ar-crt");
+        var norm = function (p) { return String(p || "").replace(/(\/index)?\.html$/, "").replace(/\/$/, ""); };
+        if (c && norm(c.to) === norm(location.pathname) && Date.now() - c.t < 6000 &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var h = document.documentElement;
+          h.classList.remove("show-loader");
+          h.classList.add("crt-in");
+          h.style.setProperty("--crt-name", JSON.stringify(String(c.name || "")));
+          if (/^#[0-9a-f]{6}$/i.test(c.accent)) h.style.setProperty("--crt-accent", c.accent);
+          if (/^rgba\([0-9., ]+\)$/.test(c.glow)) h.style.setProperty("--crt-glow", c.glow);
+        }
+      } catch (e) {}
     })();
   </script>
   <meta name="color-scheme" content="light dark">
@@ -108,6 +123,22 @@
           <li class="pill">Native macOS</li>
           <li class="pill">Swift &amp; SwiftUI</li>
         </ul>
+        <div class="get" role="group" aria-label="Install Lyceum" data-no-agents>
+          <div class="get-item">
+            <button type="button" class="get-btn" aria-disabled="true" aria-label="Install Lyceum for macOS, coming soon">
+              <svg class="get-os" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="20" height="13" rx="2"/><path d="M3 24h26l-2 2.5H5z"/></svg>
+              <span class="get-txt"><small>Click to install</small><b>macOS</b></span>
+            </button>
+            <span class="get-soon" aria-hidden="true">Coming soon</span>
+          </div>
+          <div class="get-item">
+            <button type="button" class="get-btn" aria-disabled="true" aria-label="Install Lyceum for Windows, coming soon">
+              <svg class="get-os" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="24" height="16" rx="2"/><path d="M12 26h8M16 21v5"/></svg>
+              <span class="get-txt"><small>Click to install</small><b>Windows</b></span>
+            </button>
+            <span class="get-soon" aria-hidden="true">Coming soon</span>
+          </div>
+        </div>
               <a class="case-down" href="#app" aria-label="Continue to a walk through the app">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 4v16M5 13l7 7 7-7"/>

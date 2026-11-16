@@ -101,6 +101,10 @@
 
   /* ---------- page enter / leave ---------- */
   document.documentElement.classList.add("page-enter");
+  /* arriving from the retro computer: the head script set crt-in; tidy up after the entry */
+  if (document.documentElement.classList.contains("crt-in")) {
+    window.setTimeout(function () { document.documentElement.classList.remove("crt-in", "page-enter"); }, 1100);
+  }
 
   function sameOrigin(href) {
     try {
@@ -112,7 +116,7 @@
   }
 
   document.addEventListener("click", function (e) {
-    if (reduce) return;
+    if (reduce || e.defaultPrevented) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest("a");
     if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
@@ -124,6 +128,11 @@
     window.setTimeout(function () {
       window.location.href = a.href;
     }, 300);
+  });
+
+  /* back/forward cache: a page restored from history comes back fully visible */
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted) document.documentElement.classList.remove("leaving");
   });
 
   /* ---------- sticky nav border ---------- */
@@ -2883,6 +2892,7 @@
                 list.forEach(function (app) {
           var a = el("a", "retro-app");
           a.href = app.href;
+          a.setAttribute("data-app", String(apps.indexOf(app)));
           a.draggable = false;
           a.setAttribute("aria-label", app.label || app.name);
           var ic = el("span", "retro-app-icon");
@@ -3012,19 +3022,97 @@
     desk.addEventListener("pointercancel", endDrag);
     desk.addEventListener("click", function (e) { if (suppressClick) { e.preventDefault(); e.stopPropagation(); } }, true);
     desk.addEventListener("dragstart", function (e) { e.preventDefault(); });
-    /* a short pressed state on the icon before the page opens, like a desktop */
+    /* opening a project: the icon presses, outlines zoom out of it to the
+       screen's edges, then the screen grows to fill the window with a short
+       loading line in the project's colour, and the project page opens.
+       The project page plays the matching entry (see the head script). */
+    var going = false, goLayer = null, goTimers = [];
+    function hexRgba(hex, a) {
+      var m = /^#?([0-9a-f]{6})$/i.exec(hex || "");
+      if (!m) return "rgba(255, 51, 71, " + a + ")";
+      var n = parseInt(m[1], 16);
+      return "rgba(" + (n >> 16 & 255) + ", " + (n >> 8 & 255) + ", " + (n & 255) + ", " + a + ")";
+    }
+    function resetGo() {
+      going = false;
+      goTimers.forEach(clearTimeout); goTimers = [];
+      if (goLayer && goLayer.parentNode) goLayer.parentNode.removeChild(goLayer);
+      goLayer = null;
+      desk.querySelectorAll(".retro-app.is-pressed").forEach(function (x) { x.classList.remove("is-pressed"); });
+      if (lenis && lenis.start) lenis.start();
+    }
+    window.addEventListener("pageshow", function (e) { if (e.persisted) resetGo(); });
+    function openProject(a) {
+      var app = apps[+a.getAttribute("data-app")] || {};
+      var dark = isDark();
+      var accent = (dark ? app.accentDark : app.accentLight) || (dark ? "#FF3347" : "#D7193A");
+      var name = app.name || "";
+      var href = a.href;
+      try {
+        sessionStorage.setItem("ar-crt", JSON.stringify({
+          to: new URL(href, location.href).pathname, name: name, accent: accent,
+          glow: hexRgba(accent, dark ? 0.26 : 0.16), t: Date.now()
+        }));
+      } catch (err) {}
+      if (reduce) { location.href = href; return; }
+      going = true;
+      if (lenis && lenis.stop) lenis.stop();
+      a.classList.add("is-pressed");
+      var icon = a.querySelector(".retro-app-icon") || a;
+      var ir = icon.getBoundingClientRect(), sr = screen.getBoundingClientRect();
+      var vw = document.documentElement.clientWidth || window.innerWidth, vh = window.innerHeight;
+      var layer = el("div", "crt-go");
+      layer.setAttribute("aria-hidden", "true");
+      layer.style.setProperty("--crt-accent", accent);
+      layer.style.setProperty("--crt-glow", hexRgba(accent, dark ? 0.26 : 0.16));
+      var panel = el("div", "crt-go-screen");
+      var inner = el("div", "crt-go-inner");
+      var mark = el("span", "crt-go-mark");
+      var nm = el("b", "crt-go-name"); nm.textContent = name;
+      var bar = el("span", "crt-go-bar"); var fill = el("i"); bar.appendChild(fill);
+      var line = el("span", "crt-go-line"); line.textContent = "Opening\u2026";
+      inner.appendChild(mark); inner.appendChild(nm); inner.appendChild(bar); inner.appendChild(line);
+      panel.appendChild(inner);
+      panel.appendChild(el("span", "crt-go-scan"));
+      layer.appendChild(panel);
+      var rects = [];
+      for (var k = 0; k < 4; k++) { var r = el("span", "crt-go-rect"); layer.appendChild(r); rects.push(r); }
+      document.body.appendChild(layer);
+      goLayer = layer;
+      var ease = "cubic-bezier(0.65, 0, 0.35, 1)";
+      /* 1. icon press pulse */
+      icon.animate([{ transform: "scale(1)" }, { transform: "scale(0.9)", offset: 0.35 }, { transform: "scale(1.06)" }, { transform: "scale(1)" }],
+        { duration: 300, easing: "ease-out" });
+      /* 2. zoom outlines: icon -> screen */
+      var from = { left: ir.left + "px", top: ir.top + "px", width: ir.width + "px", height: ir.height + "px", opacity: 1 };
+      var to = { left: sr.left + "px", top: sr.top + "px", width: sr.width + "px", height: sr.height + "px", opacity: 0 };
+      rects.forEach(function (r, i) {
+        r.animate([from, { opacity: 0.9, offset: 0.6 }, to], { duration: 420, delay: 60 + i * 70, easing: "cubic-bezier(0.3, 0, 0.2, 1)", fill: "both" });
+      });
+      /* 3. the screen grows to the whole window (clip-path keeps it crisp, no page layout) */
+      var c0 = "inset(" + Math.max(0, sr.top) + "px " + Math.max(0, vw - sr.right) + "px " + Math.max(0, vh - sr.bottom) + "px " + Math.max(0, sr.left) + "px round 18px)";
+      var c1 = "inset(0px 0px 0px 0px round 0px)";
+      panel.animate([{ clipPath: c0, opacity: 0 }, { clipPath: c0, opacity: 1, offset: 0.18 }, { clipPath: c1, opacity: 1 }],
+        { duration: 560, delay: 300, easing: ease, fill: "both" });
+      /* CRT flicker as it lands, then the loading line */
+      panel.animate([{ filter: "brightness(1)" }, { filter: "brightness(1.5)", offset: 0.3 }, { filter: "brightness(0.85)", offset: 0.55 }, { filter: "brightness(1.15)", offset: 0.75 }, { filter: "brightness(1)" }],
+        { duration: 220, delay: 820, fill: "none" });
+      inner.animate([{ opacity: 0, transform: "scale(0.96)" }, { opacity: 1, transform: "none" }], { duration: 200, delay: 760, easing: "ease-out", fill: "both" });
+      fill.animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: 320, delay: 820, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "both" });
+      goTimers.push(setTimeout(function () { location.href = href; }, 1160));
+    }
     desk.addEventListener("click", function (e) {
       var a = e.target.closest && e.target.closest(".retro-app");
-      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
       e.preventDefault();
-      a.classList.add("is-pressed");
-      setTimeout(function () { location.href = a.href; }, reduce ? 0 : 160);
+      if (going || !on) return;
+      openProject(a);
     });
 
     render();
     if (/\barcap=1\b/.test(location.search)) {
       window.__retro = {
-        on: turnOn, off: turnOff, page: pageIndex, goPage: goPage,
+        on: turnOn, off: turnOff, page: pageIndex, goPage: goPage, going: function () { return going; },
         state: function () { return { on: on, page: pageIndex(), pages: pages.length, apps: apps.length }; },
         /* test only: fill the desktop with copies to exercise paging */
         addDemo: function (n) { for (var k = 0; k < n; k++) apps.push({ name: "Demo " + (k + 1), href: "#", icon: apps[k % 2].icon }); render(); }
