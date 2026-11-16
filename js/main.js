@@ -3129,46 +3129,56 @@
   initRetro();
 
 
-  /* round 22: always-live loops. Muted inline videos play only while on screen and pause offscreen;
-     reduced motion keeps the poster (the first frame). A paused visible loop is resumed at once. */
+  /* round 22d: always-live loops, everywhere. Muted inline videos autoplay; offscreen they pause (invisible),
+     on screen they always run. If a browser refuses autoplay (e.g. Low Power Mode), the animated poster stays
+     on top and play() is retried on the next touch, click, key, scroll or tab return. Not gated by Reduce Motion. */
   function initLiveVideos() {
     var vids = Array.prototype.slice.call(document.querySelectorAll("video[data-live-video]"));
     if (!vids.length) return;
-    var mq = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
-    function still() { return !!(mq && mq.matches); }
+    var refused = false;
     vids.forEach(function (v) {
-      v.muted = true; v.defaultMuted = true; v.loop = true;
+      v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
       v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
-      v.__inView = false;
+      v.__inView = true;
+      var wrap = v.parentNode && v.parentNode.classList && v.parentNode.classList.contains("live-video") ? v.parentNode : null;
+      v.__wrap = wrap;
+      v.addEventListener("playing", function () { if (wrap) wrap.classList.add("is-live"); });
+      v.addEventListener("timeupdate", function () { if (wrap && v.currentTime > 0 && !v.paused) wrap.classList.add("is-live"); });
     });
-    function want(v) { return v.__inView && !still() && document.visibilityState !== "hidden"; }
+    function want(v) { return v.__inView && document.visibilityState !== "hidden"; }
     function kick(v) {
       if (!want(v)) { if (!v.paused) v.pause(); return; }
-      if (v.paused) {
-        if (v.preload === "none") v.preload = "auto";
-        var p = v.play();
-        if (p && p.catch) p.catch(function () {});
+      if (v.paused || v.ended) {
+        if (v.preload === "none" || v.preload === "metadata") v.preload = "auto";
+        var p;
+        try { p = v.play(); } catch (e) { refused = true; return; }
+        if (p && p.then) p.then(function () { refused = false; }, function () { refused = true; });
       }
     }
+    function kickAll() { vids.forEach(kick); }
     vids.forEach(function (v) {
       v.addEventListener("pause", function () { if (want(v)) setTimeout(function () { kick(v); }, 0); });
       v.addEventListener("ended", function () { try { v.currentTime = 0; } catch (e) {} kick(v); });
       v.addEventListener("loadeddata", function () { kick(v); });
+      v.addEventListener("canplay", function () { kick(v); });
+      v.addEventListener("stalled", function () { setTimeout(function () { kick(v); }, 400); });
     });
     if ("IntersectionObserver" in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) { en.target.__inView = en.isIntersecting; kick(en.target); });
-      }, { rootMargin: "120px 0px" });
+      }, { rootMargin: "160px 0px" });
       vids.forEach(function (v) { io.observe(v); });
-    } else {
-      vids.forEach(function (v) { v.__inView = true; kick(v); });
     }
-    document.addEventListener("visibilitychange", function () { vids.forEach(kick); });
-    window.addEventListener("pageshow", function () { vids.forEach(kick); });
-    if (mq) {
-      var onMq = function () { vids.forEach(function (v) { if (still()) { v.pause(); try { v.currentTime = 0; } catch (e) {} } kick(v); }); };
-      if (mq.addEventListener) mq.addEventListener("change", onMq); else if (mq.addListener) mq.addListener(onMq);
-    }
+    kickAll();
+    /* retry after any user gesture or return to the tab (autoplay refusals lift on interaction) */
+    ["touchstart", "touchend", "pointerdown", "click", "keydown", "scroll", "wheel"].forEach(function (t) {
+      window.addEventListener(t, function () { if (refused || vids.some(function (v) { return want(v) && v.paused; })) kickAll(); }, { passive: true, capture: true });
+    });
+    document.addEventListener("visibilitychange", kickAll);
+    window.addEventListener("pageshow", kickAll);
+    window.addEventListener("focus", kickAll);
+    /* safety net: a visible loop that is paused for any reason is restarted within a second */
+    setInterval(function () { if (document.visibilityState !== "hidden") vids.forEach(function (v) { if (want(v) && v.paused) kick(v); }); }, 1000);
     if (/\barcap=1\b/.test(location.search)) window.__vids = vids;
   }
   initLiveVideos();
