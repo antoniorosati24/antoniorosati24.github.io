@@ -1580,3 +1580,52 @@ html[data-theme="dark"] .get-os { filter: drop-shadow(0 0 6px var(--lyc-halo, tr
   .get-btn { min-width: 0; width: 100%; padding: 0.55rem 0.7rem; gap: 0.55rem; }
   .get-os { width: 1.45rem; height: 1.45rem; }
 }
+
+/* round 22: Lyceum 4K media. Videos fill the 16:9 frame whole (never cropped); the poster is the first frame. */
+.feat-window video, .flagship .flagship-shot video {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain;
+  background: #dedfe3; pointer-events: none; -webkit-user-select: none; user-select: none;
+}
+.feat-window video::-webkit-media-controls, .flagship .flagship-shot video::-webkit-media-controls { display: none !important; }
+.feat-window video::-webkit-media-controls-start-playback-button,
+.flagship .flagship-shot video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
+.feat-window img { aspect-ratio: 16 / 9; object-fit: contain; }
+
+/* round 22c: the pet stands free. No frame, box or rectangular background: the dragon cutout floats over
+   concentric Lyceum-green rings that breathe and ripple, and the whole ring field fades into the card.
+   Everything stays inside the media column, so nothing is clipped and nothing widens the page. */
+.feat-pet { --ring: rgba(6, 122, 80, 0.07); --ring-line: rgba(6, 122, 80, 0.22); --pet-glow: rgba(6, 122, 80, 0.22); }
+html[data-theme="dark"] .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-line: rgba(61, 245, 160, 0.26); --pet-glow: rgba(61, 245, 160, 0.24); }
+@media (prefers-color-scheme: dark) { html:not([data-theme="light"]) .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-line: rgba(61, 245, 160, 0.26); --pet-glow: rgba(61, 245, 160, 0.24); } }
+.pet-free { position: relative; z-index: 1; width: 100%; max-width: 34rem; margin-inline: auto; aspect-ratio: 4 / 3; background: none; border: 0; box-shadow: none; }
+.pet-free .pet-stage { position: absolute; inset: 0; background: none; overflow: visible; }
+.pet-fx {
+  position: absolute; inset: 0; pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 62%, rgba(0, 0, 0, 0.55) 82%, transparent 100%);
+          mask-image: radial-gradient(circle closest-side at 50% 50%, #000 62%, rgba(0, 0, 0, 0.55) 82%, transparent 100%);
+}
+.pet-ring, .pet-ripple, .pet-glow { position: absolute; left: 50%; top: 50%; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); width: auto; aspect-ratio: 1; }
+.pet-ring { background: var(--ring); animation: pet-breathe 6s ease-in-out infinite; will-change: transform; }
+.pet-ring.r1 { height: 96%; animation-delay: 0s; }
+.pet-ring.r2 { height: 78%; animation-delay: -1.5s; }
+.pet-ring.r3 { height: 60%; animation-delay: -3s; }
+.pet-ring.r4 { height: 43%; animation-delay: -4.5s; }
+.pet-ripple { height: 34%; border: 1px solid var(--ring-line); opacity: 0; animation: pet-ripple 8s cubic-bezier(.25, .6, .35, 1) infinite; }
+.pet-ripple.d2 { animation-delay: -4s; }
+.pet-glow { height: 40%; background: radial-gradient(closest-side, var(--pet-glow), transparent); filter: blur(6px); animation: pet-glow 5s ease-in-out infinite; }
+.pet-free .pet-float { position: absolute; left: 0; right: 0; top: 18%; bottom: 18%; display: flex; justify-content: center; align-items: center; animation: pet-float 5s ease-in-out infinite; will-change: transform; }
+.pet-free .pet-float img { display: block; width: auto; height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.18)); }
+@keyframes pet-breathe { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.035); } }
+@keyframes pet-ripple { 0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: translate(-50%, -50%) scale(2.75); opacity: 0; } }
+@keyframes pet-glow { 0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.96); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); } }
+@keyframes pet-float { 0%, 100% { transform: translateY(2%); } 50% { transform: translateY(-3%); } }
+@media (max-width: 860px) { .pet-free { max-width: 22rem; aspect-ratio: 1 / 0.92; } }
+@media (prefers-reduced-motion: reduce) {
+  .pet-ring, .pet-glow, .pet-free .pet-float { animation: none; }
+  .pet-ripple { display: none; }
+}
+
+/* round 22b: the cursor layer sits above every page element (cards, images, videos, sticky nav) but below
+   the lightbox, the loader and the project-open transition; it never takes clicks. */
+.ag-layer { z-index: 45; pointer-events: none; }
+.ag-layer, .ag-layer * { pointer-events: none; }
