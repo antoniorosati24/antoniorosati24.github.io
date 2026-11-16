@@ -64,7 +64,7 @@
   <link rel="icon" href="assets/favicon-light.png?v=20261114" type="image/png" media="(prefers-color-scheme: light)">
   <link rel="icon" href="assets/favicon.png?v=20261114" type="image/png">
   <link rel="icon" href="favicon.ico?v=20261114" sizes="48x48">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=22d">
   <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
@@ -152,7 +152,7 @@
         <article class="feat feat-wide card" id="home" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
-              <video class="feat-video" data-live-video muted playsinline loop preload="auto" disablepictureinpicture poster="assets/lyceum/v22/lyc-bubbles-poster.jpg" width="1920" height="1080" aria-label="Lyceum’s Home: three glass bubbles, Live Listening, Transcribe and Study material, gently moving on the app’s soft grey background."><source src="assets/lyceum/v22/lyc-bubbles.mp4" type="video/mp4"></video>
+              <div class="live-video"><video data-live-video autoplay muted playsinline loop preload="auto" disablepictureinpicture poster="assets/lyceum/v22/lyc-bubbles-poster.jpg" width="1920" height="1080" aria-label="Lyceum’s Home: three glass bubbles, Live Listening, Transcribe and Study material, gently moving on the app’s soft grey background." onplaying="this.parentNode.classList.add('is-live')"><source media="(min-width: 1100px)" src="assets/lyceum/v22/lyc-bubbles-2560.mp4" type="video/mp4"><source src="assets/lyceum/v22/lyc-bubbles-1920.mp4" type="video/mp4"></video><span class="live-fallback" aria-hidden="true"><img src="assets/lyceum/v22/lyc-bubbles-poster.jpg" width="1920" height="1080" alt="" decoding="async"></span></div>
             </div>
           </figure>
           <div class="feat-copy">
@@ -240,7 +240,7 @@
         <article class="feat  card" id="library" data-reveal>
           <figure class="feat-media">
             <div class="feat-window" data-no-agents>
-              <picture><source type="image/webp" srcset="assets/lyceum/v22/lyc-library-1200.webp 1200w, assets/lyceum/v22/lyc-library-2400.webp 2400w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/v22/lyc-library-2400.jpg" width="2400" height="1350" alt="Lyceum’s My library: subjects on the left, lessons on the right, and each lesson’s transcript and PDF below." loading="lazy" decoding="async"></picture>
+              <picture><source type="image/webp" srcset="assets/lyceum/v22/lyc-library2-1200.webp 1200w, assets/lyceum/v22/lyc-library2-2400.webp 2400w" sizes="(max-width: 860px) 92vw, 640px"><img src="assets/lyceum/v22/lyc-library2-2400.jpg" width="2400" height="1304" alt="Lyceum’s My library: subjects on the left, lessons on the right, and each lesson’s transcript and PDF below." loading="lazy" decoding="async"></picture>
             </div>
           </figure>
           <div class="feat-copy">
@@ -378,7 +378,7 @@
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js?v=22d" defer></script>
 
 </body>
 </html>

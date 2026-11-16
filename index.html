@@ -49,7 +49,7 @@
   <link rel="icon" href="assets/favicon-light.png?v=20261114" type="image/png" media="(prefers-color-scheme: light)">
   <link rel="icon" href="assets/favicon.png?v=20261114" type="image/png">
   <link rel="icon" href="favicon.ico?v=20261114" sizes="48x48">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=22d">
   <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
@@ -212,7 +212,7 @@
             <span class="arrow-link">Open the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
           </div>
           <div class="shot flagship-shot" data-no-agents>
-            <video data-live-video muted playsinline loop preload="metadata" disablepictureinpicture poster="assets/lyceum/v22/lyc-bubbles-poster.jpg" width="1920" height="1080" aria-label="Lyceum’s Home screen: three glass bubbles, Live Listening, Transcribe and Study material, gently moving."><source src="assets/lyceum/v22/lyc-bubbles.mp4" type="video/mp4"></video>
+            <div class="live-video"><video data-live-video autoplay muted playsinline loop preload="metadata" disablepictureinpicture poster="assets/lyceum/v22/lyc-bubbles-poster.jpg" width="1920" height="1080" aria-label="Lyceum’s Home screen: three glass bubbles, Live Listening, Transcribe and Study material, gently moving." onplaying="this.parentNode.classList.add('is-live')"><source media="(min-width: 1100px)" src="assets/lyceum/v22/lyc-bubbles-2560.mp4" type="video/mp4"><source src="assets/lyceum/v22/lyc-bubbles-1920.mp4" type="video/mp4"></video><span class="live-fallback" aria-hidden="true"><img src="assets/lyceum/v22/lyc-bubbles-poster.jpg" width="1920" height="1080" alt="" decoding="async"></span></div>
           </div>
         </a>
 
@@ -314,7 +314,7 @@
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js?v=22d" defer></script>
 
 </body>
 </html>

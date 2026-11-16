@@ -1589,7 +1589,7 @@ html[data-theme="dark"] .get-os { filter: drop-shadow(0 0 6px var(--lyc-halo, tr
 .feat-window video::-webkit-media-controls, .flagship .flagship-shot video::-webkit-media-controls { display: none !important; }
 .feat-window video::-webkit-media-controls-start-playback-button,
 .flagship .flagship-shot video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
-.feat-window img { aspect-ratio: 16 / 9; object-fit: contain; }
+.feat-window picture img { height: auto; object-fit: contain; }
 
 /* round 22c: the pet stands free. No frame, box or rectangular background: the dragon cutout floats over
    concentric Lyceum-green rings that breathe and ripple, and the whole ring field fades into the card.
@@ -1620,12 +1620,35 @@ html[data-theme="dark"] .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-li
 @keyframes pet-glow { 0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.96); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); } }
 @keyframes pet-float { 0%, 100% { transform: translateY(2%); } 50% { transform: translateY(-3%); } }
 @media (max-width: 860px) { .pet-free { max-width: 22rem; aspect-ratio: 1 / 0.92; } }
-@media (prefers-reduced-motion: reduce) {
-  .pet-ring, .pet-glow, .pet-free .pet-float { animation: none; }
-  .pet-ripple { display: none; }
-}
 
 /* round 22b: the cursor layer sits above every page element (cards, images, videos, sticky nav) but below
    the lightbox, the loader and the project-open transition; it never takes clicks. */
 .ag-layer { z-index: 45; pointer-events: none; }
 .ag-layer, .ag-layer * { pointer-events: none; }
+
+/* round 22d: live everywhere. The bubbles loop autoplays (muted, inline); until the first frame plays, and on
+   devices that refuse autoplay (e.g. Low Power Mode), the poster stays on top with a gentle animated light so
+   the card never looks frozen. The image is always shown whole (contain), never cropped. */
+.live-video { position: relative; line-height: 0; }
+.live-video video { position: relative; z-index: 0; }
+.live-video .live-fallback { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; opacity: 1; transition: opacity .45s ease, visibility 0s linear .45s; background: #dedfe3; }
+.live-video .live-fallback img { display: block; width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; animation: live-breathe 6s ease-in-out infinite; }
+.live-video .live-fallback::after {
+  content: ""; position: absolute; inset: -25%; pointer-events: none;
+  background: radial-gradient(28% 34% at 32% 42%, rgba(255, 255, 255, 0.42), transparent 70%), radial-gradient(24% 30% at 70% 58%, rgba(255, 255, 255, 0.30), transparent 70%);
+  animation: live-sheen 11s ease-in-out infinite alternate;
+}
+.live-video.is-live .live-fallback { opacity: 0; visibility: hidden; }
+.live-video.is-live .live-fallback img, .live-video.is-live .live-fallback::after { animation-play-state: paused; }
+@keyframes live-breathe { 0%, 100% { filter: brightness(1) saturate(1); } 50% { filter: brightness(1.05) saturate(1.12); } }
+@keyframes live-sheen { 0% { transform: translate(-6%, -3%) scale(1); } 50% { transform: translate(5%, 4%) scale(1.06); } 100% { transform: translate(-2%, 6%) scale(0.97); } }
+/* round 22d: the pet's rings/float and the bubbles fallback stay gently live even with Reduce Motion
+   (overrides the global "everything still" rule, which uses !important). */
+@media (prefers-reduced-motion: reduce) {
+  .pet-ring { animation-duration: 6s !important; animation-iteration-count: infinite !important; }
+  .pet-ripple { animation-duration: 8s !important; animation-iteration-count: infinite !important; }
+  .pet-glow, .pet-free .pet-float { animation-duration: 5s !important; animation-iteration-count: infinite !important; }
+  .live-video .live-fallback img { animation-duration: 6s !important; animation-iteration-count: infinite !important; }
+  .live-video .live-fallback::after { animation-duration: 11s !important; animation-iteration-count: infinite !important; }
+  .live-video .live-fallback { transition-duration: .45s !important; }
+}
