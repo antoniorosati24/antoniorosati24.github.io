@@ -1582,12 +1582,12 @@ html[data-theme="dark"] .get-os { filter: drop-shadow(0 0 6px var(--lyc-halo, tr
 }
 
 /* round 22: Lyceum 4K media. Videos fill the 16:9 frame whole (never cropped); the poster is the first frame. */
-.feat-window video, .flagship .flagship-shot video {
+.feat-window video:not(.spot-video), .flagship .flagship-shot video {
   display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain;
   background: #dedfe3; pointer-events: none; -webkit-user-select: none; user-select: none;
 }
-.feat-window video::-webkit-media-controls, .flagship .flagship-shot video::-webkit-media-controls { display: none !important; }
-.feat-window video::-webkit-media-controls-start-playback-button,
+.feat-window video:not(.spot-video)::-webkit-media-controls, .flagship .flagship-shot video::-webkit-media-controls { display: none !important; }
+.feat-window video:not(.spot-video)::-webkit-media-controls-start-playback-button,
 .flagship .flagship-shot video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
 .feat-window picture img { height: auto; object-fit: contain; }
 
@@ -1651,4 +1651,13 @@ html[data-theme="dark"] .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-li
   .live-video .live-fallback img { animation-duration: 6s !important; animation-iteration-count: infinite !important; }
   .live-video .live-fallback::after { animation-duration: 11s !important; animation-iteration-count: infinite !important; }
   .live-video .live-fallback { transition-duration: .45s !important; }
+}
+
+/* round 23: the Lyceum spot. Same frame as the other Lyceum media; 16:9 shown whole; native controls stay
+   clickable (the cursor layer above never takes pointer events). */
+.spot { padding-bottom: clamp(1rem, 2vw, 1.5rem); }
+.spot-window { background: #050a08; }
+.spot-window video.spot-video {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain;
+  background: #050a08; pointer-events: auto; -webkit-user-select: auto; user-select: auto;
 }
