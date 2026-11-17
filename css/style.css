@@ -1655,7 +1655,8 @@ html[data-theme="dark"] .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-li
 
 /* round 23: the Lyceum spot. Same frame as the other Lyceum media; 16:9 shown whole; native controls stay
    clickable (the cursor layer above never takes pointer events). */
-.spot { padding-bottom: clamp(1rem, 2vw, 1.5rem); }
+/* round 23b: the spot closes the walkthrough, like the Audi demo; its own breathing room above, matching the gap to the closing cards */
+.spot { padding-top: clamp(3rem, 5.6vw, 5rem); padding-bottom: clamp(1rem, 2vw, 1.5rem); }
 .spot-window { background: #050a08; }
 .spot-window video.spot-video {
   display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain;
