@@ -64,7 +64,7 @@
   <link rel="icon" href="assets/favicon-light.png?v=20261114" type="image/png" media="(prefers-color-scheme: light)">
   <link rel="icon" href="assets/favicon.png?v=20261114" type="image/png">
   <link rel="icon" href="favicon.ico?v=20261114" sizes="48x48">
-  <link rel="stylesheet" href="css/style.css?v=22d">
+  <link rel="stylesheet" href="css/style.css?v=23">
   <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 </head>
@@ -146,6 +146,30 @@
       </a>
       </div>
     </header>
+
+    <section class="section feats spot" id="spot" aria-label="Lyceum spot" style="padding-top:0">
+      <div class="wrap">
+        <article class="feat feat-wide card" id="spot-card" data-reveal>
+          <figure class="feat-media">
+            <div class="feat-window spot-window">
+              <video class="spot-video" data-spot-video muted loop playsinline autoplay preload="metadata" poster="assets/lyceum/v23/lyc-spot-poster-1920.jpg" width="1920" height="1080" aria-label="Lyceum spot, 53 seconds, music only, no voice-over. Plays muted; click it for controls and sound." data-small-poster="assets/lyceum/v23/lyc-spot-poster-1200.jpg">
+                <source media="(min-width: 1100px)" src="assets/lyceum/v23/lyc-spot-1920.mp4" type="video/mp4">
+                <source src="assets/lyceum/v23/lyc-spot-1280.mp4" type="video/mp4">
+              </video>
+            </div>
+          </figure>
+          <div class="feat-copy">
+            <div class="feat-head">
+              <p class="ov">Spot</p>
+              <h2>Lyceum in 53 seconds.</h2>
+            </div>
+            <div class="feat-body">
+              <p>The Lyceum spot, with music and no voice-over. It plays muted; click it for sound.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
 
     <section class="section feats" id="app" aria-label="A walk through Lyceum" style="padding-top:0">
       <div class="wrap">
@@ -378,7 +402,7 @@
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
-  <script src="js/main.js?v=22d" defer></script>
+  <script src="js/main.js?v=23" defer></script>
 
 </body>
 </html>

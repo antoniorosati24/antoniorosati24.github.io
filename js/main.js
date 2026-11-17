@@ -3183,6 +3183,56 @@
   }
   initLiveVideos();
 
+  /* round 23: the Lyceum spot autoplays like the Audi demo: muted, looping, inline; it runs while at least
+     35% visible and pauses offscreen. A click reveals the native controls (and sound). If autoplay is refused
+     (e.g. Low Power Mode) the controls appear and play is retried on the next touch, click, key or scroll.
+     Phones and tablets get the lighter poster; <source media> already picks the 1280 file there. */
+  function initSpot() {
+    var v = document.querySelector("video[data-spot-video]");
+    if (!v) return;
+    if (window.matchMedia && window.matchMedia("(max-width: 1099px)").matches && v.getAttribute("data-small-poster")) v.poster = v.getAttribute("data-small-poster");
+    v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+    var inView = false, refused = false, userPaused = false;
+    function tryPlay() {
+      if (!inView || userPaused || document.visibilityState === "hidden" || !v.paused) return;
+      var p;
+      try { p = v.play(); } catch (e) { refused = true; v.controls = true; return; }
+      if (p && p.then) p.then(function () { refused = false; }, function () { refused = true; userPaused = false; v.controls = true; });
+    }
+    v.addEventListener("click", function () { if (!v.controls) v.controls = true; });
+    /* once the visitor uses the controls, respect their pause */
+    var touchedAt = 0;
+    ["pointerdown", "touchstart", "keydown"].forEach(function (t) { v.addEventListener(t, function () { touchedAt = Date.now(); }, { passive: true }); });
+    /* the same tap may land on the native controls (WebKit touch adjustment) and toggle it straight back to pause:
+       a pause within 700ms of a play we started from that gesture is undone */
+    var gestureAt = 0;
+    v.addEventListener("pause", function () {
+      if (Date.now() - gestureAt < 700 && inView && document.visibilityState !== "hidden" && !v.__autoPause) { gestureAt = 0; tryPlay(); return; }
+      if (v.controls && inView && !v.__autoPause && document.visibilityState !== "hidden" && Date.now() - touchedAt < 1500) userPaused = true;
+      v.__autoPause = false;
+    });
+    v.addEventListener("play", function () { userPaused = false; });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          inView = en.isIntersecting;
+          if (inView) tryPlay(); else if (!v.paused) { v.__autoPause = true; v.pause(); }
+        });
+      }, { threshold: 0.35 }).observe(v);
+    } else { inView = true; tryPlay(); }
+    ["touchstart", "pointerdown", "keydown", "scroll", "wheel"].forEach(function (t) {
+      window.addEventListener(t, function (e) {
+        /* a press on the spot itself is left to its native controls (else play here + their toggle = pause) */
+        if (e && e.target === v) return;
+        if (refused || (inView && v.paused && !userPaused)) { gestureAt = Date.now(); tryPlay(); }
+      }, { passive: true, capture: true });
+    });
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") { if (!v.paused) { v.__autoPause = true; v.pause(); } } else tryPlay(); });
+    window.addEventListener("pageshow", tryPlay);
+  }
+  initSpot();
+
   initMarks();
   initAgents();
 
