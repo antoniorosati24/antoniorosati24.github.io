@@ -1662,3 +1662,10 @@ html[data-theme="dark"] .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-li
   display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain;
   background: #050a08; pointer-events: auto; -webkit-user-select: auto; user-select: auto;
 }
+
+/* round 24: privacy notice. One readable column of cards, same card/prose styles as About. */
+.privacy-wrap { max-width: 46rem; display: grid; gap: clamp(1rem, 2vw, 1.4rem); }
+.privacy-wrap h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); letter-spacing: -0.045em; margin: 0.2rem 0 1.1rem; }
+.privacy-wrap h2 { font-size: clamp(1.3rem, 2.2vw, 1.7rem); margin-bottom: 0.8rem; }
+.privacy-wrap .prose a { overflow-wrap: anywhere; }
+.privacy-date { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.02em; color: var(--ink-faint) !important; }
