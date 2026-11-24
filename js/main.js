@@ -3201,6 +3201,9 @@
       if (p && p.then) p.then(function () { refused = false; }, function () { refused = true; userPaused = false; v.controls = true; });
     }
     v.addEventListener("click", function () { if (!v.controls) v.controls = true; });
+    /* stay muted until the visitor has the controls: some engines (seen in WebKit on Linux with GStreamer)
+       report the audio sink's state back and unmute an autoplaying video on their own */
+    v.addEventListener("volumechange", function () { if (!v.muted && !v.controls) v.muted = true; });
     /* once the visitor uses the controls, respect their pause */
     var touchedAt = 0;
     ["pointerdown", "touchstart", "keydown"].forEach(function (t) { v.addEventListener(t, function () { touchedAt = Date.now(); }, { passive: true }); });
@@ -3232,6 +3235,79 @@
     window.addEventListener("pageshow", tryPlay);
   }
   initSpot();
+
+  /* ---------- SkyRoute ML explorer (round 25b) ----------
+     Only figures from Antonio's deck: full holdout of 408 responses, 143 detractors.
+     Review budget: 30% is the measured point; 0% and 100% hold by definition (review nobody: 0 found,
+     review everyone: all 143). No curve in between is drawn because it was not exported. */
+  function initSrMl() {
+    var root = document.querySelector("[data-sr-ml]");
+    if (!root) return;
+    var DATA = {
+      found: [
+        { logit: [0, "0 of 143"], tree: [0, "0 of 143"], base: [0, "0 of 143"] },
+        { logit: [102, "≈102 of 143"], tree: [102, "≈102 of 143"], base: [43, "≈43 of 143"] },
+        { logit: [143, "143 of 143"], tree: [143, "143 of 143"], base: [143, "143 of 143"] }
+      ],
+      ap: { logit: [0.849, "0.849"], tree: [0.780, "0.780"], base: [0.350, "0.350"] },
+      brier: { logit: [0.116, "0.116"], tree: [0.126, "0.126"], base: [0.228, "0.228"] }
+    };
+    var BUDGET = [
+      ["0%", "0% reviewed: nobody", "Review nobody and you find nobody: 0 of 143, by definition."],
+      ["30%", "30% reviewed: 122 of 408 responses", "Reviewing 30% of responses (122 of 408): ≈102 of 143 detractors with either model, ≈43 with the baseline. Estimates average over tied scores at the review cutoff."],
+      ["100%", "100% reviewed: all 408 responses", "Review everyone and you find all 143 detractors, whatever the model, by definition. The useful question is how many a model finds early."]
+    ];
+    var NOTES = {
+      ap: "Average Precision sums up the whole ranking: 1 would mean every detractor ranked above every other response. On the full holdout: logistic 0.849, tree 0.780, baseline 0.350. It is not accuracy.",
+      brier: "Brier score: the average squared gap between the predicted probability and what happened. Lower is better. On the full holdout: logistic 0.116, tree 0.126, baseline 0.228."
+    };
+    var chips = root.querySelectorAll(".ml-chip");
+    var rows = root.querySelectorAll(".ml-row");
+    var explain = root.querySelectorAll(".ml-explain li");
+    var radios = root.querySelectorAll('input[name="ml-measure"]');
+    var range = root.querySelector("#ml-budget");
+    var out = root.querySelector("#ml-budget-out");
+    var budgetBox = root.querySelector(".ml-budget");
+    var note = root.querySelector("#ml-note");
+    function measure() { for (var i = 0; i < radios.length; i++) if (radios[i].checked) return radios[i].value; return "found"; }
+    function render() {
+      var m = measure(), b = parseInt(range.value, 10) || 0;
+      var set = m === "found" ? DATA.found[b] : DATA[m];
+      var max = m === "found" ? 143 : m === "ap" ? 1 : 0.25;
+      budgetBox.hidden = m !== "found";
+      for (var i = 0; i < rows.length; i++) {
+        var k = rows[i].getAttribute("data-model"), d = set[k];
+        rows[i].querySelector(".ml-bar i").style.setProperty("--w", (d[0] / max * 100).toFixed(2) + "%");
+        rows[i].querySelector(".ml-val").textContent = d[1];
+      }
+      out.textContent = BUDGET[b][0];
+      range.setAttribute("aria-valuetext", BUDGET[b][1]);
+      note.textContent = m === "found" ? BUDGET[b][2] : NOTES[m];
+    }
+    function toggle(chip) {
+      var on = chip.getAttribute("aria-pressed") !== "true";
+      var pressed = root.querySelectorAll('.ml-chip[aria-pressed="true"]').length;
+      if (!on && pressed <= 1) return; /* keep at least one model on */
+      chip.setAttribute("aria-pressed", on ? "true" : "false");
+      var k = chip.getAttribute("data-model");
+      for (var i = 0; i < rows.length; i++) if (rows[i].getAttribute("data-model") === k) rows[i].hidden = !on;
+      for (var j = 0; j < explain.length; j++) if (explain[j].getAttribute("data-model") === k) explain[j].classList.toggle("is-off", !on);
+    }
+    for (var c = 0; c < chips.length; c++) chips[c].addEventListener("click", function () { toggle(this); });
+    for (var r = 0; r < radios.length; r++) radios[r].addEventListener("change", render);
+    range.addEventListener("input", render);
+    var sw = root.querySelector("#ml-loss"), val = root.querySelector("#ml-score-val"), meter = root.querySelector("#ml-meter");
+    if (sw) sw.addEventListener("click", function () {
+      var on = sw.getAttribute("aria-checked") !== "true";
+      sw.setAttribute("aria-checked", on ? "true" : "false");
+      var p = on ? "85.9" : "16.1";
+      val.textContent = p + "%";
+      meter.style.setProperty("--w", p + "%");
+    });
+    root.classList.add("is-live");
+    render();
+  }
+  initSrMl();
 
   initMarks();
   initAgents();
