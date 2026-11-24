@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("ar-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      document.documentElement.classList.add("js");
+      try {
+        if (!sessionStorage.getItem("ar-loaded") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("show-loader");
+          sessionStorage.setItem("ar-loaded", "1");
+        }
+      } catch (e) {}
+      /* opened from the retro computer on the home page: play the matching entry */
+      try {
+        var c = JSON.parse(sessionStorage.getItem("ar-crt") || "null");
+        sessionStorage.removeItem("ar-crt");
+        var norm = function (p) { return String(p || "").replace(/(\/index)?\.html$/, "").replace(/\/$/, ""); };
+        if (c && norm(c.to) === norm(location.pathname) && Date.now() - c.t < 6000 &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var h = document.documentElement;
+          h.classList.remove("show-loader");
+          h.classList.add("crt-in");
+          h.style.setProperty("--crt-name", JSON.stringify(String(c.name || "")));
+          if (/^#[0-9a-f]{6}$/i.test(c.accent)) h.style.setProperty("--crt-accent", c.accent);
+          if (/^rgba\([0-9., ]+\)$/.test(c.glow)) h.style.setProperty("--crt-glow", c.glow);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F5F2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0B">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <title>SkyRoute Airways (work in progress) — Antonio Rosati</title>
+  <meta name="description" content="SkyRoute Airways, work in progress: an MSc university proof of concept on an assigned teaching dataset. Data quality, a verifiable analytical dataset, descriptive NPS findings and an ML comparison. Not a real client.">
+  <meta name="author" content="Antonio Rosati">
+  <meta property="og:title" content="SkyRoute Airways (work in progress) — Antonio Rosati">
+  <meta property="og:description" content="Work in progress: an MSc university proof of concept on an assigned teaching dataset. Not a real client.">
+  <meta property="og:image" content="https://antoniorosati24.github.io/assets/og-home.jpg?v=20261114">
+  <meta property="og:type" content="article">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Antonio Rosati — selected work">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="Antonio Rosati">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SkyRoute Airways (work in progress) — Antonio Rosati">
+  <meta name="twitter:description" content="Work in progress: an MSc university proof of concept on an assigned teaching dataset. Not a real client.">
+  <meta name="twitter:image" content="https://antoniorosati24.github.io/assets/og-home.jpg?v=20261114">
+  <meta name="twitter:image:alt" content="Antonio Rosati — selected work">
+  <link rel="canonical" href="https://antoniorosati24.github.io/skyroute.html">
+  <meta property="og:url" content="https://antoniorosati24.github.io/skyroute.html">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20261114">
+  <link rel="icon" href="assets/favicon.svg?v=20261114" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-dark.png?v=20261114" type="image/png" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="assets/favicon-light.png?v=20261114" type="image/png" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="assets/favicon.png?v=20261114" type="image/png">
+  <link rel="icon" href="favicon.ico?v=20261114" sizes="48x48">
+  <link rel="stylesheet" href="css/style.css?v=25b">
+  <link rel="preload" href="fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body class="theme-skyroute">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="loader" aria-hidden="true">
+    <svg class="loader-ring" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.18"/>
+      <circle cx="60" cy="60" r="38" fill="none" stroke="#FF3347" stroke-width="2.4" stroke-dasharray="48 200" stroke-linecap="round"/>
+      <g transform="translate(54 48)">
+        <path d="M0 0 L0 16.5 4.1 13 7.1 20.2 9.5 19.1 6.5 12 12.4 12 Z" fill="#22D3EE" stroke="rgba(0,0,0,0.55)" stroke-width="0.8" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav">
+    <div class="wrap nav-in">
+    <a class="wordmark" href="index.html" aria-label="Antonio Rosati"><span class="mark" aria-hidden="true"><picture><source type="image/webp" srcset="assets/avatar.webp"><img src="assets/avatar.png" width="128" height="128" alt=""></picture></span><span class="name">Antonio Rosati</span></a>
+    <div class="nav-end">
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="index.html#work" aria-current="page">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="status"><i></i> Open from May 2027</span>
+    <button type="button" class="theme-toggle" data-theme-toggle
+        aria-label="Appearance: follows the system. Click to change."
+        title="Appearance: follows the system. Click to change.">
+      <svg class="icon-system" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+        <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 1.6v14.8A7.4 7.4 0 0 0 12 4.6z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <circle cx="12" cy="12" r="3.4"/>
+        <path d="M12 3.5v1.8M12 18.7v1.8M4.7 12H2.9M21.1 12h-1.8M6.1 6.1l1.3 1.3M16.6 16.6l1.3 1.3M17.9 6.1l-1.3 1.3M7.4 16.6l-1.3 1.3"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16.4 14.6A6.2 6.2 0 0 1 9.5 7.4 6.4 6.4 0 1 0 16.4 14.6z"/>
+      </svg>
+    </button>
+    </div>
+    </div>
+  </header>
+
+  <main id="main" class="sr sky">
+    <header class="page-hero">
+      <div class="wrap" data-reveal>
+        <p class="ov">MSc university project · November 2026</p>
+        <p class="wip-badge"><i aria-hidden="true"></i>Work in progress</p>
+        <h1>SkyRoute Airways</h1>
+        <p class="lede">Where should SkyRoute investigate first: baggage recovery or cabin experience? Passenger experience analytics and a machine-learning proof of concept, for the <span data-key="course" data-mark="underline">Python and Data Architecture for Business</span> course of my MSc in AI for Business Transformation.</p>
+        <p class="meta sr-status"><b>Status</b> PoC code complete · Presentation and academic review in progress · Automated ETL pipeline only designed</p>
+        <ul class="pills" style="margin-top:1.2rem">
+          <li class="pill red" data-key="uni" data-mark="highlight">University project</li>
+          <li class="pill">Teaching dataset</li>
+          <li class="pill">Not a real client</li>
+          <li class="pill">Proof of concept</li>
+        </ul>
+        <ul class="metrics" style="max-width:40rem">
+          <li class="metric"><b>12,000</b><span>Ticket rows</span></li>
+          <li class="metric"><b>5</b><span>CSV sources</span></li>
+          <li class="metric"><b>2,003</b><span>Survey responses</span></li>
+          <li class="metric"><b>355</b><span>Flights</span></li>
+        </ul>
+        <a class="case-down" href="#problem" aria-label="Continue to the problem">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 4v16M5 13l7 7 7-7"/>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <aside class="card sr-note" data-reveal aria-label="About this project">
+        <p class="ov">Please note</p>
+        <p>SkyRoute is the airline in a teaching dataset assigned by the course. It is not a real client, and this is not airline work experience. The dataset and notebooks are not published.</p>
+      </aside>
+
+      <section class="sr-sec card" id="problem" aria-labelledby="problem-title" data-reveal>
+        <div class="sr-copy">
+          <p class="ov">01 · Problem</p>
+          <h2 id="problem-title">After the flight delay</h2>
+          <div class="prose">
+            <p>Survey, booking, flight and reference records sat in five sources with quality issues. The aim: turn them into an analytical dataset I can verify, then ask how reported lost baggage relates to NPS among respondents on delayed flights.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sr-sec card" id="data" aria-labelledby="data-title" data-reveal>
+        <div class="sr-copy">
+          <p class="ov">02 · Data and quality</p>
+          <h2 id="data-title">From five CSVs to 2,003 responses</h2>
+          <div class="prose">
+            <p>Manual upload into Databricks, then direct Python and Pandas ingestion: tickets, surveys, routes, aircraft and passenger profiles. I profiled keys, duplicates, missing values and formats, and reconciled the ticket rows.</p>
+            <p>Each survey links to a ticket, the ticket to one flight and its recorded delay. Join-cardinality and date-validity checks make sure no response is counted twice; ambiguous values stay missing, not invented.</p>
+          </div>
+        </div>
+        <div class="sr-aside">
+          <ol class="sr-funnel" aria-label="Survey reconciliation">
+            <li><b>3,500</b><span>Raw surveys</span></li>
+            <li><b>3,413</b><span>Linked to a ticket and flight</span></li>
+            <li><b>2,003</b><span>Complete primary responses</span></li>
+          </ol>
+          <div class="sr-stat"><b>11,702</b><span>Candidate ticket records, of 12,000 rows</span></div>
+        </div>
+      </section>
+
+      <section class="sr-sec card" id="dataset" aria-labelledby="dataset-title" data-reveal>
+        <div class="sr-copy">
+          <p class="ov">03 · Analytical dataset</p>
+          <h2 id="dataset-title">A cohort I can check</h2>
+          <div class="prose">
+            <p>A 17-field Parquet snapshot, verified by round trip and re-read in a separate notebook.</p>
+          </div>
+        </div>
+        <div class="sr-aside sr-vs">
+          <div class="sr-stat"><b>2,003</b><span>Survey responses</span></div>
+          <div class="sr-stat"><b>355</b><span>Flights</span></div>
+        </div>
+      </section>
+
+      <section class="sr-sec card" id="findings" aria-labelledby="findings-title" data-reveal>
+        <div class="sr-copy">
+          <p class="ov">04 · Descriptive findings</p>
+          <h2 id="findings-title">A 103.8-point NPS gap</h2>
+          <div class="prose">
+            <p>Respondents who reported lost baggage gave an NPS of −84.9 (n = 583), against +18.9 (n = 1,420) for those who did not. The gap appears on every route type and persists at equal reported comfort.</p>
+            <p>NPS = % promoters (9–10) minus % detractors (0–6), among valid responses. A descriptive association, not a causal effect, for the respondents analysed.</p>
+          </div>
+        </div>
+        <div class="sr-aside sr-vs">
+          <div class="sr-stat sr-warm"><b>−84.9</b><span>NPS, lost baggage reported</span></div>
+          <div class="sr-stat"><b>+18.9</b><span>NPS, no lost baggage</span></div>
+        </div>
+        <div class="sr-figs">
+          <figure class="sr-fig sr-chart" id="fig-routes">
+            <p class="sr-chart-title">The NPS gap spans all route types</p>
+            <ul class="sr-legend" aria-hidden="true"><li class="lg-l"><i></i>Reported baggage loss</li><li class="lg-n"><i></i>No loss reported</li></ul>
+            <table class="sr-db-table">
+              <caption class="sr-only">Net Promoter Score by route type, reported baggage loss versus no loss reported</caption>
+              <thead><tr><th scope="col">Route type</th><th scope="col">Reported loss</th><th scope="col" class="db-axis"><span class="sr-only">Comparison on a −100 to +100 scale</span><span class="axis" aria-hidden="true"><b style="left:0%">−100</b><b style="left:25%">−50</b><b style="left:50%">0</b><b style="left:75%">+50</b><b style="left:100%">+100</b></span></th><th scope="col">No loss reported</th></tr></thead>
+              <tbody>
+              <tr class="is-total">
+                <th scope="row">Overall</th>
+                <td class="db-l">−84.9 <small>n = 583</small></td>
+                <td class="db-track" aria-hidden="true"><span class="db" style="--a:7.55%;--b:59.45%"><i class="dot-l"></i><i class="dot-n"></i></span></td>
+                <td class="db-n">+18.9 <small>n = 1,420</small></td>
+              </tr>
+              <tr>
+                <th scope="row">Domestic</th>
+                <td class="db-l">−85.6 <small>n = 285</small></td>
+                <td class="db-track" aria-hidden="true"><span class="db" style="--a:7.20%;--b:59.65%"><i class="dot-l"></i><i class="dot-n"></i></span></td>
+                <td class="db-n">+19.3 <small>n = 674</small></td>
+              </tr>
+              <tr>
+                <th scope="row">Short haul</th>
+                <td class="db-l">−86.8 <small>n = 152</small></td>
+                <td class="db-track" aria-hidden="true"><span class="db" style="--a:6.60%;--b:59.50%"><i class="dot-l"></i><i class="dot-n"></i></span></td>
+                <td class="db-n">+19.0 <small>n = 401</small></td>
+              </tr>
+              <tr>
+                <th scope="row">Long haul</th>
+                <td class="db-l">−81.5 <small>n = 146</small></td>
+                <td class="db-track" aria-hidden="true"><span class="db" style="--a:9.25%;--b:59.15%"><i class="dot-l"></i><i class="dot-n"></i></span></td>
+                <td class="db-n">+18.3 <small>n = 345</small></td>
+              </tr>
+              </tbody>
+            </table>
+            <figcaption>Net Promoter Score, primary cohort of 2,003 survey responses. n = responses in each group.</figcaption>
+          </figure>
+          <figure class="sr-fig sr-chart sr-chart-img" id="fig-comfort">
+            <div class="scheme-img">
+              <picture class="on-light"><source type="image/webp" srcset="assets/skyroute/sr-fig-comfort-light-1200.webp 1200w, assets/skyroute/sr-fig-comfort-light-2400.webp 2400w" sizes="(min-width: 1200px) 1100px, 92vw"><img src="assets/skyroute/sr-fig-comfort-light-1200.png" width="1200" height="600" loading="lazy" decoding="async" alt="Chart: the NPS gap persists across comfort scores 2 to 5, in the primary cohort (at comfort 5: +46.2 vs −69.2) and in a stricter cohort (+44.6 vs −72.7)."></picture>
+              <picture class="on-dark" aria-hidden="true"><source type="image/webp" srcset="assets/skyroute/sr-fig-comfort-dark-1200.webp 1200w, assets/skyroute/sr-fig-comfort-dark-2400.webp 2400w" sizes="(min-width: 1200px) 1100px, 92vw"><img src="assets/skyroute/sr-fig-comfort-dark-1200.png" width="1200" height="600" loading="lazy" decoding="async" alt=""></picture>
+            </div>
+            <figcaption>By cabin comfort, primary and stricter delay cohorts. Comfort 1 excluded: one response per group.</figcaption>
+          </figure>
+          <figure class="sr-fig sr-chart" id="fig-matrix">
+            <p class="sr-chart-title">The gap holds in every supported cell</p>
+            <ul class="sr-legend" aria-hidden="true"><li class="lg-l"><i></i>Reported baggage loss</li><li class="lg-n"><i></i>No loss reported</li><li class="lg-na"><i>—</i>Fewer than 10 flights per group</li></ul>
+            <div class="sr-mx-wrap">
+            <table class="sr-mx">
+              <caption class="sr-only">Net Promoter Score by cabin comfort score (1 to 5) across route type, aircraft manufacturer and profile loyalty tier. In each cell: reported baggage loss, then no loss reported.</caption>
+              <thead><tr><td></td><th scope="col" class="c1">Comfort 1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead>
+              <tbody>
+              <tr class="mx-group"><th scope="rowgroup" colspan="6">Route type</th></tr>
+              <tr><th scope="row">Domestic</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:2.10%;--b:61.30%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−95.8</b> <b class="v-n">+22.6</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:4.10%;--b:60.30%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−91.8</b> <b class="v-n">+20.6</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:10.85%;--b:55.75%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−78.3</b> <b class="v-n">+11.5</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:18.20%;--b:69.80%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−63.6</b> <b class="v-n">+39.6</b></span></td></tr>
+              <tr><th scope="row">Short haul</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:5.60%;--b:57.65%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−88.8</b> <b class="v-n">+15.3</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:7.55%;--b:58.00%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−84.9</b> <b class="v-n">+16.0</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:8.35%;--b:74.20%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−83.3</b> <b class="v-n">+48.4</b></span></td></tr>
+              <tr><th scope="row">Long haul</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:5.00%;--b:38.65%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−90.0</b> <b class="v-n">−22.7</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:8.10%;--b:57.60%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−83.8</b> <b class="v-n">+15.2</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:12.50%;--b:61.85%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−75.0</b> <b class="v-n">+23.7</b></span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td></tr>
+              <tr class="mx-group"><th scope="rowgroup" colspan="6">Aircraft manufacturer</th></tr>
+              <tr><th scope="row">Airbus</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:5.55%;--b:56.15%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−88.9</b> <b class="v-n">+12.3</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:6.80%;--b:61.50%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−86.4</b> <b class="v-n">+23.0</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:8.35%;--b:57.70%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−83.3</b> <b class="v-n">+15.4</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:13.65%;--b:77.65%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−72.7</b> <b class="v-n">+55.3</b></span></td></tr>
+              <tr><th scope="row">Boeing</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:3.35%;--b:58.90%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−93.3</b> <b class="v-n">+17.8</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:4.90%;--b:55.85%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−90.2</b> <b class="v-n">+11.7</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:10.75%;--b:57.40%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−78.5</b> <b class="v-n">+14.8</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:16.65%;--b:67.90%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−66.7</b> <b class="v-n">+35.8</b></span></td></tr>
+              <tr><th scope="row">Embraer</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:2.10%;--b:60.20%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−95.8</b> <b class="v-n">+20.4</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:15.00%;--b:60.30%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−70.0</b> <b class="v-n">+20.6</b></span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td></tr>
+              <tr class="mx-group"><th scope="rowgroup" colspan="6">Profile loyalty tier</th></tr>
+              <tr><th scope="row">Basic</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:6.00%;--b:58.35%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−88.0</b> <b class="v-n">+16.7</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:4.30%;--b:56.55%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−91.4</b> <b class="v-n">+13.1</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:12.20%;--b:57.40%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−75.6</b> <b class="v-n">+14.8</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:14.30%;--b:68.55%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−71.4</b> <b class="v-n">+37.1</b></span></td></tr>
+              <tr><th scope="row">Silver</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:0.00%;--b:44.30%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−100.0</b> <b class="v-n">−11.4</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:7.55%;--b:58.60%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−84.9</b> <b class="v-n">+17.2</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:5.30%;--b:57.20%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−89.4</b> <b class="v-n">+14.4</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:11.75%;--b:78.00%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−76.5</b> <b class="v-n">+56.0</b></span></td></tr>
+              <tr><th scope="row">Gold</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td><span class="mx-track" aria-hidden="true" style="--a:5.55%;--b:67.05%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−88.9</b> <b class="v-n">+34.1</b></span></td><td><span class="mx-track" aria-hidden="true" style="--a:13.45%;--b:61.10%"><i class="dot-l"></i><i class="dot-n"></i></span><span class="mx-v"><b class="v-l">−73.1</b> <b class="v-n">+22.2</b></span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td></tr>
+              <tr><th scope="row">Platinum</th><td class="na c1"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td><td class="na"><span aria-hidden="true">—</span><span class="sr-only">fewer than 10 flights per group</span></td></tr>
+              </tbody>
+            </table>
+            </div>
+            <p class="sr-mx-note">Comfort 1 has no cell with 10 distinct flights per baggage group<span class="mx-c1-hidden">, so it is hidden on small screens</span>.</p>
+            <figcaption>30 of 50 combinations reach 10 distinct flights per baggage group; every one shows lower NPS with reported loss. Overlapping comparisons, not significance tests.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="sr-sec card" id="ml" aria-labelledby="ml-title" data-reveal>
+        <div class="sr-copy">
+          <p class="ov">05 · ML comparison</p>
+          <h2 id="ml-title">Can post-flight data rank detractors?</h2>
+          <div class="prose">
+            <p>Retrospective classification of detractors with scikit-learn: a baseline, a regularised logistic regression and a shallow decision tree. Flights kept intact across train and test, grouped cross-validation, the rating itself left out of the inputs.</p>
+            <p>On overall test metrics the logistic model did best. Average Precision is not accuracy.</p>
+          </div>
+        </div>
+        <div class="sr-aside sr-vs">
+          <div class="sr-stat"><b>0.85</b><span>Average Precision, logistic regression</span></div>
+          <div class="sr-stat"><b>0.35</b><span>Average Precision, baseline</span></div>
+        </div>
+        <div class="sr-ml" id="sr-ml" data-sr-ml>
+          <div class="ml-head">
+            <p class="sr-chart-title" id="ml-title2">Explore the comparison</p>
+            <p class="ml-sub">Full holdout: 408 responses on 71 test flights, 143 of them detractors.</p>
+          </div>
+          <div class="ml-controls">
+            <div class="ml-models" role="group" aria-label="Models shown">
+              <button type="button" class="ml-chip" data-model="logit" aria-pressed="true"><i aria-hidden="true"></i>Logistic regression</button>
+              <button type="button" class="ml-chip" data-model="tree" aria-pressed="true"><i aria-hidden="true"></i>Decision tree</button>
+              <button type="button" class="ml-chip" data-model="base" aria-pressed="true"><i aria-hidden="true"></i>Baseline</button>
+            </div>
+            <fieldset class="ml-measure">
+              <legend class="sr-only">Measure</legend>
+              <label><input type="radio" name="ml-measure" value="found" checked><span>Detractors found</span></label>
+              <label><input type="radio" name="ml-measure" value="ap"><span>Average Precision</span></label>
+              <label><input type="radio" name="ml-measure" value="brier"><span>Brier score</span></label>
+            </fieldset>
+          </div>
+          <div class="ml-budget">
+            <label for="ml-budget" class="ml-budget-label">Share of responses reviewed: <output id="ml-budget-out" for="ml-budget">30%</output></label>
+            <input type="range" id="ml-budget" min="0" max="2" step="1" value="1" list="ml-budget-ticks" aria-valuetext="30% reviewed: 122 of 408 responses">
+            <datalist id="ml-budget-ticks"><option value="0" label="0%"></option><option value="1" label="30%"></option><option value="2" label="100%"></option></datalist>
+            <div class="ml-ticks" aria-hidden="true"><span>0%</span><span>30%</span><span>100%</span></div>
+          </div>
+          <div class="ml-bars" aria-live="polite">
+            <div class="ml-row" data-model="logit"><span class="ml-name">Logistic regression</span><span class="ml-bar"><i style="--w:71.33%"></i></span><span class="ml-val">≈102 of 143</span></div>
+            <div class="ml-row" data-model="tree"><span class="ml-name">Decision tree</span><span class="ml-bar"><i style="--w:71.33%"></i></span><span class="ml-val">≈102 of 143</span></div>
+            <div class="ml-row" data-model="base"><span class="ml-name">Baseline</span><span class="ml-bar"><i style="--w:30.07%"></i></span><span class="ml-val">≈43 of 143</span></div>
+          </div>
+          <p class="ml-note" id="ml-note">Reviewing 30% of responses (122 of 408): ≈102 of 143 detractors with either model, ≈43 with the baseline. Estimates average over tied scores at the review cutoff.</p>
+          <ul class="ml-explain">
+            <li data-model="logit"><b>Logistic regression</b> Weighs every input and adds them up into one probability. Regularisation keeps the weights in check, and the scores come out finely graded.</li>
+            <li data-model="tree"><b>Decision tree</b> Asks a few yes/no questions about the inputs. Everyone who ends up in the same leaf shares one probability, so many scores tie.</li>
+            <li data-model="base"><b>Baseline</b> Gives every response the same score and ignores the inputs. It is the bar a model has to clear.</li>
+          </ul>
+          <div class="ml-demo">
+            <p class="ov">Hypothetical demo · logistic regression</p>
+            <div class="ml-demo-row">
+              <button type="button" class="ml-switch" role="switch" aria-checked="true" id="ml-loss"><span class="ml-knob" aria-hidden="true"></span><span class="ml-switch-label">Reported lost baggage</span></button>
+              <p class="ml-score"><b id="ml-score-val">85.9%</b> <span>estimated chance of a detractor rating</span></p>
+            </div>
+            <span class="ml-meter" aria-hidden="true"><i id="ml-meter" style="--w:85.9%"></i></span>
+            <p class="ml-demo-note">One hypothetical passenger, other inputs fixed: switching reported loss moves the logistic score between 16.1% and 85.9%. An illustration of the model, not a forecast.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sr-sec card sr-planned" id="pipeline" aria-labelledby="pipeline-title" data-reveal>
+        <div class="sr-copy">
+          <p class="ov">06 · Planned final pipeline</p>
+          <p class="wip-badge sr-plan-badge"><i aria-hidden="true"></i>Planned · not yet implemented</p>
+          <h2 id="pipeline-title">The Databricks pipeline I would build</h2>
+          <div class="prose">
+            <p>Executed so far: manual CSV load, Pandas checks, verified Parquet, charts and a held-out ML test. The next phase is a scheduled run with a batch ID. None of it is scheduled, deployed or running.</p>
+          </div>
+        </div>
+        <div class="sr-figs">
+          <ol class="sr-steps" aria-label="Proposed pipeline steps">
+            <li><span class="sr-step-n">01 · Ingest</span><p>Schedule and land five feeds. Capture source version and run ID.</p></li>
+            <li><span class="sr-step-n">02 · Bronze</span><p>Retain original input snapshots so a batch can be replayed.</p></li>
+            <li><span class="sr-step-n">03 · Silver</span><p>Standardise types. Resolve duplicates and validate keys and dates.</p></li>
+            <li><span class="sr-step-n">04 · Gold</span><p>Publish route and period NPS, response counts and matching coverage.</p></li>
+          </ol>
+          <div class="sr-exc">
+            <p><b>If Silver checks fail</b> Record the exception (source key, reason, batch) → resolve with the owner → replay the batch.</p>
+            <p><b>Reconcile before publication</b> Publish only after row counts, key checks and coverage reconcile.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing" aria-label="Limits and my role">
+        <div class="card" data-reveal>
+          <p class="ov">07 · Limits</p>
+          <h2>What it does not show</h2>
+          <ul class="sr-limits">
+            <li>Survey responses are not representative: results hold for the respondents analysed.</li>
+            <li>Associations are descriptive, not causal.</li>
+            <li>The models are retrospective and use post-flight signals.</li>
+            <li>No ROI, no automated pipeline, no model in production.</li>
+          </ul>
+        </div>
+        <div class="card" data-reveal style="--d:100ms">
+          <p class="ov">08 · My role and GenAI use</p>
+          <h2>GenAI can help, but checks decide</h2>
+          <div class="prose">
+            <p>I worked in Databricks: entered and edited the code, ran the notebooks, reviewed the results and asked for revisions of analyses and charts.</p>
+            <p>Development was GenAI-assisted, adapting the course’s scikit-learn examples. One real case: AI explained a failed index expression; I edited and reran the cell, then verified the join counts. Productivity gains remain unmeasured.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="stack-card card" aria-labelledby="stack-title" data-reveal>
+        <p class="ov">Stack</p>
+        <h2 id="stack-title">Made with</h2>
+        <ul class="pills">
+          <li class="pill">Databricks Free Edition</li>
+          <li class="pill">Python</li>
+          <li class="pill">Pandas</li>
+          <li class="pill">Parquet / PyArrow</li>
+          <li class="pill">Matplotlib</li>
+          <li class="pill">scikit-learn, academic PoC</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="section" id="contact" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="card cta card-glow" data-reveal>
+          <p class="ov">Contact</p>
+          <h2 id="cta-title">Contact</h2>
+          <p>Happy to talk about this work.</p>
+          <div class="email-row">
+            <a class="email" href="mailto:rosati.antonio2001@gmail.com" data-key="email" data-mark="underline">rosati.antonio2001@gmail.com</a>
+          </div>
+          <div class="btns">
+            <a class="btn primary" href="mailto:rosati.antonio2001@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn" href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a>
+            <a class="btn" href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div>© 2026 Antonio Rosati · Italy</div>
+      <ul class="footer-links">
+        <li><a href="mailto:rosati.antonio2001@gmail.com">rosati.antonio2001@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/antros" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://github.com/antoniorosati24" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="audi.html">Previous: Audi Vorsprung Club</a></li><li><a href="index.html">All work</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <canvas class="agents" data-agents aria-hidden="true"></canvas>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lenis.min.js" defer></script>
+  <script src="js/main.js?v=25b" defer></script>
+
+</body>
+</html>

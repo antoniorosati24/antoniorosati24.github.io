@@ -1669,3 +1669,248 @@ html[data-theme="dark"] .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-li
 .privacy-wrap h2 { font-size: clamp(1.3rem, 2.2vw, 1.7rem); margin-bottom: 0.8rem; }
 .privacy-wrap .prose a { overflow-wrap: anywhere; }
 .privacy-date { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.02em; color: var(--ink-faint) !important; }
+
+/* round 25: SkyRoute Airways (MSc project, work in progress). Red accent like the other non-Lyceum pages. */
+.wip-badge {
+  display: inline-flex; align-items: center; gap: 0.55rem; margin: 0.35rem 0 0.2rem; padding: 0.38rem 0.8rem 0.38rem 0.65rem;
+  border: 1px dashed var(--accent-line); border-radius: 999px; background: var(--accent-soft); color: var(--accent);
+  font-family: var(--mono); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+}
+.wip-badge i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 0 var(--accent-line); flex: none; }
+@media (prefers-reduced-motion: no-preference) { .wip-badge i { animation: wip-pulse 2.4s ease-in-out infinite; } }
+@keyframes wip-pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-line); opacity: 1; } 50% { box-shadow: 0 0 0 0.35rem transparent; opacity: 0.55; } }
+.sr-status { margin: 0.2rem 0 0; max-width: 46rem; }
+.sr-status b { color: var(--accent); font-weight: 700; margin-right: 0.45rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.sr-note { margin: 0 0 clamp(1rem, 2vw, 1.4rem); border-color: var(--accent-line); background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--card); }
+.sr-note p:last-child { margin: 0; color: var(--ink-soft); max-width: 52em; }
+.sr-sec { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(1.2rem, 3vw, 2.6rem); align-items: center; margin: 0 0 clamp(1rem, 2vw, 1.4rem); scroll-margin-top: calc(var(--nav-h) + 1rem); }
+.sr-sec:not(:has(.sr-aside)) { grid-template-columns: minmax(0, 1fr); }
+.sr-sec h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); margin-bottom: 0.9rem; }
+.sr-sec .prose { max-width: 40em; }
+.sr-aside { display: grid; gap: 0.7rem; }
+.sr-vs { grid-template-columns: 1fr 1fr; }
+.sr-stat { border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--card-2); padding: 1rem 1.1rem; }
+.sr-stat b { display: block; font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 750; letter-spacing: -0.03em; line-height: 1.05; color: var(--accent); font-variant-numeric: tabular-nums; }
+.sr-stat span { display: block; margin-top: 0.35rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; color: var(--ink-faint); line-height: 1.45; }
+.sr-fig { margin: 0; } .sr-fig img { display: block; width: 100%; height: auto; border-radius: var(--r-sm); } /* ready for the charts */
+.sr-limits { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
+.sr-limits li { position: relative; padding-left: 1.2rem; color: var(--ink-soft); line-height: 1.55; }
+.sr-limits li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 0.45rem; height: 2px; background: var(--accent); }
+.sr .closing { margin-top: 0; }
+@media (max-width: 860px) { .sr-sec { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 420px) { .sr-vs { grid-template-columns: 1fr; } }
+/* index: the SkyRoute card spans the project grid, name mark on the left */
+.project-card.sr-card { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+.project-card.sr-card .shot { aspect-ratio: auto; min-height: 100%; }
+.project-card.sr-card .wip-badge { align-self: flex-start; margin: 0 0 0.5rem; }
+.project-card.sr-card .sr-status { font-size: 0.72rem; margin: 0.4rem 0 0; }
+@media (max-width: 860px) { .project-card.sr-card { grid-template-columns: minmax(0, 1fr); } .project-card.sr-card .shot { min-height: 0; aspect-ratio: 16 / 9; } }
+.project-card.sr-card .name-shot { border-bottom: 0; border-right: 1px solid var(--line); }
+@media (max-width: 860px) { .project-card.sr-card .name-shot { border-right: 0; border-bottom: 1px solid var(--line); } }
+
+/* ---------- SkyRoute palette (round 25), taken from Antonio's SkyRoute deck ----------
+   Like .lyc does for Lyceum green: .sky re-points the accent tokens. Dark: the deck's sky/runway blue
+   as a neon with halo (#7CC4FF on near-black, 10.5:1). Light: the deck's chart blue (#1766A3, 5.6:1 on
+   the page bg), no halo. Warm partner for "reported loss": deck salmon #F4B49C (dark) / chart coral #B64632 (light). */
+.sky, body.theme-skyroute .ag-fx {
+  --accent: #1766A3;
+  --accent-ink: #FFFFFF;
+  --accent-soft: rgba(23, 102, 163, 0.09);
+  --accent-line: rgba(23, 102, 163, 0.32);
+  --focus: 0 0 0 2px var(--bg), 0 0 0 4px #1766A3;
+  --sky-halo: transparent;
+  --sky-warm: #B64632;
+  --sky-navy: #101C2C;
+}
+body.theme-skyroute { --glow: rgba(23, 102, 163, 0.08); }
+html[data-theme="dark"] .sky, html[data-theme="dark"] body.theme-skyroute .ag-fx {
+  --accent: #7CC4FF;
+  --accent-ink: #06121F;
+  --accent-soft: rgba(124, 196, 255, 0.10);
+  --accent-line: rgba(124, 196, 255, 0.36);
+  --focus: 0 0 0 2px var(--bg), 0 0 0 4px #7CC4FF;
+  --shadow-lift: 0 34px 80px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(124, 196, 255, 0.18);
+  --sky-halo: rgba(124, 196, 255, 0.40);
+  --sky-warm: #F4B49C;
+}
+html[data-theme="dark"] body.theme-skyroute { --glow: rgba(90, 170, 255, 0.10); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .sky, html:not([data-theme="light"]) body.theme-skyroute .ag-fx {
+    --accent: #7CC4FF;
+    --accent-ink: #06121F;
+    --accent-soft: rgba(124, 196, 255, 0.10);
+    --accent-line: rgba(124, 196, 255, 0.36);
+    --focus: 0 0 0 2px var(--bg), 0 0 0 4px #7CC4FF;
+    --shadow-lift: 0 34px 80px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(124, 196, 255, 0.18);
+    --sky-halo: rgba(124, 196, 255, 0.40);
+    --sky-warm: #F4B49C;
+  }
+  html:not([data-theme="light"]) body.theme-skyroute { --glow: rgba(90, 170, 255, 0.10); }
+}
+/* neon halo on accent marks (transparent in light theme), as on Lyceum */
+.sky .ov, .sky .arrow-link, .sky .pill.red, .sky .metric b, .sky .sr-stat b, .sky .wip-badge, .sky .sr-step-n, .sky .sr-funnel b { text-shadow: 0 0 12px var(--sky-halo); }
+.sky .ov::before { box-shadow: 0 0 10px var(--sky-halo); }
+.sky .wip-badge { box-shadow: 0 0 18px -6px var(--sky-halo); }
+.sky .arrow-link svg { filter: drop-shadow(0 0 6px var(--sky-halo)); }
+.sky .key-ink path.key-ul { filter: drop-shadow(0 0 3px var(--sky-halo)); }
+.sky .btn.primary { box-shadow: 0 10px 30px -12px var(--accent), 0 0 18px var(--sky-halo); }
+.sky.card-glow::after, .sky .card-glow::after { background: radial-gradient(70% 60% at 100% 0%, var(--accent-soft), transparent 70%); }
+.theme-skyroute main .card { transition: border-color 0.35s var(--ease), box-shadow 0.45s var(--ease); }
+.theme-skyroute main .card:hover, .theme-skyroute main .card:focus-within {
+  border-color: var(--accent-line); box-shadow: 0 0 0 1px var(--accent-line), 0 0 28px -8px var(--sky-halo);
+}
+.sky .sr-stat.sr-warm b { color: var(--sky-warm); text-shadow: none; }
+html[data-theme="dark"] .sky .sr-stat.sr-warm b { text-shadow: 0 0 12px rgba(244, 180, 156, 0.35); }
+@media (prefers-color-scheme: dark) { html:not([data-theme="light"]) .sky .sr-stat.sr-warm b { text-shadow: 0 0 12px rgba(244, 180, 156, 0.35); } }
+/* charts: Antonio's own figures, shown whole on white "paper" in both themes */
+.sr-figs { grid-column: 1 / -1; display: grid; gap: clamp(1rem, 2vw, 1.4rem); }
+.sr-fig { margin: 0; }
+.sr-fig figcaption { margin-top: 0.6rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.02em; line-height: 1.55; color: var(--ink-faint); }
+.sr-funnel { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+.sr-funnel li { display: flex; align-items: baseline; gap: 0.8rem; padding: 0.7rem 1rem; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--card-2); }
+.sr-funnel li:nth-child(2) { margin-left: 0.8rem; } .sr-funnel li:nth-child(3) { margin-left: 1.6rem; border-color: var(--accent-line); }
+.sr-funnel b { font-size: 1.3rem; font-weight: 750; letter-spacing: -0.02em; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 4.2ch; }
+.sr-funnel span { font-size: 0.9rem; color: var(--ink-soft); }
+.sr-plan-badge { margin: 0.1rem 0 0.7rem; }
+.sr-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.7rem; }
+.sr-steps li { border: 1px dashed var(--accent-line); border-radius: var(--r-sm); padding: 0.95rem 1rem; background: var(--card-2); }
+.sr-step-n { display: block; font-family: var(--mono); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.45rem; }
+.sr-steps p { margin: 0; font-size: 0.92rem; color: var(--ink-soft); line-height: 1.5; }
+.sr-exc { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+.sr-exc p { margin: 0; padding: 0.85rem 1rem; border-radius: var(--r-sm); border: 1px solid var(--line); color: var(--ink-soft); font-size: 0.92rem; line-height: 1.5; }
+.sr-exc b { display: block; color: var(--ink); margin-bottom: 0.2rem; }
+@media (max-width: 960px) { .sr-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .sr-steps, .sr-exc { grid-template-columns: 1fr; } .sr-funnel li:nth-child(n) { margin-left: 0; } }
+/* index card: deck navy name panel with a sky-blue rule instead of the Audi red */
+.project-card.sr-card .name-shot { background: radial-gradient(70% 60% at 50% 40%, rgba(124, 196, 255, 0.16) 0%, transparent 70%), linear-gradient(160deg, #16263B 0%, #0B1420 70%); }
+.project-card.sr-card .name-rule { background: #7CC4FF; box-shadow: 0 0 12px rgba(124, 196, 255, 0.6); }
+.project-card.sr-card .name-kicker { color: #A9C7EA; }
+.project-card.sr-card:hover { border-color: var(--accent-line); }
+
+/* ---------- SkyRoute charts (round 25b): theme-aware, no white boxes ----------
+   Loss = --sky-warm (dot), no loss = --accent (diamond). Values are the exact data labels of Antonio's deck charts. */
+.sr-chart { border-top: 1px solid var(--line); padding-top: clamp(1rem, 2vw, 1.4rem); }
+.sr-chart-title { margin: 0 0 0.5rem; font-weight: 650; font-size: clamp(1rem, 1.6vw, 1.15rem); color: var(--ink); letter-spacing: -0.01em; }
+.sr-legend { list-style: none; margin: 0 0 0.9rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); }
+.sr-legend li { display: inline-flex; align-items: center; gap: 0.45rem; }
+.sr-legend i { width: 0.6rem; height: 0.6rem; display: inline-block; font-style: normal; }
+.lg-l i { border-radius: 50%; background: var(--sky-warm); }
+.lg-n i { background: var(--accent); transform: rotate(45deg) scale(0.88); }
+.lg-na i { width: auto; height: auto; color: var(--ink-faint); }
+.dot-l, .dot-n { position: absolute; top: 50%; width: 0.62rem; height: 0.62rem; margin: -0.31rem 0 0 -0.31rem; }
+.dot-l { left: var(--a); border-radius: 50%; background: var(--sky-warm); box-shadow: 0 0 10px var(--sky-halo); }
+.dot-n { left: var(--b); background: var(--accent); transform: rotate(45deg); box-shadow: 0 0 10px var(--sky-halo); }
+.db, .mx-track { position: relative; display: block; height: 0.9rem; }
+.db::before, .mx-track::before { content: ""; position: absolute; top: 50%; left: var(--a); width: calc(var(--b) - var(--a)); height: 2px; margin-top: -1px; border-radius: 2px; background: linear-gradient(90deg, var(--sky-warm), var(--accent)); opacity: 0.55; }
+.sr-db-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.sr-db-table th, .sr-db-table td { padding: 0.55rem 0.5rem; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--line); }
+.sr-db-table thead th { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); border-bottom-color: var(--line-strong); }
+.sr-db-table tbody th { font-weight: 500; color: var(--ink-soft); white-space: nowrap; }
+.sr-db-table .is-total th, .sr-db-table .is-total td { font-weight: 650; color: var(--ink); background: var(--accent-soft); }
+.db-l, .db-n { white-space: nowrap; font-weight: 600; }
+.db-l, .sr-db-table .is-total .db-l { color: var(--sky-warm); text-align: right !important; } .db-n, .sr-db-table .is-total .db-n { color: var(--accent); }
+.db-l small, .db-n small { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 400; color: var(--ink-faint); }
+.db-track { width: 46%; position: relative; background: linear-gradient(var(--line-strong), var(--line-strong)) 50% 0 / 1px 100% no-repeat; }
+.db-axis { position: relative; }
+.db-axis .axis { position: relative; display: block; height: 1em; }
+.db-axis .axis b { position: absolute; transform: translateX(-50%); font-weight: 500; }
+.db-axis .axis b:first-child { transform: none; } .db-axis .axis b:last-child { transform: translateX(-100%); }
+.sr-mx-wrap { width: 100%; }
+.sr-mx { width: 100%; border-collapse: separate; border-spacing: 4px; table-layout: fixed; font-variant-numeric: tabular-nums; }
+.sr-mx thead th { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; color: var(--ink-faint); text-align: center; padding-bottom: 0.2rem; }
+.sr-mx tbody th { font-weight: 500; font-size: 0.86rem; color: var(--ink-soft); text-align: right; padding-right: 0.5rem; white-space: nowrap; width: 9.5rem; }
+.sr-mx .mx-group th { text-align: left; font-weight: 650; color: var(--ink); padding: 0.9rem 0 0.15rem; font-size: 0.9rem; }
+.sr-mx td { border-radius: 6px; padding: 0.4rem 0.55rem 0.35rem; background: var(--accent-soft); border: 1px solid var(--line); }
+.sr-mx td.na { background: transparent; border-style: dashed; text-align: center; color: var(--ink-faint); }
+.sr-mx .mx-track { background: linear-gradient(var(--line-strong), var(--line-strong)) 50% 0 / 1px 100% no-repeat; }
+.sr-mx .dot-l, .sr-mx .dot-n { width: 0.5rem; height: 0.5rem; margin: -0.25rem 0 0 -0.25rem; }
+.mx-v { display: flex; justify-content: space-between; gap: 0.3rem; font-size: 0.74rem; margin-top: 0.15rem; }
+.mx-v .v-l { color: var(--sky-warm); } .mx-v .v-n { color: var(--accent); }
+.sr-mx-note { margin: 0.6rem 0 0; font-size: 0.8rem; color: var(--ink-faint); }
+.mx-c1-hidden { display: none; }
+.sr-chart-img .scheme-img img { border-radius: var(--r-sm); }
+html[data-theme="dark"] .sr-chart-img .on-dark img { filter: drop-shadow(0 0 14px rgba(124, 196, 255, 0.12)); }
+@media (max-width: 760px) {
+  .sr-db-table thead th:nth-child(2), .sr-db-table thead th:nth-child(4) { font-size: 0; }
+  .sr-db-table thead th:nth-child(2)::after { content: "Loss"; font-size: 0.64rem; }
+  .sr-db-table thead th:nth-child(4)::after { content: "No loss"; font-size: 0.64rem; }
+  .sr-db-table th, .sr-db-table td { padding: 0.5rem 0.25rem; font-size: 0.84rem; }
+  .sr-db-table tbody th { white-space: normal; }
+  .db-track { width: 34%; }
+  .db-axis .axis b:nth-child(2), .db-axis .axis b:nth-child(4) { display: none; }
+  .sr-mx .c1 { display: none; }
+  .mx-c1-hidden { display: inline; }
+  .sr-mx { border-spacing: 3px; }
+  .sr-mx tbody th { width: 4.6rem; font-size: 0.74rem; padding-right: 0.25rem; white-space: normal; }
+  .sr-mx td { padding: 0.3rem 0.25rem; }
+  .mx-v { flex-direction: column; align-items: center; gap: 0; font-size: 0.68rem; line-height: 1.25; }
+}
+
+/* ---------- SkyRoute ML explorer (round 25b) ---------- */
+.sr-ml { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: clamp(1rem, 2vw, 1.4rem); display: grid; gap: 1rem; }
+.ml-sub { margin: 0; font-size: 0.86rem; color: var(--ink-faint); }
+.ml-controls { display: flex; flex-wrap: wrap; gap: 0.7rem 1.2rem; align-items: center; justify-content: space-between; }
+.sr-ml:not(.is-live) .ml-controls, .sr-ml:not(.is-live) .ml-budget, .sr-ml:not(.is-live) .ml-switch { display: none; }
+.ml-models { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.ml-chip { --c: var(--accent); display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.5rem; padding: 0.4rem 0.85rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-soft); font: inherit; font-size: 0.84rem; cursor: pointer; transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease); }
+.ml-chip i { width: 0.6rem; height: 0.6rem; border-radius: 50%; border: 2px solid var(--c); }
+.ml-chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--c); color: var(--ink); }
+.ml-chip[aria-pressed="true"] i { background: var(--c); box-shadow: 0 0 8px var(--sky-halo); }
+.ml-chip[data-model="tree"], .ml-row[data-model="tree"], .ml-explain [data-model="tree"] { --c: var(--sky-warm); }
+.ml-chip[data-model="base"], .ml-row[data-model="base"], .ml-explain [data-model="base"] { --c: var(--ink-faint); }
+.ml-chip:focus-visible, .ml-switch:focus-visible, .ml-measure input:focus-visible + span, .ml-budget input:focus-visible { outline: none; box-shadow: var(--focus); }
+.ml-measure { border: 0; margin: 0; padding: 3px; display: inline-flex; flex-wrap: wrap; border-radius: 999px; background: var(--accent-soft); border: 1px solid var(--line); }
+.ml-measure label { position: relative; cursor: pointer; }
+.ml-measure input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.ml-measure span { display: inline-block; padding: 0.45rem 0.8rem; border-radius: 999px; font-size: 0.8rem; color: var(--ink-soft); transition: background 0.25s var(--ease), color 0.25s var(--ease); }
+.ml-measure input:checked + span { background: var(--accent); color: var(--accent-ink); box-shadow: 0 0 14px var(--sky-halo); }
+.ml-budget { display: grid; gap: 0.35rem; max-width: 30rem; }
+.ml-budget-label { font-size: 0.86rem; color: var(--ink-soft); } .ml-budget output { font-weight: 650; color: var(--ink); }
+.ml-budget input[type="range"] { width: 100%; background: transparent; accent-color: var(--accent); margin: 0; min-height: 1.8rem; cursor: pointer; border-radius: 999px; }
+.ml-ticks { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--ink-faint); }
+.ml-budget[hidden] { display: none; }
+.ml-bars { display: grid; gap: 0.6rem; }
+.ml-row { --c: var(--accent); display: grid; grid-template-columns: 10rem 1fr 7.5rem; align-items: center; gap: 0.8rem; transition: opacity 0.3s var(--ease); }
+.ml-row[hidden] { display: none; }
+.ml-name { font-size: 0.88rem; color: var(--ink-soft); }
+.ml-bar { position: relative; display: block; height: 1.15rem; border-radius: 999px; background: var(--accent-soft); overflow: hidden; }
+.ml-bar i { position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: 999px; background: var(--c); box-shadow: 0 0 16px var(--sky-halo); transition: width 0.6s var(--ease); }
+.ml-row[data-model="base"] .ml-bar i { box-shadow: none; }
+.ml-val { font-variant-numeric: tabular-nums; font-weight: 650; color: var(--ink); white-space: nowrap; }
+.ml-note { margin: 0; font-size: 0.86rem; line-height: 1.6; color: var(--ink-soft); }
+.ml-explain { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.7rem; }
+.ml-explain li { --c: var(--accent); padding: 0.8rem 0.9rem; border-radius: var(--r-sm); border: 1px solid var(--line); border-top: 2px solid var(--c); font-size: 0.84rem; line-height: 1.55; color: var(--ink-soft); transition: opacity 0.3s var(--ease); }
+.ml-explain li b { display: block; color: var(--ink); margin-bottom: 0.2rem; }
+.ml-explain li.is-off { opacity: 0.45; }
+.ml-demo { padding: 1rem 1.1rem; border-radius: var(--r-sm); border: 1px dashed var(--accent-line); display: grid; gap: 0.6rem; }
+.ml-demo .ov { margin: 0; }
+.ml-demo-row { display: flex; flex-wrap: wrap; gap: 0.7rem 1.4rem; align-items: center; justify-content: space-between; }
+.ml-switch { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.5rem; padding: 0.3rem 0.9rem 0.3rem 0.35rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); font: inherit; font-size: 0.86rem; cursor: pointer; }
+.ml-knob { position: relative; width: 2.6rem; height: 1.5rem; border-radius: 999px; background: var(--line-strong); transition: background 0.25s var(--ease); }
+.ml-knob::after { content: ""; position: absolute; top: 0.15rem; left: 0.15rem; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--bg); transition: transform 0.25s var(--ease); }
+.ml-switch[aria-checked="true"] .ml-knob { background: var(--sky-warm); box-shadow: 0 0 12px var(--sky-halo); }
+.ml-switch[aria-checked="true"] .ml-knob::after { transform: translateX(1.1rem); }
+.ml-score { margin: 0; display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+.ml-score b { font-size: clamp(1.6rem, 3vw, 2.1rem); font-variant-numeric: tabular-nums; color: var(--accent); text-shadow: 0 0 18px var(--sky-halo); }
+.ml-score span { font-size: 0.82rem; color: var(--ink-faint); }
+.ml-meter { position: relative; display: block; height: 0.5rem; border-radius: 999px; background: var(--accent-soft); overflow: hidden; }
+.ml-meter i { position: absolute; inset: 0 auto 0 0; width: var(--w); background: linear-gradient(90deg, var(--accent), var(--sky-warm)); border-radius: 999px; transition: width 0.6s var(--ease); }
+.ml-demo-note { margin: 0; font-size: 0.8rem; line-height: 1.55; color: var(--ink-faint); }
+@media (max-width: 760px) {
+  .ml-row { grid-template-columns: 1fr auto; gap: 0.3rem 0.8rem; }
+  .ml-bar { grid-column: 1 / -1; grid-row: 2; }
+  .ml-explain { grid-template-columns: 1fr; }
+  .ml-measure { width: 100%; justify-content: space-between; }
+  .ml-measure span { padding: 0.45rem 0.6rem; font-size: 0.76rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ml-bar i, .ml-meter i, .ml-knob, .ml-knob::after, .ml-chip, .ml-row, .ml-explain li, .ml-measure span { transition: none; }
+}
+@media (prefers-color-scheme: dark) { html:not([data-theme="light"]) .sr-chart-img .on-dark img { filter: drop-shadow(0 0 14px rgba(124, 196, 255, 0.12)); } }
+.sr-mx thead td { background: none; border: 0; }
+@media (max-width: 760px) {
+  .ml-measure { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 14px; }
+  .ml-measure span { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 2.6rem; height: 100%; border-radius: 11px; line-height: 1.2; }
+  .ml-measure label { display: block; }
+}
+@media (max-width: 760px) { .sr-mx tbody th { width: 5.1rem; font-size: 0.72rem; padding-right: 0.4rem; } }
