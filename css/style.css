@@ -1679,8 +1679,8 @@ html[data-theme="dark"] .feat-pet { --ring: rgba(61, 245, 160, 0.055); --ring-li
 .wip-badge i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 0 var(--accent-line); flex: none; }
 @media (prefers-reduced-motion: no-preference) { .wip-badge i { animation: wip-pulse 2.4s ease-in-out infinite; } }
 @keyframes wip-pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-line); opacity: 1; } 50% { box-shadow: 0 0 0 0.35rem transparent; opacity: 0.55; } }
-.sr-status { margin: 0.2rem 0 0; max-width: 46rem; }
-.sr-status b { color: var(--accent); font-weight: 700; margin-right: 0.45rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.sr-status, .lyc-status { margin: 0.2rem 0 0; max-width: 46rem; }
+.sr-status b, .lyc-status b { color: var(--accent); font-weight: 700; margin-right: 0.45rem; text-transform: uppercase; letter-spacing: 0.08em; }
 .sr-note { margin: 0 0 clamp(1rem, 2vw, 1.4rem); border-color: var(--accent-line); background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--card); }
 .sr-note p:last-child { margin: 0; color: var(--ink-soft); max-width: 52em; }
 .sr-sec { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(1.2rem, 3vw, 2.6rem); align-items: center; margin: 0 0 clamp(1rem, 2vw, 1.4rem); scroll-margin-top: calc(var(--nav-h) + 1rem); }
@@ -1914,3 +1914,44 @@ html[data-theme="dark"] .sr-chart-img .on-dark img { filter: drop-shadow(0 0 14p
   .ml-measure label { display: block; }
 }
 @media (max-width: 760px) { .sr-mx tbody th { width: 5.1rem; font-size: 0.72rem; padding-right: 0.4rem; } }
+
+/* round 26: Lyceum status line under the hero lede; inline links in the About lists */
+.page-hero .lyc-status { margin-top: 0.7rem; }
+.principles a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* ---------- SkyRoute cover (round 26): planned final pipeline, inline SVG, theme-aware ---------- */
+.sr-cover { margin: 0; }
+.sr-cover-screen { position: relative; background: var(--card-2); padding: clamp(0.4rem, 1.2vw, 1rem); background-image: radial-gradient(60% 80% at 50% 40%, var(--accent-soft), transparent 70%); }
+.pl-svg { display: block; width: 100%; height: auto; margin: 0 auto; overflow: visible; }
+.pl-tall { display: none; max-width: 440px; }
+@media (max-width: 1000px) { .pl-wide { display: none; } .pl-tall { display: block; } }
+.pl-svg text { font-family: var(--sans); fill: var(--ink); }
+.pl-node rect, .pl-gate rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 7 5; }
+.pl-gold rect { stroke-width: 2.2; }
+.pl-exc rect { fill: transparent; stroke: var(--sky-warm); stroke-dasharray: 4 5; }
+.pl-gate rect { stroke-dasharray: none; fill: transparent; }
+.pl-src rect { fill: transparent; stroke: var(--line-strong); stroke-width: 1.2; }
+.pl-src text { font-size: 14px; fill: var(--ink-soft); }
+.pl-n { font-family: var(--mono) !important; font-size: 11px; letter-spacing: 0.12em; fill: var(--accent) !important; }
+.pl-warm-t { fill: var(--sky-warm) !important; }
+.pl-t { font-weight: 650; }
+.pl-s { fill: var(--ink-soft) !important; }
+.pl-cap { font-family: var(--mono) !important; font-size: 13px; fill: var(--ink-faint) !important; letter-spacing: 0.02em; }
+.pl-foot { font-size: 13px; fill: var(--ink-faint) !important; }
+.pl-badge rect { fill: transparent; stroke: var(--sky-warm); stroke-width: 1.4; stroke-dasharray: 5 4; }
+.pl-badge text { font-family: var(--mono) !important; font-size: 12px; letter-spacing: 0.12em; font-weight: 700; fill: var(--sky-warm) !important; }
+.pl-flow { fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-dasharray: 6 6; stroke-linecap: round; animation: pl-flow 1.6s linear infinite; }
+.pl-flow.pl-warm { stroke: var(--sky-warm); }
+.pl-ah { fill: var(--accent); } .pl-ahw { fill: var(--sky-warm); }
+@keyframes pl-flow { to { stroke-dashoffset: -24; } }
+html[data-theme="dark"] .pl-node rect, html[data-theme="dark"] .pl-gate rect, html[data-theme="dark"] .pl-flow { filter: drop-shadow(0 0 5px var(--sky-halo)); }
+@media (prefers-color-scheme: dark) { html:not([data-theme="light"]) .pl-node rect, html:not([data-theme="light"]) .pl-gate rect, html:not([data-theme="light"]) .pl-flow { filter: drop-shadow(0 0 5px var(--sky-halo)); } }
+@media (prefers-reduced-motion: reduce) { .pl-flow { animation: none; } }
+.sr-cover .mac-count { white-space: nowrap; }
+@media (max-width: 680px) { .sr-cover .mac-bar { grid-template-columns: auto minmax(0, 1fr); gap: 0.7rem; } .sr-cover .mac-count { display: none; } }
+
+/* round 26 fix: SkyRoute marks on About use SkyRoute blue with neon (like li.lyc uses Lyceum green) */
+.principles li.sky::before { box-shadow: 0 0 14px -3px var(--sky-halo); text-shadow: 0 0 8px var(--sky-halo); }
+.prose a.sky, .principles a.sky { text-shadow: 0 0 10px var(--sky-halo); }
+/* round 26 fix: `.card p` was greying the WIP / planned badges (and their dots) inside cards; keep them in the page accent */
+.card p.wip-badge { color: var(--accent); }
